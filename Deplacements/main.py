@@ -8,14 +8,14 @@ from param import *
 def Demo_1() :
 
     time.sleep(0.1)
-    turneRel(90)
+    turnRel(90)
     time.sleep(1)
-    turneRel(-180)
+    turnRel(-180)
     time.sleep(1)
-    turneRel(450)
+    turnRel(450)
     time.sleep(1)
     
-    turneAbs(0) # position initiale définie à la mise sous tension des batteries
+    turnAbs(0) # position initiale définie à la mise sous tension des batteries
 
     time.sleep(3)
 

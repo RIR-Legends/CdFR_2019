@@ -10,17 +10,17 @@ from math import *
 odrv0 = odrive.find_any()
 
 
-def waitEndMove(Axe, goal, errorMax):
+def waitEndMove(axis, goal, errorMax):
 
 
     avg = 10 * [0]
     index = 0
-    movAvg = abs(goal - Axe.encoder.pos_estimate)
+    movAvg = abs(goal - axis.encoder.pos_estimate)
     while movAvg >= errorMax:
         print(odrv0.axis1.encoder.pos_estimate)
         for i in range(index, 10):
             index = 0
-            avg[i] = abs(goal - Axe.encoder.pos_estimate)
+            avg[i] = abs(goal - axis.encoder.pos_estimate)
 
         movAvg = 0
         for i in range(0, 10):
@@ -35,7 +35,7 @@ def runToPos(distance) :
     weelDiam = 80
     nbrCounts = 8192    # Nombre de tics pr un tour d'encoder
     weelPerim = weelDiam * pi
-    # calcul du nombre de tics a parcourir
+    # calcul du nombre de tics à parcourir
     target = (nbrCounts * distance)/weelPerim
     print(target)
     odrv0.axis0.controller.move_to_pos(-target)
@@ -43,26 +43,30 @@ def runToPos(distance) :
     waitEndMove(odrv0.axis1, target, errorMax)
 
 
-def turnAbs(degAngle):
+def turnAbs(Angle):
 
     # definition des constantes liées au robot
     errorMax = 5
     weelDiam = 80
-    axlTrack = 0.6  # Voie, distance entre roues
+    axlTrack = 0.6  # Voie, distance entre roues. Valeur arbitraire ?
     nbrCounts = 8192
     # calcul du périmètre de la roue
     weelPerim = weelDiam * pi
     # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-    runAngle = degAngle * pi * axlTrack
+    runAngle = Angle * pi * axlTrack
     target = (nbrCounts * runAngle) / weelPerim
 
+    # Action ! :
+    print(odrv0.axis0.encoder.pos_estimate)
+    odrv0.axis0.controller.move_to_pos(target)
     print(odrv0.axis1.encoder.pos_estimate)
     odrv0.axis1.controller.move_to_pos(target)
+    
     # Attente de la fin du mouvement
+    waitEndMove(odrv0.axis0, target, errorMax)
     waitEndMove(odrv0.axis1, target, errorMax)
 
-
-def turnRel(degAngle):
+def turnRel(Angle):
     # definition des constantes liées au robot
     errorMax = 5
     weelDiam = 80
@@ -71,14 +75,14 @@ def turnRel(degAngle):
     # calcul du périmètre de la roue
     weelPerim = weelDiam * pi
     # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-    runAngle = degAngle * pi * axlTrack
+    runAngle = Angle * pi * axlTrack
     target = (nbrCounts * runAngle) / weelPerim
     targRel = target + (odrv0.axis0.encoder.pos_estimate + odrv0.axis0.encoder.pos_estimate)/2
 
     # Action ! :
     print(odrv0.axis0.encoder.pos_estimate)
-    print(odrv0.axis1.encoder.pos_estimate)
     odrv0.axis0.controller.move_to_pos(targRel)
+    print(odrv0.axis1.encoder.pos_estimate)
     odrv0.axis1.controller.move_to_pos(-targRel)
 
     # Attente de la fin du mouvement
@@ -111,7 +115,7 @@ def calib():
     odrv0.axis0.trap_traj.config.decel_limit = 30000
     odrv0.axis1.trap_traj.config.decel_limit = 30000
 
-    '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été faite '''
+    '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
     # if odrv0.axis1.motor.is_calibrated == False:
     if odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
 
