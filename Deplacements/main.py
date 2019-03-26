@@ -2,25 +2,29 @@
 
 from __future__ import print_function
 import time
-from param import *
+import param as p
 
 
 def Demo_1() :
 
+    move = p.Move
+
     time.sleep(0.1)
-    turnRel(90)
+    move.turnRel(90)
     time.sleep(1)
-    turnRel(-180)
+    move.turnRel(-180)
     time.sleep(1)
-    turnRel(450)
+    move.turnRel(450)
     time.sleep(1)
     
-    turnAbs(0) # position initiale définie à la mise sous tension des batteries
+    move.turnAbs(0) # position initiale définie à la mise sous tension des batteries
 
     time.sleep(3)
 
 
-calib()
+move = p.Move
+
+move.calib()
 
 Demo_1()
 
