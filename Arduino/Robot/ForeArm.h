@@ -6,6 +6,6 @@ class ForeArm
 {
 public:
 	ForeArm();
-	void MoveTo(double, double, double, double);
+	void MoveTo(double, double, double, double);//MoveTo
 
 };
