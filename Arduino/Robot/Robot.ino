@@ -22,7 +22,8 @@ void loop() {
 
 
 void TestForeArm(){
-  ForeArmAction.MoveTo(-400,200,200,200);
+  ForeArmAction.MoveTo(520,515);
+
 }
 
 void TestDoor(){
