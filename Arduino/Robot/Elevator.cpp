@@ -21,7 +21,7 @@ void Elevator::Setup(){
   
 }
 
-void Elevator::Untick(){
+void Elevator::UnTick(){
   NbTick++;
   if(moteurAvance){
     if (State)
