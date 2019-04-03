@@ -22,8 +22,13 @@ void loop() {
 
 
 void TestForeArm(){
-  ForeArmAction.MoveTo(520,515);
-
+  //ForeArmAction.MoveTo(520,515);
+  //ForeArmAction.InitDynamixel();
+  //ForeArmAction.DeploiementSaisie();
+  //ForeArmAction.DeploiementDrop();
+  //ForeArmAction.ParquetG();
+  //ForeArmAction.ParquetD();
+  ForeArmAction.BrasTransport();
 }
 
 void TestDoor(){
