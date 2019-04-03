@@ -65,7 +65,7 @@ def tourne(angleDeg) :
     my_drive.axis0.controller.move_to_pos(pointF)
     my_drive.axis1.controller.move_to_pos(pointF)
     # Attente de la fin du mouvement
-    waitEndMove(my_drive.axis0,pointF,erreurMax)
+    waitEndMove(my_drive.axis0, pointF, erreurMax)
 
 # Find a connected ODrive (this will block until you connect one)
 print("finding an odrive...")
@@ -116,7 +116,7 @@ print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 #print("Position setpoint is " + str(my_drive.axis0.controller.pos_setpoint))
 
 # And this is how function calls are done:
-for i in [1,2,3,4]:
+for i in [1, 2, 3, 4]:
     print('voltage on GPIO{} is {} Volt'.format(i, my_drive.get_adc_voltage(i)))
 
 

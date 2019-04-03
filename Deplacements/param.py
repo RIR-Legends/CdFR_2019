@@ -6,6 +6,8 @@ import odrive
 from odrive.enums import *  # a checker
 import time
 from math import *
+from  import *
+
 
 odrv0 = odrive.find_any()
 
@@ -14,19 +16,19 @@ class Move:
     def __init__(self):
 
         # Robot physical constant
-        self.WheelDiam = 80     # en mm
+        self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
         self.AxlTrack = 0.6     # en mm mais la valeur est douteuse
-        self.Wheel_Perimeter = self.WheelDiam * pi  # en mm
+        self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.error_max = 5      # unité ?
+        self.ErrorMax = 5      # unité ?
 
     def Stop(self):
         odrv0.axis0.controller.speed(0)
         odrv0.axis1.controller.speed(0)
 
-    def WaitEndMove(self,axis, goal, errorMax):
+    def WaitEndMove(self, axis, goal, errorMax):
 
         avg = 10 * [0]
         index = 0
@@ -47,13 +49,12 @@ class Move:
     def RunToPos(self, distance):
 
         # Distance / Perimètre = nb tour a parcourir
-        target = (self.nbCounts * distance)/self.Wheel_Perimeter
+        target = (self.nbCounts * distance)/self.WheelPerimeter
 
         print(target)
         odrv0.axis0.controller.move_to_pos(-target)
         odrv0.axis1.controller.move_to_pos(target)
-        self.WaitEndMove(odrv0.axis1, target, self.error_max)
-
+        self.WaitEndMove(odrv0.axis1, target, self.ErrorMax)
 
     def TurnAbs(self, Angle):
 
@@ -63,10 +64,10 @@ class Move:
         axlTrack = 0.6  # Voie, distance entre roues. Valeur arbitraire ? en mm
         nbrCounts = 8192
         # calcul du périmètre de la roue
-        self.Wheel_Perimeter = self.WheelDiam * pi
+        self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         runAngle = Angle * pi * self.AxlTrack
-        target = (self.nbCounts * runAngle) / self.Wheel_Perimeter
+        target = (self.nbCounts * runAngle) / self.WheelPerimeter
 
         # Action ! :
         print(odrv0.axis0.encoder.pos_estimate)
@@ -152,3 +153,12 @@ def TurnRel(Angle):
     # Attente de la fin du mouvement
     Move.WaitEndMove(odrv0.axis0, targRel, Move.error_max)
     Move.WaitEndMove(odrv0.axis1, targRel, Move.error_max)
+
+def main():
+
+    point = p.Point
+
+    point.print_pos()
+
+if __name__ == '__main__':
+    main()
