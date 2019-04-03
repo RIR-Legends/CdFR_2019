@@ -1,13 +1,14 @@
 #include "Setup.h"
 #include "Door.h"
 #include "ForeArm.h"
+#include "Elevator.h"
 
 Door DoorAction;
 ForeArm ForeArmAction;
 
 void setup() {
   // put your setup code here, to run once:
-
+Elevator.Setup();
 
 
 //TestDoor();

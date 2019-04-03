@@ -4,6 +4,7 @@
 
 bool State;
 int NbTick;
+bool moteurAvance;
 
 class Elevator{
   public:
