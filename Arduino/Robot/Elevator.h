@@ -9,16 +9,16 @@ class Elevator{
   public:
   Elevator();
   void Setup();
-  void UnTick();
+  static void UnTick();
 
   private:
   int ENA;
   int DIR;
-  int PUL;
+  static int PUL;
 
   int SWT;
 
-  int NbTick;
-  bool State;
-  bool MoteurAvance;
+  static int NbTick;
+  static bool State;
+  static bool MoteurAvance;
 };

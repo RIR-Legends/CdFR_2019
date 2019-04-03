@@ -8,7 +8,8 @@ ForeArm ForeArmAction;
 
 void setup() {
   // put your setup code here, to run once:
-Elevator.Setup();
+  Elevator elev = Elevator(); // Crée un objet de la classe Elevator
+  elev.Setup(); // Setup l'objet
 
 
 //TestDoor();

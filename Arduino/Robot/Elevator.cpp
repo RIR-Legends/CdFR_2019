@@ -20,7 +20,7 @@ Elevator::Elevator(){
 void Elevator::Setup(){
 
   Timer1.initialize(800);
-  Timer1.attachInterrupt(Elevator::UnTick);
+  Timer1.attachInterrupt(UnTick);
 
   digitalWrite(ENA, HIGH);
   digitalWrite(DIR, LOW);
@@ -28,7 +28,7 @@ void Elevator::Setup(){
   
 }
 
-void Elevator::UnTick(){
+static void Elevator::UnTick(){
   NbTick++;
   if(MoteurAvance){
     if (State)
