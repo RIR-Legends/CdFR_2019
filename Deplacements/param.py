@@ -2,11 +2,13 @@
 
 from __future__ import print_function
 
+
+
 import odrive
 from odrive.enums import *  # a checker
 import time
 from math import *
-from  import *
+from point import Point
 
 
 odrv0 = odrive.find_any()
@@ -153,12 +155,3 @@ def TurnRel(Angle):
     # Attente de la fin du mouvement
     Move.WaitEndMove(odrv0.axis0, targRel, Move.error_max)
     Move.WaitEndMove(odrv0.axis1, targRel, Move.error_max)
-
-def main():
-
-    point = p.Point
-
-    point.print_pos()
-
-if __name__ == '__main__':
-    main()

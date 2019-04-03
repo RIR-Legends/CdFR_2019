@@ -1,10 +1,12 @@
 
 class Point:
-    def __init__(self):
-        self.x = 4120000
-        self.y = 0
-        self.theta = 0
+    def __init__(self, x, y, theta):
+        self.x = x
+        self.y = y
+        self.theta = theta
         self.hypo = 0
+
+        self.P = {'X': self.x, 'Y': self.y, 'theta': self.theta}
 
     def print_pos(self):
         print('Coordonnée en x = %f ' % self.x)
@@ -13,6 +15,10 @@ class Point:
 
     def set_parcour(self):
         self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
+
+    def get_point(self):
+        return self.P
+
 
 
 
