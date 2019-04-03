@@ -1,9 +1,10 @@
 #include "Elevator.h"
+#include <TimerOne.h>
 
 
-State = false;
 int NbTick = 0;
-bool moteurAvance = false;
+bool State = false;
+bool MoteurAvance = false;
 
 
 Elevator::Elevator(){
@@ -17,13 +18,17 @@ Elevator::Elevator(){
 void Elevator::Setup(){
 
   Timer1.initialize(800);
-  Timer1.attachInterrupt(UnTick());
+  Timer1.attachInterrupt(UnTick);
+
+  digitalWrite(ENA, HIGH);
+  digitalWrite(DIR, LOW);
+  digitalWrite(PUL, LOW);
   
 }
 
 void Elevator::UnTick(){
   NbTick++;
-  if(moteurAvance){
+  if(MoteurAvance){
     if (State)
       digitalWrite(PUL, HIGH);
     else

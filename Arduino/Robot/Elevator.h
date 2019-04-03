@@ -2,15 +2,16 @@
 #include "Setup.h"
 #include <TimerOne.h>
 
-bool State;
+
 int NbTick;
-bool moteurAvance;
+bool State;
+bool MoteurAvance;
 
 class Elevator{
   public:
   Elevator();
   void Setup();
-  void Untick();
+  void UnTick();
 
   private:
   int ENA;
