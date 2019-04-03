@@ -3,9 +3,7 @@
 #include <TimerOne.h>
 
 
-int NbTick;
-bool State;
-bool MoteurAvance;
+
 
 class Elevator{
   public:
@@ -19,4 +17,8 @@ class Elevator{
   int PUL;
 
   int SWT;
+
+  int NbTick;
+  bool State;
+  bool MoteurAvance;
 };

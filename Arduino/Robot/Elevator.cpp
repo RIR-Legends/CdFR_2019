@@ -2,9 +2,7 @@
 #include <TimerOne.h>
 
 
-int NbTick = 0;
-bool State = false;
-bool MoteurAvance = false;
+
 
 
 Elevator::Elevator(){
@@ -13,12 +11,16 @@ Elevator::Elevator(){
   PUL = IMPULL;
 
   SWT = SWITCHBUTE;
+
+  NbTick = 0;
+  State = false;
+  MoteurAvance = false;
 }
 
 void Elevator::Setup(){
 
   Timer1.initialize(800);
-  Timer1.attachInterrupt(UnTick);
+  Timer1.attachInterrupt(Elevator::UnTick);
 
   digitalWrite(ENA, HIGH);
   digitalWrite(DIR, LOW);
