@@ -8,15 +8,16 @@
 class Elevator{
   public:
   Elevator();
-  void Setup();
+  static void Setup();
   static void UnTick();
+  static int RetournTimer();
 
   private:
-  int ENA;
-  int DIR;
+  static int ENA;
+  static int DIR;
   static int PUL;
 
-  int SWT;
+  static int SWT;
 
   static int NbTick;
   static bool State;

@@ -1,20 +1,18 @@
 #include "Elevator.h"
 #include <TimerOne.h>
 
+int Elevator::NbTick = 0;
+bool Elevator::State = false; 
+bool Elevator::MoteurAvance = false; 
 
-
+int Elevator::ENA = ENABLE;
+int Elevator::DIR = DIRECTION;
+int Elevator::PUL = IMPULL;
+int Elevator::SWT = SWITCHBUTE;
 
 
 Elevator::Elevator(){
-  ENA = ENABLE;
-  DIR = DIRECTION;
-  PUL = IMPULL;
 
-  SWT = SWITCHBUTE;
-
-  NbTick = 0;
-  State = false;
-  MoteurAvance = false;
 }
 
 void Elevator::Setup(){
@@ -28,7 +26,7 @@ void Elevator::Setup(){
   
 }
 
-static void Elevator::UnTick(){
+void Elevator::UnTick(){
   NbTick++;
   if(MoteurAvance){
     if (State)
@@ -38,4 +36,8 @@ static void Elevator::UnTick(){
     State = !State;
   }
   
+}
+
+int Elevator::RetournTimer(){
+  return NbTick;
 }

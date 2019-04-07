@@ -9,17 +9,19 @@ ForeArm ForeArmAction;
 void setup() {
   // put your setup code here, to run once:
   Elevator elev = Elevator(); // Crée un objet de la classe Elevator
+  Setup SetElevator();
   elev.Setup(); // Setup l'objet
+    Serial.begin(9600);
 
 
 //TestDoor();
-TestForeArm();
+//TestForeArm();
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+ Serial.println(Elevator::RetournTimer());
 }
 
 
