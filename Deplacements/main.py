@@ -15,7 +15,7 @@ def Demo_1() :
     time.sleep(1)
     move.turnRel(450)
     time.sleep(1)
-    
+
     move.turnAbs(0) # position initiale définie à la mise sous tension des batteries
 
     time.sleep(3)
@@ -31,6 +31,4 @@ fin()
 
 print('Fin du programme')
 
-#odrv0.reboot()      
-
-#Convertisseur 220v --> 24v : 
+#odrv0.reboot()
