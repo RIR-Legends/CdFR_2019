@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 class Point:
     def __init__(self, x, y, theta):
@@ -16,7 +17,7 @@ class Point:
     def set_parcour(self, ):
         self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
 
-    def get_point(self, P):
+    def get_point(self):
         return self.P
 
 
@@ -29,7 +30,7 @@ class Point:
     def modify_point(self, namePoint):
         # demande de saisir la cle à modifier
         print('Dans le point %f : \n' % namePoint )
-        keyWas = input("Quelle coordonnée veux tu modifier ? (x ou y ou theta)"")
+        keyWas = input("Quelle coordonnée veux tu modifier ? (x ou y ou theta)")
         # affiche la clé et sa valeur actuelle
         print('La coordonnée %f actuelle vaut : %f ' % keyWas % self.namePoint[keyWas])
         # demande la nouvelle valeur de la clé
@@ -37,7 +38,7 @@ class Point:
         print("Le point %f vaut maintenant : %f" % namePoint % self.namePoint)
 
     def suppress_point(self, namePoint):
-        YorN = input('Tu souhaite supprimer le point %f ? (Y ou N)', % namePoint)
+        YorN = input('Tu souhaite supprimer le point %f ? (Y ou N)' % namePoint)
         if YorN == 'Y':
             #Suppression du Point
             del self.namePoint #pas sur du résultat /!\
