@@ -11,6 +11,7 @@ class Chemin:
 
 
     # def add(self, name, x, y, theta):          #  ajoute au dico des points un nouveau point, où tu peux acceder a ses coordonnées par sa clés qui est "name"
-    #     self.D[name] = self.Point(x, y, theta).get_point()
+    #     #     self.D[name] = self.Point(x, y, theta).get_point()
+    #
+    #     # def modif_point(self):
 
-    # def modif_point(self):
