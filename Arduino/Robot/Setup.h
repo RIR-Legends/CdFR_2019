@@ -2,8 +2,6 @@
 #define SETUP_ACTION
 
 #include "Arduino.h"
-#include <TimerOne.h>
-
 
 //Moteur pas à pas
 #define ENABLE 52

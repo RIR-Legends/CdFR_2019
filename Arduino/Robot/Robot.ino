@@ -3,18 +3,21 @@
 #include "ForeArm.h"
 #include "Elevator.h"
 #include "Pompe.h"
+#include "Arm.h"
 
-Door DoorAction;
-ForeArm ForeArmAction;
-Setup SetupRobot;
-Elevator ElevatorRobot;
-Pompe PompeRobot;
+//Door DoorAction;
+//ForeArm ForeArmAction;
+//Setup SetupRobot;
+//Elevator ElevatorRobot;
+//Pompe PompeRobot;
+Arm ArmRobot; 
 
 void setup() {
   // put your setup code here, to run once:
 
   //SetupRobot.SetElevator();
-  SetupRobot.SetPomp();
+  //SetupRobot.SetPomp();
+  ArmRobot.Setup();
 
     Serial.begin(9600);
 

@@ -2,8 +2,7 @@
 #include <DynamixelSerial2.h>
 #include "Setup.h"
 
-class Door
-{
+class Door{
 public:
 	Door();
 	void MoveToR(double);
