@@ -7,3 +7,9 @@ void Setup::SetElevator(){
 
   pinMode(SWITCHBUTE, INPUT);
 }
+
+void Setup::SetPomp(){
+  pinMode(POMPPIN, OUTPUT);
+  pinMode(VANPIN, OUTPUT);
+
+}

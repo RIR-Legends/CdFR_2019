@@ -13,9 +13,14 @@
 //Switch bute
 #define SWITCHBUTE 22
 
+//Pomp pin
+#define POMPPIN 8
+#define VANPIN 7
+
 class Setup{
   public:
     void SetElevator();
+    void SetPomp();
   
 };
 #endif

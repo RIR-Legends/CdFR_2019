@@ -2,26 +2,28 @@
 #include "Door.h"
 #include "ForeArm.h"
 #include "Elevator.h"
+#include "Pompe.h"
 
 Door DoorAction;
 ForeArm ForeArmAction;
 Setup SetupRobot;
 Elevator ElevatorRobot;
-//Elevator elev = Elevator(); // Crée un objet de la classe Elevator
-
+Pompe PompeRobot;
 
 void setup() {
   // put your setup code here, to run once:
 
-  SetupRobot.SetElevator();
-  //Elevator.Setup(); // Setup l'objet
+  //SetupRobot.SetElevator();
+  SetupRobot.SetPomp();
+
     Serial.begin(9600);
 
 
 //TestDoor();
 //TestForeArm();
+//TestElevator();
+TestPomp();
 
-TestElevator();
 
 }
 
@@ -29,6 +31,13 @@ void loop() {
 
  
 }
+
+void TestPomp(){
+  PompeRobot.Open();
+  delay(1000);
+  PompeRobot.Close();
+}
+
 
 void TestElevator(){
   //ElevatorRobot.Move(200,LOW);
