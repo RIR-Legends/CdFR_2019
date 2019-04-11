@@ -5,25 +5,45 @@
 
 Door DoorAction;
 ForeArm ForeArmAction;
+Setup SetupRobot;
+Elevator ElevatorRobot;
+//Elevator elev = Elevator(); // Crée un objet de la classe Elevator
+
 
 void setup() {
   // put your setup code here, to run once:
-  Elevator elev = Elevator(); // Crée un objet de la classe Elevator
-  Setup SetElevator();
-  elev.Setup(); // Setup l'objet
+
+  SetupRobot.SetElevator();
+  //Elevator.Setup(); // Setup l'objet
     Serial.begin(9600);
 
 
 //TestDoor();
 //TestForeArm();
 
+TestElevator();
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
- Serial.println(Elevator::RetournTimer());
+
+ 
 }
 
+void TestElevator(){
+  //ElevatorRobot.Move(200,LOW);
+  ElevatorRobot.InitialPosition();
+  delay(1000);
+  //ElevatorRobot.MoveTo(800);
+  //ElevatorRobot.GoToFloor(5);
+  //ElevatorRobot.GetPalet();
+  //ElevatorRobot.GetOutPalet();
+  ElevatorRobot.InitPosition();
+  Serial.println(ElevatorRobot.getPosition());
+  delay(1000);
+ 
+
+}
 
 void TestForeArm(){
   //ForeArmAction.MoveTo(520,515);
