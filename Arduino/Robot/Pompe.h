@@ -4,6 +4,7 @@
 
 class Pompe{
   public:
+  Pompe();
   void Open();
   void Close();
 

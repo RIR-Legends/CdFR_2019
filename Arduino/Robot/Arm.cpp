@@ -2,11 +2,7 @@
 
 void Arm::Arm(){
 
- Door DoorAction;
- ForeArm ForeArmAction;
- Setup SetupRobot;
- Elevator ElevatorRobot;
-Pompe PompeRobot;
+
 
 
   

@@ -1,5 +1,9 @@
 #include "Setup.h"
 
+Setup::Setup(){
+  
+}
+
 void Setup::SetElevator(){
   pinMode(ENABLE, OUTPUT);
   pinMode(DIRECTION, OUTPUT);

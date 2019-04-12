@@ -17,6 +17,7 @@
 
 class Setup{
   public:
+    Setup();
     void SetElevator();
     void SetPomp();
   

@@ -12,6 +12,10 @@ class Arm{
 
 
   private:
-
+  Door DoorAction;
+  ForeArm ForeArmAction;
+  Setup SetupRobot;
+  Elevator ElevatorRobot;
+  Pompe PompeRobot;
  
 };

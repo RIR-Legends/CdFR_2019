@@ -4,6 +4,9 @@
 int Pompe::POMP = POMPPIN;
 int Pompe::VAN = VANPIN;
 
+Pompe::Pompe(){
+  
+}
 
 void Pompe::Open(){
 

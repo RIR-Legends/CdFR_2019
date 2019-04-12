@@ -9,6 +9,10 @@ int Elevator::DIR = DIRECTION;
 int Elevator::PUL = IMPULL;
 int Elevator::SWT = SWITCHBUTE;
 
+Elevator::Elevator(){
+  
+}
+
 void Elevator::Setup(){
 
   digitalWrite(ENA, LOW);

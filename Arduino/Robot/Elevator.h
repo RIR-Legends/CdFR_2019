@@ -4,6 +4,7 @@
 
 class Elevator{
   public:
+  Elevator();
   void Setup();
   void Move(int, bool);
   void InitialPosition();
