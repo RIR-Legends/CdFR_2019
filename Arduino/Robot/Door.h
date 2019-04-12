@@ -1,3 +1,6 @@
+#ifndef DOOR_ACTION
+#define DOOR_ACTION
+
 #include "Arduino.h"
 #include <DynamixelSerial2.h>
 #include "Setup.h"
@@ -14,3 +17,4 @@ public:
 	void CloseL();
 
 };
+#endif

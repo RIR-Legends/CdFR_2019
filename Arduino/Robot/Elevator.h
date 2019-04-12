@@ -1,3 +1,6 @@
+#ifndef ELEVATOR_ACTION
+#define ELEVATOR_ACTION
+
 #include "Arduino.h"
 #include "Setup.h"
 
@@ -27,3 +30,4 @@ class Elevator{
   static int Position;
 
 };
+#endif

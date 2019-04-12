@@ -2,10 +2,6 @@
 
 void Arm::Arm(){
 
-
-
-
-  
 }
 
 void Arm::Setup(){

@@ -1,3 +1,6 @@
+#ifndef FOREARM_ACTION
+#define FOREARM_ACTION
+
 #include "Arduino.h"
 #include <DynamixelSerial2.h>
 #include "Setup.h"
@@ -15,3 +18,4 @@ public:
   void BrasTransport();
 
 };
+#endif

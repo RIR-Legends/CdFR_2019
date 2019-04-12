@@ -1,3 +1,6 @@
+#ifndef POMPE_ACTION
+#define POMPE_ACTION
+
 #include "Arduino.h"
 #include "Setup.h"
 
@@ -15,3 +18,4 @@ class Pompe{
 
  
 };
+#endif

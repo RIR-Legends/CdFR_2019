@@ -1,3 +1,6 @@
+#ifndef ARM_ACTION
+#define ARM_ACTION
+
 #include "Arduino.h"
 #include "Setup.h"
 #include "Door.h"
@@ -19,3 +22,4 @@ class Arm{
   Pompe PompeRobot;
  
 };
+#endif

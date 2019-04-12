@@ -1,8 +1,8 @@
-#include "Setup.h"
-#include "Door.h"
-#include "ForeArm.h"
-#include "Elevator.h"
-#include "Pompe.h"
+//#include "Setup.h"
+//#include "Door.h"
+//#include "ForeArm.h"
+//#include "Elevator.h"
+//#include "Pompe.h"
 #include "Arm.h"
 
 //Door DoorAction;
