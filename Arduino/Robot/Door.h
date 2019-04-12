@@ -15,6 +15,8 @@ public:
 	void OpenL();
 	void CloseR();
 	void CloseL();
+  void OpenAll();
+  void CloseAll();
 
 };
 #endif

@@ -22,7 +22,7 @@ void Door::OpenR(){
 }
 
 void Door::OpenL(){
-	MoveToL(700);
+	MoveToL(650);
 }
 
 void Door::CloseR(){
@@ -30,5 +30,15 @@ void Door::CloseR(){
 }
 
 void Door::CloseL(){
-	MoveToL(950);
+	MoveToL(900);
+}
+
+void Door::OpenAll(){
+  OpenR();
+  OpenL();
+}
+
+void Door::CloseAll(){
+  CloseR();
+  CloseL();
 }

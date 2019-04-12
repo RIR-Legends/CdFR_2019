@@ -14,9 +14,10 @@ class Elevator{
   int getPosition();
   void MoveTo(int);
   void GoToFloor(int);
+  void GoOut(int);
   void GetPalet();
   void GetOutPalet();
-  void InitPosition();
+  void Transport();
 
 
   private:

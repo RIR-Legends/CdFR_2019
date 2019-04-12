@@ -66,36 +66,33 @@ void Elevator::MoveTo(int destination){
 void Elevator::GoToFloor(int floorNb){
   switch(floorNb){
     case 0:
-       MoveTo(1600);
-       delay(1000);
        MoveTo(1650);
+       delay(500);
+       MoveTo(1750);
     break;
     case 1:
-       MoveTo(1250);
-       delay(1000);
        MoveTo(1300);
     break;
     case 2:
-       MoveTo(1020);
-       delay(1000);
        MoveTo(1070);
     break;
     case 3:
-       MoveTo(770);
-       delay(1000);
        MoveTo(810);
     break;
     case 4:
-       MoveTo(500);
-       delay(1000);
        MoveTo(550);
     break;
     case 5:
-       MoveTo(250);
-       delay(1000);
        MoveTo(300);
     break;
+      case 6:
+       MoveTo(100);
+    break;
   }
+}
+
+void Elevator::GoOut(int floorNb){
+  GoToFloor(floorNb+1);
 }
 
 void Elevator::GetPalet(){
@@ -106,6 +103,6 @@ void Elevator::GetOutPalet(){
   MoveTo(1200);
 }
 
-void Elevator::InitPosition(){
+void Elevator::Transport(){
   MoveTo(200);
 }

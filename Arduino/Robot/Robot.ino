@@ -5,11 +5,11 @@
 //#include "Pompe.h"
 #include "Arm.h"
 
-//Door DoorAction;
-//ForeArm ForeArmAction;
-//Setup SetupRobot;
-//Elevator ElevatorRobot;
-//Pompe PompeRobot;
+Door DoorAction;
+ForeArm ForeArmAction;
+Setup SetupRobot;
+Elevator ElevatorRobot;
+Pompe PompeRobot;
 Arm ArmRobot; 
 
 void setup() {
@@ -17,7 +17,8 @@ void setup() {
 
   //SetupRobot.SetElevator();
   //SetupRobot.SetPomp();
-  ArmRobot.Setup();
+  ArmRobot.InitArm();
+  delay(2000);
 
     Serial.begin(9600);
 
@@ -25,7 +26,8 @@ void setup() {
 //TestDoor();
 //TestForeArm();
 //TestElevator();
-TestPomp();
+//TestPomp();
+TestArm();
 
 
 }
@@ -33,6 +35,21 @@ TestPomp();
 void loop() {
 
  
+}
+
+void TestArm(){
+  ArmRobot.Transport();
+  delay(1000);
+  ArmRobot.TakePalet(1,0);
+  delay(500);
+  ArmRobot.TakePalet(2,0);
+  delay(500);
+  ArmRobot.TakePalet(1,1);
+  delay(500);
+  ArmRobot.TakePalet(3,0);
+  delay(500);
+  ArmRobot.TakePalet(2,1);
+  delay(500);
 }
 
 void TestPomp(){
@@ -50,7 +67,7 @@ void TestElevator(){
   //ElevatorRobot.GoToFloor(5);
   //ElevatorRobot.GetPalet();
   //ElevatorRobot.GetOutPalet();
-  ElevatorRobot.InitPosition();
+  ElevatorRobot.Transport();
   Serial.println(ElevatorRobot.getPosition());
   delay(1000);
  
@@ -74,5 +91,7 @@ DoorAction.InitDoor();
 //DoorAction.OpenL();
 //DoorAction.CloseR();
 //DoorAction.CloseL();
+//DoorAction.OpenAll();
+//DoorAction.CloseAll();
 
 }

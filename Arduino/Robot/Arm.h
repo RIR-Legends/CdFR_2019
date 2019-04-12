@@ -11,7 +11,11 @@
 class Arm{
   public:
   Arm();
- void Setup();
+ void SetArm();
+ void InitArm();
+ void Parking();
+ void TakePalet(int, bool);
+ void Transport();
 
 
   private:
