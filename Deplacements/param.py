@@ -109,9 +109,15 @@ class Move:
         self.odrv0.axis0.trap_traj.config.decel_limit = 30000
         self.odrv0.axis1.trap_traj.config.decel_limit = 30000
 
+        self.odrv0.axis0.requested_state = 3  # AXIS_STATE_FULL_CALIBRATION_SEQUENCE 0
+        self.odrv0.axis1.requested_state = 3  # AXIS_STATE_FULL_CALIBRATION_SEQUENCE 1
+        self.odrv0.axis0.requested_state = 8  # AXIS_STATE_CLOSED_LOOP_CONTROL 0
+        self.odrv0.axis1.requested_state = 8  # AXIS_STATE_CLOSED_LOOP_CONTROL 1
         '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
         # if self.odrv0.axis1.motor.is_calibrated == False:
-        '''if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
+
+        '''
+        if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
 
             print("etat courant" + str(self.odrv0.axis1.current_state))
 
