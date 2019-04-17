@@ -11,16 +11,16 @@ def Demo_1() :
     time.sleep(0.1)
     move.RunToPos(500)
     time.sleep(1)
-    move.turnRel(-180)
+    move.TurnRel(-180)
     time.sleep(1)
     move.RunToPos(200)
     time.sleep(1)
 
-    move.turnAbs(0)  # position initiale définie à la mise sous tension des batteries
+    move.TurnAbs(0)  # position initiale définie à la mise sous tension des batteries
 
     time.sleep(3)
 
-    move.fin()
+    move.Fin()
 
 
 move = p.Move
