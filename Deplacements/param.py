@@ -111,7 +111,7 @@ class Move:
 
         '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
         # if self.odrv0.axis1.motor.is_calibrated == False:
-        if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
+        '''if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
 
             print("etat courant" + str(self.odrv0.axis1.current_state))
 
@@ -129,7 +129,7 @@ class Move:
         else:
             self.odrv0.axis1.encoder.pos_estimate()
             print("after else")
-
+        '''
 
 def Fin():
 
