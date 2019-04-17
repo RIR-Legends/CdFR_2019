@@ -35,7 +35,7 @@ class Move:
         avg = 10 * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
-        while movAvg >= errorMax:
+        while movAvg >= errorMax:   # A commenter !!
             print(odrv0.axis1.encoder.pos_estimate)
             for i in range(index, 10):
                 index = 0
@@ -55,6 +55,7 @@ class Move:
 
         print(target)
         odrv0.axis0.controller.move_to_pos(-target)
+        # Voir si utilisation necessaire des threads
         odrv0.axis1.controller.move_to_pos(target)
         self.WaitEndMove(odrv0.axis1, target, self.ErrorMax)
 
@@ -85,7 +86,7 @@ class Move:
 
         # Find a connected ODrive (this will block until you connect one)
         print("finding an odrive...")
-        odrive.find_any()
+        odrv0 = odrive.find_any()
         print('Odrive found ! ')
 
         # 40Amp max dans le moteur (gros couple et sécurité pour pas fumer le moteur)
