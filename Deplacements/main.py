@@ -6,7 +6,7 @@ import param as p
 
 def Demo_1() :
 
-    move = p.Move
+    move = p.Move()
 
     time.sleep(0.1)
     move.RunToPos(500)
@@ -20,9 +20,8 @@ def Demo_1() :
 
     time.sleep(3)
 
-    move.Fin()
 
 
-move = p.Move
+move = p.Move()
 
 move.Calib()
