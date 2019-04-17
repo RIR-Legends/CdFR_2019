@@ -11,9 +11,6 @@ from math import *
 from point import Point
 
 
-odrv0 = odrive.find_any()
-
-
 class Move:
     def __init__(self):
 
