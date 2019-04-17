@@ -115,7 +115,7 @@ class Move:
         self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
-        while my_drive.axis0.current_state != AXIS_STATE_IDLE and my_drive.axis1.current_state != AXIS_STATE_IDLE:
+        while self.odrv0.axis0.current_state != AXIS_STATE_IDLE and self.odrv0.axis1.current_state != AXIS_STATE_IDLE:
             time.sleep(0.1)
         '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
         # if self.odrv0.axis1.motor.is_calibrated == False:
