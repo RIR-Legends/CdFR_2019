@@ -11,6 +11,9 @@ from math import *
 from point import Point
 
 
+#odrv0 = odrive.find_any()
+
+
 class Move:
     def __init__(self):
 
@@ -22,7 +25,7 @@ class Move:
 
         # coding features
         self.ErrorMax = 5      # unité ?
-        self.odrv0 = ODrive.find_any()
+        self.odrv0 = odrive.find_any()
 
     def Stop(self):
         self.odrv0.axis0.controller.speed(0)
