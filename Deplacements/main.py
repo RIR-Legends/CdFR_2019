@@ -25,7 +25,4 @@ def Demo_1() :
 
 move = p.Move
 
-move.calib()
-
-
-
+move.Calib()
