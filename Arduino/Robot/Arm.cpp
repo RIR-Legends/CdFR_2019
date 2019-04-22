@@ -16,7 +16,7 @@ void Arm::InitArm(){
   delay(500);
   SetArm();
   delay(500);
-  ForeArmAction.DeploiementSaisie();
+  ForeArmAction.DeploiementSaisieFloor();
   ElevatorRobot.InitialPosition();
   Parking();
   DoorAction.CloseAll();
@@ -33,11 +33,11 @@ void Arm::Transport(){
     ElevatorRobot.Transport();
 }
 
-void Arm::TakePalet(int floorNb, bool cote){
+void Arm::TakePaletFloor(int floorNb, bool cote){
   DoorAction.OpenAll();
   delay(500);
-  ForeArmAction.DeploiementSaisie();
-  ElevatorRobot.GetPalet();
+  ForeArmAction.DeploiementSaisieFloor();
+  ElevatorRobot.GetPaletFloor();
   delay(500);
   PompeRobot.Open();
   delay(500);
@@ -53,7 +53,38 @@ void Arm::TakePalet(int floorNb, bool cote){
   delay(500);
   ElevatorRobot.GoOut(floorNb);
   delay(500);
-  ForeArmAction.DeploiementSaisie();
+  ForeArmAction.DeploiementSaisieFloor();
+  delay(500);
+  DoorAction.CloseAll();
+}
+
+
+void Arm::TakePaletWall(int floorNb, bool cote){
+  DoorAction.OpenAll();
+  ElevatorRobot.GoToFloor(6);
+  delay(500);
+  ForeArmAction.DeploiementSaisieWall();
+  delay(500);
+  ElevatorRobot.GetPaletWall();
+  delay(500);
+  PompeRobot.Open();
+  delay(500);
+  ElevatorRobot.GoToFloor(7);
+  delay(500);
+  ForeArmAction.DeploiementSaisieFloor();
+  delay(500);
+  if(cote == true){
+    ForeArmAction.ParquetG();
+  }else{
+    ForeArmAction.ParquetD();
+  }
+  delay(1000);
+  ElevatorRobot.GoToFloor(floorNb);
+  PompeRobot.Close();
+  delay(500);
+  ElevatorRobot.GoOut(6);
+  delay(500);
+  ForeArmAction.DeploiementSaisieFloor();
   delay(500);
   DoorAction.CloseAll();
 }

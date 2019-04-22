@@ -14,8 +14,9 @@ class Arm{
  void SetArm();
  void InitArm();
  void Parking();
- void TakePalet(int, bool);
+ void TakePaletFloor(int, bool);
  void Transport();
+ void TakePaletWall(int, bool);
 
 
   private:

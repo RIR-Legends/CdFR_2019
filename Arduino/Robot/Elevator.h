@@ -15,7 +15,8 @@ class Elevator{
   void MoveTo(int);
   void GoToFloor(int);
   void GoOut(int);
-  void GetPalet();
+  void GetPaletFloor();
+  void GetPaletWall();
   void GetOutPalet();
   void Transport();
 

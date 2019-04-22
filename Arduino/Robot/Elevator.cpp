@@ -88,6 +88,9 @@ void Elevator::GoToFloor(int floorNb){
       case 6:
        MoveTo(100);
     break;
+      case 7:
+       MoveTo(0);
+    break;
   }
 }
 
@@ -95,7 +98,7 @@ void Elevator::GoOut(int floorNb){
   GoToFloor(floorNb+1);
 }
 
-void Elevator::GetPalet(){
+void Elevator::GetPaletFloor(){
   GoToFloor(0);
 }
 
@@ -105,4 +108,8 @@ void Elevator::GetOutPalet(){
 
 void Elevator::Transport(){
   MoveTo(200);
+}
+
+void Elevator::GetPaletWall(){
+  MoveTo(1500);
 }

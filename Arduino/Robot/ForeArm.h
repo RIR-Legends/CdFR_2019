@@ -11,11 +11,12 @@ public:
 	ForeArm();
 	void MoveTo(double, double);//MoveTo
   void InitDynamixel();
-  void DeploiementSaisie();
+  void DeploiementSaisieFloor();
   void DeploiementDrop();
   void ParquetG();
   void ParquetD();
   void BrasTransport();
+  void DeploiementSaisieWall();
 
 };
 #endif

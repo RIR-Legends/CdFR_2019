@@ -38,18 +38,35 @@ void loop() {
 }
 
 void TestArm(){
-  ArmRobot.Transport();
+//  ArmRobot.Transport();
+//  delay(1000);
+//  ArmRobot.TakePaletFloor(1,0);
+//  delay(500);
+//  ArmRobot.TakePaletFloor(2,0);
+//  delay(500);
+//  ArmRobot.TakePaletFloor(3,0);
+//  delay(500);
+//  ArmRobot.TakePaletFloor(4,0);
+//  delay(500);
+//  ArmRobot.TakePaletFloor(5,0);
+//  delay(500);
+
+  //ArmRobot.Transport();
   delay(1000);
-  ArmRobot.TakePalet(1,0);
+  ArmRobot.TakePaletWall(1,0);
   delay(500);
-  ArmRobot.TakePalet(2,0);
+//  ArmRobot.TakePaletWall(2,0);
+//  delay(500);
+//  ArmRobot.TakePaletWall(3,0);
+//  delay(500);
+//  ArmRobot.TakePaletWall(4,0);
+//  delay(500);
+//  ArmRobot.TakePaletWall(5,0);
   delay(500);
-  ArmRobot.TakePalet(1,1);
-  delay(500);
-  ArmRobot.TakePalet(3,0);
-  delay(500);
-  ArmRobot.TakePalet(2,1);
-  delay(500);
+
+
+  
+
 }
 
 void TestPomp(){
@@ -61,13 +78,14 @@ void TestPomp(){
 
 void TestElevator(){
   //ElevatorRobot.Move(200,LOW);
-  ElevatorRobot.InitialPosition();
-  delay(1000);
+  //ElevatorRobot.InitialPosition();
+  //delay(1000);
   //ElevatorRobot.MoveTo(800);
   //ElevatorRobot.GoToFloor(5);
-  //ElevatorRobot.GetPalet();
+  //ElevatorRobot.GetPaletFloor();
+   //ElevatorRobot.GetPaletWall();
   //ElevatorRobot.GetOutPalet();
-  ElevatorRobot.Transport();
+  //ElevatorRobot.Transport();
   Serial.println(ElevatorRobot.getPosition());
   delay(1000);
  
@@ -77,11 +95,12 @@ void TestElevator(){
 void TestForeArm(){
   //ForeArmAction.MoveTo(520,515);
   //ForeArmAction.InitDynamixel();
-  //ForeArmAction.DeploiementSaisie();
+  //ForeArmAction.DeploiementSaisieFloor();
   //ForeArmAction.DeploiementDrop();
+  ForeArmAction.DeploiementSaisieWall();
   //ForeArmAction.ParquetG();
   //ForeArmAction.ParquetD();
-  ForeArmAction.BrasTransport();
+  //ForeArmAction.BrasTransport();
 }
 
 void TestDoor(){
