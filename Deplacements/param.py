@@ -20,7 +20,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 27,5     # en mm mais la valeur est douteuse
+        self.AxlTrack = 27.5     # en mm mais la valeur est douteuse
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
