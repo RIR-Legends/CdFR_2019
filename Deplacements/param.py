@@ -20,7 +20,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 27.5    # en mm mais la valeur est douteuse
+        self.AxlTrack = 275    # en mm mais la valeur est douteuse
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
@@ -66,7 +66,7 @@ class Move:
         # calcul du périmètre de la roue
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-        runAngle = Angle * pi/180 * self.AxlTrack/2
+        runAngle = (float(Angle) * pi * self.AxlTrack ) / 360.0
         target = (self.nbCounts * runAngle) / self.WheelPerimeter
 
         # Action ! :
