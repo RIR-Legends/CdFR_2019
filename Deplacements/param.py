@@ -58,7 +58,7 @@ class Move:
         self.odrv0.axis0.controller.move_to_pos(-target)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
-        self.WaitEndMove(self.odrv0.axis1, target, self.ErrorMax)
+        self.wait_end_move(self.odrv0.axis1, target, self.ErrorMax)
 
     def turn_abs(self, Angle):
 
@@ -80,8 +80,8 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
 
         # Attente de la fin du mouvement
-        self.WaitEndMove(self.odrv0.axis0, target, errorMax)
-        self.WaitEndMove(self.odrv0.axis1, target, errorMax)
+        self.wait_end_move(self.odrv0.axis0, target, errorMax)
+        self.wait_end_move(self.odrv0.axis1, target, errorMax)
 
     def calib(self):
 
@@ -124,7 +124,7 @@ class Move:
         if self.odrv0.axis1.motor.is_calibrated == False:
         self.odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
 
-        
+
         if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
 
             print("etat courant" + str(self.odrv0.axis1.current_state))
@@ -169,5 +169,5 @@ def turn_rel(Angle):
     self.odrv0.axis1.controller.move_to_pos(-targRel)
 
     # Attente de la fin du mouvement
-    Move.WaitEndMove(self.odrv0.axis0, targRel, Move.error_max)
-    Move.WaitEndMove(self.odrv0.axis1, targRel, Move.error_max)
+    Move.wait_end_move(self.odrv0.axis0, targRel, Move.error_max)
+    Move.wait_end_move(self.odrv0.axis1, targRel, Move.error_max)
