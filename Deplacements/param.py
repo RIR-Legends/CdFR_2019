@@ -20,7 +20,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 0.6    # en mm mais la valeur est douteuse
+        self.AxlTrack = 27.5    # en mm mais la valeur est douteuse
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
@@ -66,7 +66,7 @@ class Move:
         # calcul du périmètre de la roue
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-        runAngle = Angle * pi * self.AxlTrack
+        runAngle = Angle * pi/180 * self.AxlTrack/2
         target = (self.nbCounts * runAngle) / self.WheelPerimeter
 
         # Action ! :
@@ -140,10 +140,10 @@ class Move:
             print("after else")
         '''
 
-def fin():
+    def fin():
 
-    self.odrv0.axis0.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
-    self.odrv0.axis1.requested_state = 1
+        self.odrv0.axis0.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
+        self.odrv0.axis1.requested_state = 1
 
 def turn_rel(Angle):
     # definition des constantes liées au robot
