@@ -17,9 +17,9 @@ def demo_1() :
     time.sleep(1)
     move.turn_abs(45)
     time.sleep(1)
-    move.turn_abs(0) # position initiale définie à la mise sous tension des batteries
+    move.turn_abs(0) # position initiale définie à la mise sous tension des batteries'''
     time.sleep(3)
-    move.run_to_pos(50)'''
+    move.run_to_pos(50)
     time.sleep(3)
 
 
@@ -29,7 +29,7 @@ move.calib()
 
 demo_1()
 
-p.fin()
+move.fin()
 
 print('Fin du programme')
 

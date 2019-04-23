@@ -24,7 +24,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 5      # unité ?
+        self.errorMax = 10      # unité ?
         self.odrv0 = odrive.find_any()
 
     def stop(self):
