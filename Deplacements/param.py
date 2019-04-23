@@ -50,7 +50,7 @@ class Move:
 # fonction qui permet d'avancer droit pour une distance donnée en mm
 
     def run_to_pos(self, distance):
-
+        print("Lancement de run_to_pos")
         # Distance / Perimètre = nb tour a parcourir
         target = (self.nbCounts * distance)/self.WheelPerimeter
 
@@ -62,6 +62,7 @@ class Move:
 
     def turn_abs(self, Angle):
 
+        print("Lancement de turn_abs")
 
         # calcul du périmètre de la roue
         self.WheelPerimeter = self.WheelDiameter * pi
@@ -140,7 +141,7 @@ class Move:
             print("after else")
         '''
 
-    def fin():
+    def fin(self):
 
         self.odrv0.axis0.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
         self.odrv0.axis1.requested_state = 1
