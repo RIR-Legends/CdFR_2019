@@ -20,7 +20,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 0.6     # en mm mais la valeur est douteuse
+        self.AxlTrack = 27,5 '0,6'     # en mm mais la valeur est douteuse
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
@@ -62,11 +62,7 @@ class Move:
 
     def turn_abs(self, Angle):
 
-        # definition des constantes liées au robot
-        errorMax = 5
-        wheelDiam = 80  # en mm
-        axlTrack = 0.6  # Voie, distance entre roues. Valeur arbitraire ? en mm
-        nbrCounts = 8192
+
         # calcul du périmètre de la roue
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
