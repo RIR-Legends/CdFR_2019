@@ -143,7 +143,8 @@ class Move:
 
     def fin(self):
 
-        self.odrv0.axis0.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
+        self.odrv0.axis0.requested_state = 1
+        # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
         self.odrv0.axis1.requested_state = 1
 
 def turn_rel(Angle):
