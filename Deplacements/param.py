@@ -120,11 +120,11 @@ class Move:
         self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 
-        '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
-        'if self.odrv0.axis1.motor.is_calibrated == False:
-        'self.odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
+        '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée
+        if self.odrv0.axis1.motor.is_calibrated == False:
+        self.odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
 
-        '''
+        
         if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
 
             print("etat courant" + str(self.odrv0.axis1.current_state))
