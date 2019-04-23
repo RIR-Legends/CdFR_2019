@@ -51,10 +51,10 @@ void TestArm(){
 //  ArmRobot.TakePaletFloor(5,0);
 //  delay(500);
 
-  //ArmRobot.Transport();
-  delay(1000);
-  ArmRobot.TakePaletWall(1,0);
-  delay(500);
+//  ArmRobot.Transport();
+//  delay(1000);
+//  ArmRobot.TakePaletWall(1,0);
+//  delay(500);
 //  ArmRobot.TakePaletWall(2,0);
 //  delay(500);
 //  ArmRobot.TakePaletWall(3,0);
@@ -62,8 +62,20 @@ void TestArm(){
 //  ArmRobot.TakePaletWall(4,0);
 //  delay(500);
 //  ArmRobot.TakePaletWall(5,0);
-  delay(500);
+//  delay(500);
 
+  //ArmRobot.Transport();
+  delay(1000);
+  ArmRobot.OutPaletWall(1,0);
+  delay(500);
+//  ArmRobot.OutPaletWall(2,0);
+//  delay(500);
+//  ArmRobot.OutPaletWall(3,0);
+//  delay(500);
+//  ArmRobot.OutPaletWall(4,0);
+//  delay(500);
+//  ArmRobot.OutPaletWall(5,0);
+//  delay(500);
 
   
 

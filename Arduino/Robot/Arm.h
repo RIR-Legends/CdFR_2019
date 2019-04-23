@@ -17,7 +17,7 @@ class Arm{
  void TakePaletFloor(int, bool);
  void Transport();
  void TakePaletWall(int, bool);
-
+ void OutPaletWall(int, bool);
 
   private:
   Door DoorAction;
