@@ -6,7 +6,7 @@ import param as p
 
 def demo_1() :
 
-    move = p.Move
+    move = p.Move()
 
     time.sleep(0.1)
     move.turn_abs(90)
