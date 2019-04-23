@@ -27,11 +27,11 @@ class Move:
         self.ErrorMax = 5      # unité ?
         self.odrv0 = odrive.find_any()
 
-    def Stop(self):
+    def stop(self):
         self.odrv0.axis0.controller.speed(0)
         self.odrv0.axis1.controller.speed(0)
 
-    def WaitEndMove(self, axis, goal, errorMax):
+    def wait_end_move(self, axis, goal, errorMax):
 
         avg = 10 * [0]
         index = 0
@@ -49,7 +49,7 @@ class Move:
 #''' PRENDRE EN COMPTE LE COEF DE FROTTEMENT (env. 0.65) ??? '''
 # fonction qui permet d'avancer droit pour une distance donnée en mm
 
-    def RunToPos(self, distance):
+    def run_to_pos(self, distance):
 
         # Distance / Perimètre = nb tour a parcourir
         target = (self.nbCounts * distance)/self.WheelPerimeter
@@ -60,7 +60,7 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
         self.WaitEndMove(self.odrv0.axis1, target, self.ErrorMax)
 
-    def TurnAbs(self, Angle):
+    def turn_abs(self, Angle):
 
         # definition des constantes liées au robot
         errorMax = 5
@@ -83,7 +83,7 @@ class Move:
         self.WaitEndMove(self.odrv0.axis0, target, errorMax)
         self.WaitEndMove(self.odrv0.axis1, target, errorMax)
 
-    def Calib(self):
+    def calib(self):
 
         # Find a connected ODrive (this will block until you connect one)
         print("finding an odrive...")
@@ -113,15 +113,16 @@ class Move:
         self.odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
         self.odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 
-        while self.odrv0.axis0.current_state != AXIS_STATE_IDLE and self.odrv0.axis1.current_state != AXIS_STATE_IDLE:
+        while self.odrv0.axis0.current_state != 1 and self.odrv0.axis1.current_state != 1:
             time.sleep(0.1)
-            
+
         self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 
         '''  # [EN DEV] Fonction pour lancer la calibration si elle n'a pas déjà été lancée '''
-        # if self.odrv0.axis1.motor.is_calibrated == False:
+        'if self.odrv0.axis1.motor.is_calibrated == False:
+        'self.odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
 
         '''
         if self.odrv0.axis1.current_state == 1:  # AXIS_STATE_IDLE
@@ -143,11 +144,12 @@ class Move:
             print("after else")
         '''
 
-def Fin():
+def fin():
 
-    self.odrv0.axis1.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
+    self.odrv0.axis0.requested_state = 1  # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
+    self.odrv0.axis1.requested_state = 1
 
-def TurnRel(Angle):
+def turn_rel(Angle):
     # definition des constantes liées au robot
     errorMax = 5
     weelDiam = 80
@@ -158,7 +160,7 @@ def TurnRel(Angle):
     # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
     runAngle = Angle * pi * axlTrack
     target = (nbrCounts * runAngle) / weelPerim
-    targRel = target + (self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis0.encoder.pos_estimate)/2
+    targRel = target + (self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis1.encoder.pos_estimate)/2
 
     # Action ! :
     print(self.odrv0.axis0.encoder.pos_estimate)
