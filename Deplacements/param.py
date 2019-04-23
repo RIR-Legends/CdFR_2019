@@ -76,8 +76,8 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
 
         # Attente de la fin du mouvement
-        'self.wait_end_move(self.odrv0.axis0, target, errorMax)
-        'self.wait_end_move(self.odrv0.axis1, target, errorMax)
+        '''self.wait_end_move(self.odrv0.axis0, target, errorMax)
+        self.wait_end_move(self.odrv0.axis1, target, errorMax)'''
 
     def calib(self):
 
