@@ -24,7 +24,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.ErrorMax = 5      # unité ?
+        self.errorMax = 5      # unité ?
         self.odrv0 = odrive.find_any()
 
     def stop(self):
@@ -58,7 +58,7 @@ class Move:
         self.odrv0.axis0.controller.move_to_pos(-target)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
-        self.wait_end_move(self.odrv0.axis1, target, self.ErrorMax)
+        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
 
     def turn_abs(self, Angle):
 
@@ -76,8 +76,8 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target, errorMax)
-        self.wait_end_move(self.odrv0.axis1, target, errorMax)
+        self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
 
     def calib(self):
 
