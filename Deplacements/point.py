@@ -21,6 +21,7 @@ class Point:
         return self.P
 
 
+<<<<<<< HEAD
     def add_point(self, namePoint, x, y, theta):
 
         self.namePoint = {'X': self.x, 'Y': self.y, 'theta': self.theta}
@@ -49,6 +50,8 @@ class Point:
         else:
             #Erreur d'entrée
             print('Seul Y et N sont accéptés !')
+=======
+>>>>>>> develop
 
 def main():
     point = Point()
