@@ -1,6 +1,7 @@
-
-from Deplacements.Treatment import Treatment
+#!/usr/bin/env python3
 from __future__ import print_function
+from Deplacements.Treatment import Treatment
+
 
 
 import odrive

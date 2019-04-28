@@ -6,7 +6,7 @@ import odrive
 from odrive.enums import *  # a checker
 import time
 from math import *
- 
+
 class Param:
     def __init__(self):
 
@@ -53,6 +53,24 @@ class Param:
             self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
             self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
+    def calib_always(self):
+
+        # Find a connected ODrive (this will block until you connect one)
+        print("finding an odrive...")
+        self.odrv0
+        print('Odrive found ! ')
+
+        # Lance la calibration moteur si pas déjà faite
+        print("starting calibration...")
+        self.odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+        self.odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+        while self.odrv0.axis0.current_state != 1 and self.odrv0.axis1.current_state != 1:
+            time.sleep(0.1)
+
+        # Met les moteurs en boucle fermée
+        self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+        self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
     def unlock_wheels(self):
 
