@@ -23,7 +23,7 @@ def demo_1() :
     time.sleep(3)
     move.rotation(90)
     time.sleep(3)
-
+    move.rotation(0)
 
 param = p.Param()
 param.config()
