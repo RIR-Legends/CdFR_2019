@@ -27,7 +27,7 @@ def demo_1() :
 
 param = p.Param()
 param.config()
-param.calib()
+param.calib_always()
 
 demo_1()
 
