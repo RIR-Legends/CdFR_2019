@@ -12,7 +12,7 @@ class Point:
         print('Theta = %f ' % self.theta)
 
     def set_parcour(self):
-        self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
+        self.hypo = (self.x ** 2 + self.y ** 2) ** pow(0.5)
 
 
 

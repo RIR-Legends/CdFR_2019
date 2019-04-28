@@ -3,34 +3,35 @@
 from __future__ import print_function
 import time
 import param as p
+import move as m
 
 def demo_1() :
 
-    move = p.Move()
+    move = m.Move()
 
     time.sleep(0.1)
 
     '''time.sleep(1)
-    move.run_to_pos(50)
+    move.translation(50)
     time.sleep(1)
-    move.turn_abs(-180)
+    move.rotation(-180)
     time.sleep(1)
-    move.turn_abs(45)
+    move.rotation(45)
     time.sleep(1)
-    move.turn_abs(0) # position initiale définie à la mise sous tension des batteries'''
-    move.run_to_pos(50)
+    move.rotation(0) # position initiale définie à la mise sous tension des batteries'''
+    move.translation(50)
     time.sleep(3)
-    move.turn_abs(90)
+    move.rotation(90)
     time.sleep(3)
 
 
-move = p.Move()
-
-move.calib()
+param = p.Param()
+param.config()
+param.calib()
 
 demo_1()
 
-move.fin()
+param.unlock_wheels()
 
 print('Fin du programme')
 
