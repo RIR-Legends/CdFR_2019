@@ -10,7 +10,7 @@ import time
 from math import *
 
 class Move:
-    def __init__(self, p1, p2):
+    def __init__(self): #, p1, p2
         #self.Treat = Treatment()
         #self.info_move = self.Treat.step(p1, p2)
 
