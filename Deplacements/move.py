@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import print_function
-from Deplacements.Treatment import Treatment
+#from Deplacements.Treatment import Treatment
 
 
 
@@ -11,8 +11,8 @@ from math import *
 
 class Move:
     def __init__(self, p1, p2):
-        self.Treat = Treatment()
-        self.info_move = self.Treat.step(p1, p2)
+        #self.Treat = Treatment()
+        #self.info_move = self.Treat.step(p1, p2)
 
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
