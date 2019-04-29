@@ -13,4 +13,4 @@ while odrv0.axis0.current_state != 1 and odrv0.axis1.current_state != 1:
     time.sleep(0.1)
 odrv0.axis0.motor.config.pre_calibrated = True
 odrv0.axis1.motor.config.pre_calibrated = True
-ordv0.save_configuration()
+odrv0.save_configuration()
