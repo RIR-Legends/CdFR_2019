@@ -33,7 +33,7 @@ class Move:
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         while movAvg >= errorMax:
-            print("Encoder 0 : %f   Encoder 1 : %f" % self.odrv0.axis0.encoder.pos_estimate, % self.odrv0.axis1.encoder.pos_estimate)
+            print("Encoder 0 : ", self.odrv0.axis0.encoder.pos_estimate,"   Encoder 1 : ", self.odrv0.axis1.encoder.pos_estimate)
 
             for i in range(index, 10):
                 index = 0
