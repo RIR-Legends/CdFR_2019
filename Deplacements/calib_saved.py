@@ -3,6 +3,7 @@
 from __future__ import print_function
 import odrive
 from odrive.enums import *  # a checker
+import time
 
 odrv0 = odrive.find_any()
 
