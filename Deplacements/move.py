@@ -47,8 +47,8 @@ class Move:
         print("Lancement d'une Translation de %f mm" % distance)
         # Distance / Perimètre = nb tour a parcourir
         target = (self.nbCounts * distance)/self.WheelPerimeter
-
-        print("Nombre de tours de roue effectué : %f" % target/self.nbCounts)
+        nbTours = target/self.nbCounts
+        print("Nombre de tours de roue effectué : %f" % nbTours)
         self.odrv0.axis0.controller.move_to_pos(-target)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
@@ -66,9 +66,10 @@ class Move:
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
         target = (self.nbCounts * RunAngle) / self.WheelPerimeter
+        nbTours = target/self.nbCounts
 
         # Action ! :
-        print("Nombre de tours de roue effectué : %f" % target/self.nbCounts)
+        print("Nombre de tours de roue effectué : %f" % nbTours)
         self.odrv0.axis0.controller.move_to_pos(target)
         self.odrv0.axis1.controller.move_to_pos(target)
 
