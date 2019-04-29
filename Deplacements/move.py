@@ -66,8 +66,8 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-        pos_estimate = (self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis1.encoder.pos_estimate())/2.0
-        target = abs( float(pos_estimate) + (self.nbCounts * RunAngle) / self.WheelPerimeter)
+        pos_estimate = float((self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis1.encoder.pos_estimate)/2.0)
+        target = abs( pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter)
         nbTours = target/self.nbCounts
 
         # Action ! :
