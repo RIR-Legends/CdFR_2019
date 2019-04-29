@@ -55,8 +55,8 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
 
 
     def rotation(self, angle):
@@ -75,8 +75,8 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
 
     def stop(self):
         # Met la vitessea des roues à 0.
