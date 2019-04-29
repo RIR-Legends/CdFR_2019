@@ -74,5 +74,5 @@ class Param:
 
     def unlock_wheels(self):
         # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
-        self.odrv0.axis0.requested_state = 1
-        self.odrv0.axis1.requested_state = 1
+        self.odrv0.axis0.requested_state = AXIS_STATE_IDLE
+        self.odrv0.axis1.requested_state = AXIS_STATE_IDLE
