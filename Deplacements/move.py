@@ -66,7 +66,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-        target = abs(self.axis0.controller.pos_setpoint + (self.nbCounts * RunAngle) / self.WheelPerimeter)
+        target = abs(self.axis0.controller.pos_setpoint() + (self.nbCounts * RunAngle) / self.WheelPerimeter)
         nbTours = target/self.nbCounts
 
         # Action ! :
