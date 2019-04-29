@@ -27,8 +27,8 @@ class Param:
         self.odrv0.axis1.trap_traj.config.vel_limit = 100000
         self.odrv0.axis0.trap_traj.config.vel_limit = 100000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 30000
-        self.odrv0.axis1.trap_traj.config.accel_limit = 30000
+        self.odrv0.axis0.trap_traj.config.accel_limit = 10000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 10000
 
         self.odrv0.axis0.trap_traj.config.decel_limit = 30000
         self.odrv0.axis1.trap_traj.config.decel_limit = 30000
