@@ -33,6 +33,11 @@ class Param:
         self.odrv0.axis0.trap_traj.config.decel_limit = 30000
         self.odrv0.axis1.trap_traj.config.decel_limit = 30000
 
+        # test avec  calib_saved.py
+        self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+        self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
+        
     def calib(self):
 
         # Find a connected ODrive (this will block until you connect one)
