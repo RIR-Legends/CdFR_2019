@@ -21,7 +21,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 5      # unité ?
+        self.errorMax = 40      # unité ?
         self.odrv0 = odrive.find_any()
 
     def wait_end_move(self, axis, goal, errorMax):
@@ -33,7 +33,8 @@ class Move:
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         while movAvg >= errorMax:
-            print(self.odrv0.axis1.encoder.pos_estimate)
+            print("Encoder 0 : %f   Encoder 1 : %f" % self.odrv0.axis0.encoder.pos_estimate, % self.odrv0.axis1.encoder.pos_estimate)
+
             for i in range(index, 10):
                 index = 0
                 avg[i] = abs(goal - axis.encoder.pos_estimate)
