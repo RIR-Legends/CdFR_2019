@@ -47,7 +47,7 @@ class Move:
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % distance)
         # Distance / Perimètre = nb tour a parcourir
-        target = abs(self.odrv0.axis0.encoder.pos_estimate() + (self.nbCounts * distance)/self.WheelPerimeter)
+        target = abs(float(self.odrv0.axis0.encoder.pos_estimate) + (self.nbCounts * distance)/self.WheelPerimeter)
         nbTours = target/self.nbCounts
         print("Nombre de tours de roue effectué : %f" % nbTours)
         self.odrv0.axis0.controller.move_to_pos(-target)
@@ -66,8 +66,8 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-        pos_estimate = (self.odrv0.axis0.encoder.pos_estimate() + self.odrv0.axis1.encoder.pos_estimate())/2.0
-        target = abs( pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter)
+        pos_estimate = (self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis1.encoder.pos_estimate())/2.0
+        target = abs( float(pos_estimate) + (self.nbCounts * RunAngle) / self.WheelPerimeter)
         nbTours = target/self.nbCounts
 
         # Action ! :
