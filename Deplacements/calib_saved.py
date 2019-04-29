@@ -4,6 +4,8 @@ from __future__ import print_function
 import odrive
 from odrive.enums import *  # a checker
 
+ordrv0 = odrive.find_any()
+
 odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 while self.odrv0.axis0.current_state != 1 and self.odrv0.axis1.current_state != 1:
