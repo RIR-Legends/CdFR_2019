@@ -9,7 +9,8 @@ def demo_1(odrv0) :
 
     move = m.Move(odrv0)
 
-    '''time.sleep(1)
+    time.sleep(1)
+    '''
     move.translation(0)
     time.sleep(3)
 

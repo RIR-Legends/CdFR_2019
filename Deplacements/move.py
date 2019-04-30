@@ -51,13 +51,14 @@ class Move:
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
+        minusTarget0=-target0
         # Action !
-        self.odrv0.axis0.controller.move_to_pos(-target0)   #moteur 0 inversé par rapport moteur 1
+        self.odrv0.axis0.controller.move_to_pos(minusTarget0)   #moteur 0 inversé par rapport moteur 1
         self.odrv0.axis1.controller.move_to_pos(target1)
         time.sleep(1)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, -target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis0, minusTarget0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
 
