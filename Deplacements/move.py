@@ -48,18 +48,17 @@ class Move:
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % distance)
         # Distance / Perimètre = nb tour a parcourir
-        target = abs(float(self.odrv0.axis0.encoder.pos_estimate) + (self.nbCounts * distance)/self.WheelPerimeter)
-        nbTours = target/self.nbCounts
-        print("Nombre de tours de roue effectué : %f" % nbTours)
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter)
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter)
 
-        self.odrv0.axis0.controller.move_to_pos(-target)
-        # Voir si utilisation necessaire des threads
-        self.odrv0.axis1.controller.move_to_pos(target)
+        # Action !
+        self.odrv0.axis0.controller.move_to_pos(-target0)   #moteur 0 inversé par rapport moteur 1
+        self.odrv0.axis1.controller.move_to_pos(target1)
         time.sleep(1)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, -target, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
+        self.wait_end_move(self.odrv0.axis0, -target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
 
     def rotation(self, angle):
@@ -69,19 +68,18 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-        pos_estimate = float((self.odrv0.axis0.encoder.pos_estimate + self.odrv0.axis1.encoder.pos_estimate)/2.0)
-        target = abs( pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter)
-        nbTours = target/self.nbCounts
 
-        # Action ! :
-        print("Nombre de tours de roue effectué : %f" % nbTours)
-        self.odrv0.axis0.controller.move_to_pos(target)
-        self.odrv0.axis1.controller.move_to_pos(target)
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+
+        #Action ! :
+        self.odrv0.axis0.controller.move_to_pos(target0)
+        self.odrv0.axis1.controller.move_to_pos(target1)
         time.sleep(1)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
     def stop(self):
         # Met la vitessea des roues à 0.
