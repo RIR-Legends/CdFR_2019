@@ -26,12 +26,15 @@ def demo_1(odrv0) :
         time.sleep(2)
 
 param = p.Param()
-param.config()
+flag = N
+input("Le robot est hors sol ? (Y or N)")
 #param.calib_always()
+if flag == Y:
+    param.RAZ()
+    param.config()
+    demo_1(param.odrv0)
 
-demo_1(param.odrv0)
 
-param.unlock_wheels()
 
 print('Fin du programme')
 
