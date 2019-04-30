@@ -31,10 +31,10 @@ class Move:
 
         avg = 10 * [0]
         index = 0
-        movAvg = abs(goal - axis.encoder.pos_estimate)
+        movAvg = abs(goal + axis.encoder.pos_estimate)
         while movAvg >= errorMax:
             print("Encoder : ", axis.encoder.pos_estimate)
-            print("Goal/Target :", goal)
+            print("Goal/Target : ", goal)
             print("movAvg : ", movAvg)
             for i in range(index, 10):
                 index = 0
@@ -51,7 +51,8 @@ class Move:
         target = abs(float(self.odrv0.axis0.encoder.pos_estimate) + (self.nbCounts * distance)/self.WheelPerimeter)
         nbTours = target/self.nbCounts
         print("Nombre de tours de roue effectué : %f" % nbTours)
-        self.odrv0.axis0.controller.move_to_pos(-target)
+        target0=-target
+        self.odrv0.axis0.controller.move_to_pos(target0)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
         time.sleep(1)
