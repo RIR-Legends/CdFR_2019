@@ -35,7 +35,7 @@ class Param:
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-        self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+        #self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 
     def calib(self):
