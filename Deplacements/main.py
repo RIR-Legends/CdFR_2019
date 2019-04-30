@@ -21,13 +21,13 @@ def demo_1(odrv0) :
     #time.sleep(3)
     for i in range(0,12):
         move.translation(350)
-        time.sleep(3)
+        time.sleep(2)
         move.rotation(-90)
-        time.sleep(3)
+        time.sleep(2)
 
 param = p.Param()
 param.config()
-param.calib_always()
+#param.calib_always()
 
 demo_1(param.odrv0)
 
