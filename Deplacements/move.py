@@ -48,8 +48,8 @@ class Move:
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % distance)
         # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter)
-        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter)
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action !
         self.odrv0.axis0.controller.move_to_pos(-target0)   #moteur 0 inversé par rapport moteur 1
