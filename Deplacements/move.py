@@ -51,14 +51,14 @@ class Move:
         target = abs(float(self.odrv0.axis0.encoder.pos_estimate) + (self.nbCounts * distance)/self.WheelPerimeter)
         nbTours = target/self.nbCounts
         print("Nombre de tours de roue effectué : %f" % nbTours)
-        target0=-target
-        self.odrv0.axis0.controller.move_to_pos(target0)
+
+        self.odrv0.axis0.controller.move_to_pos(target)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
         time.sleep(1)
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target, self.errorMax)
+        self.wait_end_move(self.odrv0.axis0, -target, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target, self.errorMax)
 
 
