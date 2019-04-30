@@ -74,25 +74,25 @@ class RPLidar(object):
     '''Class for communicating with RPLidar rangefinder scanners'''
 
     def __init__(self, port = '/dev/ttyUSB0', baudrate=115200, timeout=1):
-		'''Initilize RPLidar object for communicating with the sensor.'''
-		self._serial_port = None
-		self.port = port
-		self.baudrate = baudrate
-		self.timeout = timeout
-		self.motor_running = None
-		
-		self.logDbg = logging.getLogger('Debug')
-		self.logData = logging.getLogger('Data')
-		file_handler = RotatingFileHandler('data.log', 'a', 1000000, 1)
-		file_handler.setLevel(logging.DEBUG)
-		file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
-		logData.addHandler(file_handler)
-		stream_handler = logging.StreamHandler()
-		stream_handler.setLevel(logging.DEBUG)
-		logDbg.addHandler(stream_handler)
-		
-		self.connect()
-		self.start_motor()
+        '''Initilize RPLidar object for communicating with the sensor.'''
+        self._serial_port = None
+        self.port = port
+        self.baudrate = baudrate
+        self.timeout = timeout
+        self.motor_running = None
+        
+        self.logDbg = logging.getLogger('Debug')
+        self.logData = logging.getLogger('Data')
+        file_handler = RotatingFileHandler('data.log', 'a', 1000000, 1)
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
+        logData.addHandler(file_handler)
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.DEBUG)
+        logDbg.addHandler(stream_handler)
+        
+        self.connect()
+        self.start_motor()
 
     def connect(self):
         '''Connects to the serial port with the name `self.port`. If it was
