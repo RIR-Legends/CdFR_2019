@@ -31,7 +31,7 @@ class Move:
 
         avg = 10 * [0]
         index = 0
-        movAvg = abs(goal + axis.encoder.pos_estimate)
+        movAvg = abs(goal - axis.encoder.pos_estimate)
         while movAvg >= errorMax:
             print("Encoder : ", axis.encoder.pos_estimate)
             print("Goal/Target : ", goal)
