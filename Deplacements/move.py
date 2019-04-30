@@ -52,7 +52,7 @@ class Move:
         nbTours = target/self.nbCounts
         print("Nombre de tours de roue effectué : %f" % nbTours)
 
-        self.odrv0.axis0.controller.move_to_pos(target)
+        self.odrv0.axis0.controller.move_to_pos(-target)
         # Voir si utilisation necessaire des threads
         self.odrv0.axis1.controller.move_to_pos(target)
         time.sleep(1)
