@@ -26,10 +26,10 @@ def demo_1(odrv0) :
         time.sleep(2)
 
 param = p.Param()
-flag = N
-input("Le robot est hors sol ? (Y or N)")
+flag = 'N'
+flag = input("Le robot est hors sol ? (Y or N)")
 #param.calib_always()
-if flag == Y:
+if flag == 'Y':
     param.RAZ()
     param.config()
     demo_1(param.odrv0)
