@@ -5,9 +5,9 @@ import time
 import param as p
 import move as m
 
-def demo_1() :
+def demo_1(odrv0) :
 
-    move = m.Move()
+    move = m.Move(odrv0)
 
     '''time.sleep(1)
     move.translation(0)
@@ -28,7 +28,7 @@ param = p.Param()
 param.config()
 param.calib_always()
 
-demo_1()
+demo_1(param.odrv0)
 
 param.unlock_wheels()
 

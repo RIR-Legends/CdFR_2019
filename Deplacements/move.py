@@ -10,7 +10,7 @@ import time
 from math import *
 
 class Move:
-    def __init__(self): #, p1, p2
+    def __init__(self, odrv0): #, p1, p2
         #self.Treat = Treatment()
         #self.info_move = self.Treat.step(p1, p2)
 
@@ -22,7 +22,7 @@ class Move:
 
         # coding features
         self.errorMax = 5      # unité ?
-        self.odrv0 = odrive.find_any()
+        self.odrv0 = odrv0
 
     def wait_end_move(self, axis, goal, errorMax):
 
