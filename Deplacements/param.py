@@ -37,21 +37,26 @@ class Param:
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         #self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     def RAZ(self):
-        self.odrv0.axis0.controller.config.vel_limit = 1000
-        self.odrv0.axis1.controller.config.vel_limit = 1000
+        # Fonction de remise à zero des moteurs pour initialisation si calib déja faite
+        flag = 'N'
+        flag = input("Le robot est hors sol ? (Y or N)")
 
-        # trap_traj parametrage des valeurs limit du comportement dynamique
-        self.odrv0.axis1.trap_traj.config.vel_limit = 1000
-        self.odrv0.axis0.trap_traj.config.vel_limit = 1000
+        if flag == 'Y':
+            self.odrv0.axis0.controller.config.vel_limit = 1000
+            self.odrv0.axis1.controller.config.vel_limit = 1000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 100
-        self.odrv0.axis1.trap_traj.config.accel_limit = 100
+            # trap_traj parametrage des valeurs limit du comportement dynamique
+            self.odrv0.axis1.trap_traj.config.vel_limit = 1000
+            self.odrv0.axis0.trap_traj.config.vel_limit = 1000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 100
-        self.odrv0.axis1.trap_traj.config.decel_limit = 100
-        #Remise en position 0 des moteurs pour initialisation
-        self.odrv0.axis0.controller.move_to_pos(0)
-        self.odrv0.axis1.controller.move_to_pos(0)
+            self.odrv0.axis0.trap_traj.config.accel_limit = 100
+            self.odrv0.axis1.trap_traj.config.accel_limit = 100
+
+            self.odrv0.axis0.trap_traj.config.decel_limit = 100
+            self.odrv0.axis1.trap_traj.config.decel_limit = 100
+            #Remise en position 0 des moteurs pour initialisation
+            self.odrv0.axis0.controller.move_to_pos(0)
+            self.odrv0.axis1.controller.move_to_pos(0)
 
     def calib(self):
 
