@@ -71,8 +71,8 @@ class Move:
         target0 = - (self.nbCounts * distance)/self.WheelPerimeter
         target1 = (self.nbCounts * distance)/self.WheelPerimeter
         # Action !
-        self.odrv0.axis0.controller.move_incremental(target0, False)   #moteur 0 inversé par rapport moteur 1
-        self.odrv0.axis1.controller.move_incremental(target1, False)
+        self.odrv0.axis0.controller.move_incremental(target0, True)   #moteur 0 inversé par rapport moteur 1
+        self.odrv0.axis1.controller.move_incremental(target1, True)
         time.sleep(1)
 
         # Attente de la fin du mouvement
