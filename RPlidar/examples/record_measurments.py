@@ -3,7 +3,7 @@
 
 $ ./record_measurments.py out.txt'''
 import sys
-from rplidar import RPLidar
+from RIR_rplidar import RPLidar
 
 
 PORT_NAME = '/dev/ttyUSB0'

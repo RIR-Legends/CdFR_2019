@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''Measures sensor scanning speed'''
-from rplidar import RPLidar
+from RIR_rplidar import RPLidar
 import time
 
 PORT_NAME = '/dev/ttyUSB0'

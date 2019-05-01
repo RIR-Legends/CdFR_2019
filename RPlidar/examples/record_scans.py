@@ -5,7 +5,7 @@ Usage example:
 $ ./record_scans.py out.npy'''
 import sys
 import numpy as np
-from rplidar import RPLidar
+from RIR_rplidar import RPLidar
 
 
 PORT_NAME = '/dev/ttyUSB0'

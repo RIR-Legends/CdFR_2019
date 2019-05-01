@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''Animates distances and measurment quality'''
-from rplidar import RPLidar
+from RIR_rplidar import RPLidar
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.animation as animation

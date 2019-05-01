@@ -5,7 +5,6 @@
 
 import logging
 from logging.handlers import RotatingFileHandler
-import sys
 import time
 import codecs
 import serial
@@ -51,22 +50,19 @@ logging.basicConfig(	filename="rplidar.log",
 class RPLidarException(Exception):
     '''Basic exception class for RPLidar'''
 
-def _b2i(byte):
-    '''Converts byte to integer (for Python 2 compatability)'''
-    return byte if int(sys.version[0]) == 3 else ord(byte)
 
 def _process_scan(raw, log):
     '''Processes input raw data and returns measurment data'''
-    new_scan = bool(_b2i(raw[0]) & 0b1)
-    inversed_new_scan = bool((_b2i(raw[0]) >> 1) & 0b1)
-    quality = _b2i(raw[0]) >> 2
+    new_scan = bool(raw[0] & 0b1)
+    inversed_new_scan = bool((raw[0] >> 1) & 0b1)
+    quality = raw[0] >> 2
     if new_scan == inversed_new_scan:
         raise RPLidarException('New scan flags mismatch')
-    check_bit = _b2i(raw[1]) & 0b1
+    check_bit = raw[1] & 0b1
     if check_bit != 1:
         raise RPLidarException('Check bit not equal to 1')
-    angle = ((_b2i(raw[1]) >> 1) + (_b2i(raw[2]) << 7)) / 64.
-    distance = (_b2i(raw[3]) + (_b2i(raw[4]) << 8)) / 4.
+    angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64.
+    distance = (raw[3] + (raw[4] << 8)) / 4.
     log.debug('Received scan response: {0} (new scan), {1} (quality), {2} (angle), {3} (distance)'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
 
@@ -175,8 +171,8 @@ class RPLidar(object):
         elif not descriptor.startswith(SYNC_BYTE + SYNC_BYTE2):
             self.logDbg.exception('In read_descriptor : incorrect starting bytes')
             raise RPLidarException('Incorrect descriptor starting bytes')
-        is_single = _b2i(descriptor[-2]) == 0
-        return _b2i(descriptor[2]), is_single, _b2i(descriptor[-1])
+        is_single = descriptor[-2] == 0
+        return descriptor[2], is_single, descriptor[-1]
 
     def _read_response(self, dsize):
         '''Reads response packet with length of `dsize` bytes'''
@@ -210,9 +206,9 @@ class RPLidar(object):
         serialnumber = codecs.encode(raw[4:], 'hex').upper()
         serialnumber = codecs.decode(serialnumber, 'ascii')
         data = {
-            'model': _b2i(raw[0]),
-            'firmware': (_b2i(raw[2]), _b2i(raw[1])),
-            'hardware': _b2i(raw[3]),
+            'model': raw[0],
+            'firmware': (raw[2], raw[1]),
+            'hardware': raw[3],
             'serialnumber': serialnumber,
         }
         self.logDbg.info('In get_info : %s' %s)
@@ -244,8 +240,8 @@ class RPLidar(object):
             self.logDbg.exception('In get_health : wrong response data type')
             raise RPLidarException('Wrong response data type')
         raw = self._read_response(dsize)
-        status = _HEALTH_STATUS[_b2i(raw[0])]
-        error_code = (_b2i(raw[1]) << 8) + _b2i(raw[2])
+        status = _HEALTH_STATUS[raw[0]]
+        error_code = (raw[1] << 8) + raw[2]
         return status, error_code
 
     def clear_input(self):
