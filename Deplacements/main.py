@@ -27,7 +27,7 @@ def demo_relatif(odrv0) :
     move.rotation(90)
     time.sleep(2)
     move.translation_rel(200)
-
+    time.sleep(2)
 
 def demo_tour(odrv0) :
     move = m.Move(odrv0)
