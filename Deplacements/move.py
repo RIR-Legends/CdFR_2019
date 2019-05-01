@@ -55,8 +55,7 @@ class Move:
 
         # Action !
         self.odrv0.axis0.controller.move_to_pos(target0)   #moteur 0 inversé par rapport moteur 1
-        self.odrv0.axis1.controller.move_to_pos(target1)
-        time.sleep(1)
+        self.odrv0.axis1.controller.move_to_pos(target1)    
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
@@ -73,7 +72,6 @@ class Move:
         # Action !
         self.odrv0.axis0.controller.move_incremental(target0, True)   #moteur 0 inversé par rapport moteur 1
         self.odrv0.axis1.controller.move_incremental(target1, True)
-        time.sleep(1)
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
@@ -91,7 +89,6 @@ class Move:
         #Action ! :
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
-        time.sleep(1)
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)

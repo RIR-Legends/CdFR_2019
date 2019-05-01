@@ -22,11 +22,11 @@ def demo_relatif(odrv0) :
     move = m.Move(odrv0)
     #Test la fonction de controle de position relative par rapport à la précedente
     time.sleep(1)
-    move.translation(150)
+    move.translation(200)
     time.sleep(2)
     move.rotation(90)
     time.sleep(2)
-    move.translation_rel(150)
+    move.translation_rel(200)
 
 
 def demo_tour(odrv0) :
