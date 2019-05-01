@@ -67,33 +67,33 @@ class Move:
         print("Lancement d'une Translation de %f mm" % distance)
 
         # Controle de la Position en Relatif:
-                                                        # Distance / Perimètre = nb tour a parcourir
+        # Distance / Perimètre = nb tour a parcourir
         target0 = - (self.nbCounts * distance)/self.WheelPerimeter
         target1 = (self.nbCounts * distance)/self.WheelPerimeter
-            # Action !
+        # Action !
         self.odrv0.axis0.controller.move_incremental(target0, True)   #moteur 0 inversé par rapport moteur 1
         self.odrv0.axis1.controller.move_incremental(target1, True)
         time.sleep(1)
 
-            # Attente de la fin du mouvement
+        # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
     def rotation(self, angle):
         # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
         print("Lancement d'une Rotation de %f°" % angle)
-            # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
+        # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
 
         # Controle de la Position Angulaire en Absolu :
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-            #Action ! :
+        #Action ! :
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
         time.sleep(1)
 
-            # Attente de la fin du mouvement
+        # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
