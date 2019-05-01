@@ -55,7 +55,7 @@ def _b2i(byte):
     '''Converts byte to integer (for Python 2 compatability)'''
     return byte if int(sys.version[0]) == 3 else ord(byte)
 
-def _process_scan(raw):
+def _process_scan(raw, log):
     '''Processes input raw data and returns measurment data'''
     new_scan = bool(_b2i(raw[0]) & 0b1)
     inversed_new_scan = bool((_b2i(raw[0]) >> 1) & 0b1)
@@ -67,6 +67,7 @@ def _process_scan(raw):
         raise RPLidarException('Check bit not equal to 1')
     angle = ((_b2i(raw[1]) >> 1) + (_b2i(raw[2]) << 7)) / 64.
     distance = (_b2i(raw[3]) + (_b2i(raw[4]) << 8)) / 4.
+    log.debug('Received scan response: {0} (new scan), {1} (quality), {2} (angle), {3} (distance)'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
 
 
@@ -86,10 +87,10 @@ class RPLidar(object):
         file_handler = RotatingFileHandler('data.log', 'a', 1000000, 1)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
-        logData.addHandler(file_handler)
+        self.logData.addHandler(file_handler)
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.DEBUG)
-        logDbg.addHandler(stream_handler)
+        self.logDbg.addHandler(stream_handler)
         
         self.connect()
         self.start_motor()
@@ -105,7 +106,7 @@ class RPLidar(object):
                 self.port, self.baudrate,
                 parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
                 timeout=self.timeout, dsrdtr=True)
-           self.logDbg.info('Connection done!')
+            self.logDbg.info('Connection done!')
         except serial.SerialException as err:
             self.logDbg.exception('Connection failed : %s' % err)
             raise RPLidarException('Failed to connect to the sensor '
@@ -258,6 +259,7 @@ class RPLidar(object):
         self.logDbg.info('Stop scanning')
         self._send_cmd(STOP_BYTE)
         time.sleep(.001)
+        self.stop_motor()
         self.clear_input()
 
     def reset(self):
@@ -314,7 +316,7 @@ class RPLidar(object):
             raise RPLidarException('Wrong response data type')
         while True:
             raw = self._read_response(dsize)
-            self.logData.debug('Received scan response: %s' % raw)
+            self.logDbg.debug('Received scan response: %s' % raw)
             if max_buf_meas:
                 data_in_buf = self._serial_port.in_waiting
                 if data_in_buf > max_buf_meas*dsize:
@@ -323,7 +325,7 @@ class RPLidar(object):
                         'Clearing buffer...',
                         data_in_buf//dsize, max_buf_meas)
                     self._serial_port.read(data_in_buf//dsize*dsize)
-            yield _process_scan(raw)
+            yield _process_scan(raw,self.logData)
 
     def iter_scans(self, max_buf_meas=500, min_len=5):
         '''Iterate over scans. Note that consumer must be fast enough,
@@ -351,4 +353,4 @@ class RPLidar(object):
                     yield scan
                 scan = []
             if quality > 0 and distance > 0:
-				scan.append((quality, angle, distance))
+                scan.append((quality, angle, distance))
