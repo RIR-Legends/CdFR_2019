@@ -19,6 +19,7 @@ class Elevator{
   void GetPaletWall();
   void GetOutPalet();
   void Transport();
+  void GetOutPaletWall();
 
 
   private:

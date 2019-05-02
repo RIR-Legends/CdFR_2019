@@ -39,3 +39,7 @@ void ForeArm::BrasTransport(){
 void ForeArm::DeploiementSaisieWall(){
    MoveTo(820,515); 
 }
+
+void ForeArm::DeploiementOutWall(){
+   MoveTo(820,515); 
+}

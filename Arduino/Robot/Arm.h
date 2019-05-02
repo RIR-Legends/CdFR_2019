@@ -14,11 +14,24 @@ class Arm{
  void SetArm();
  void InitArm();
  void Parking();
- void TakePaletFloor(int, bool);
  void Transport();
- void TakePaletWall(int, bool);
- void OutPaletWall(int, bool);
+
+ void PreTakePaletFloor();
+ void TakePaletFloor(int, bool);
+ void PostTakePaletFloor();
+
+ void PreOutPaletFloor();
  void OutPaletFloor(int, bool);
+ void PostOutPaletFloor();
+
+ void PreTakePaletWall();
+ void TakePaletWall();
+ void PostTakePaletWall(int floorNb, bool cote);
+
+  void PreOutPaletWall(int, bool);
+ void OutPaletWall();
+ void PostOutPaletWall();
+ 
  void ChoixPileStock(); // determine la pile ou il doit ranger le palet
  void ChoixPileDeStock(); // determine la pile ou il doit prendre un palet
 

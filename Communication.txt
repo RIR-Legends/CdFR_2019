@@ -5,10 +5,21 @@ Message reçu : 1
 En attente d'une commande : 0
 Arret total : A
 
+PreTakePaletFloor :e
 TakePaletFloor : f
-TakePaletWall : w
+PostTakePaletFloor :g
+
+PreOutPaletFloor :E
 OutPaletFloor : F
+PostOutPaletFloor :G
+
+PreTakePaletWall : v
+TakePaletWall : w
+PostTakePaletWall : x
+
+PreOutPaletWall : V
 OutPaletWall : W
+PostOutPaletWall : X
 
 Init Actionneur : I (init + poqition parking)
 Transport : T
@@ -22,3 +33,5 @@ En attente d'une commande : 0
 Départ , tirette tiré : D
 SwitchCotéOrange : o
 SwitchCotéViolet : v
+reculer : r
+avancer : a

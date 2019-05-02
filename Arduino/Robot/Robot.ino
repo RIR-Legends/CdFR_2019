@@ -38,36 +38,45 @@ void loop() {
 }
 
 void TestArm(){
-//  ArmRobot.Transport();
-//  delay(1000);
-//  ArmRobot.TakePaletFloor(1,0);
-//  delay(500);
-//  ArmRobot.TakePaletFloor(2,0);
-//  delay(500);
-//  ArmRobot.TakePaletFloor(3,0);
-//  delay(500);
-//  ArmRobot.TakePaletFloor(4,0);
-//  delay(500);
-//  ArmRobot.TakePaletFloor(5,0);
-//  delay(500);
+  ArmRobot.Transport();
+  delay(1000);
 
-//  ArmRobot.Transport();
+
+//TEST TakePaletFloor
+//  ArmRobot.PreTakePaletFloor();
+//  ArmRobot.TakePaletFloor(1,0);
+//  ArmRobot.PostTakePaletFloor();
+//  delay(500);  
+
+//TEST OutPaletFloor
+//  ArmRobot.PreOutPaletFloor();
+//  ArmRobot.OutPaletFloor(2,0);
+//  delay(500);  
+//  ArmRobot.OutPaletFloor(1,0);
+//  ArmRobot.PostOutPaletFloor();
+//  delay(500);  
+
+
+//TEST TakePaletWall
+//  ArmRobot.PreTakePaletWall();
 //  delay(1000);
-//  ArmRobot.TakePaletWall(1,0);
-//  delay(500);
-//  ArmRobot.TakePaletWall(2,0);
-//  delay(500);
-//  ArmRobot.TakePaletWall(3,0);
-//  delay(500);
-//  ArmRobot.TakePaletWall(4,0);
-//  delay(500);
-//  ArmRobot.TakePaletWall(5,0);
-//  delay(500);
+//  ArmRobot.TakePaletWall();
+//  delay(1000);
+//  ArmRobot.PostTakePaletWall(1,0);
+//  delay(500);  
+
+//TEST TakePaletFloor
+  ArmRobot.PreOutPaletWall(1,0);
+  delay(1000);
+  ArmRobot.OutPaletWall();
+  delay(1000);
+  ArmRobot.PostOutPaletWall();
+  delay(500); 
 
   //ArmRobot.Transport();
-  delay(1000);
-  ArmRobot.OutPaletWall(1,0);
-  delay(500);
+//  delay(1000);
+//  ArmRobot.OutPaletWall(1,0);
+//  delay(500);
 //  ArmRobot.OutPaletWall(2,0);
 //  delay(500);
 //  ArmRobot.OutPaletWall(3,0);

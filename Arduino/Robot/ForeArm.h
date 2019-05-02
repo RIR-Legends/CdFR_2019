@@ -17,6 +17,7 @@ public:
   void ParquetD();
   void BrasTransport();
   void DeploiementSaisieWall();
+  void DeploiementOutWall();
 
 };
 #endif
