@@ -17,6 +17,7 @@ void Arm::InitArm(){
   SetArm();
   delay(500);
   ForeArmAction.DeploiementSaisieFloor();
+  delay(1000);
   ElevatorRobot.InitialPosition();
   Parking();
   DoorAction.CloseAll();
@@ -106,15 +107,17 @@ void Arm::OutPaletWall(int floorNb, bool cote){
   delay(500);
   ElevatorRobot.GoToFloor(7);
   delay(500);
-  //ForeArmAction.DeploiementSaisieWall();
-
+  ForeArmAction.DeploiementSaisieWall();
+  delay(500);
+  ElevatorRobot.GetPaletWall();
+  delay(500);
+  PompeRobot.Close();
 
   
 //  ElevatorRobot.GoToFloor(6);
 //  delay(500);
 //  ForeArmAction.DeploiementSaisieWall();
 //  delay(500);
-//  ElevatorRobot.GetPaletWall();
 //  delay(500);
 //  PompeRobot.Open();
 //  delay(500);
@@ -129,11 +132,22 @@ void Arm::OutPaletWall(int floorNb, bool cote){
 //  }
 //  delay(1000);
 //  ElevatorRobot.GoToFloor(floorNb);
-//  PompeRobot.Close();
 //  delay(500);
 //  ElevatorRobot.GoOut(6);
 //  delay(500);
 //  ForeArmAction.DeploiementSaisieFloor();
 //  delay(500);
 //  DoorAction.CloseAll();
+}
+
+void Arm::OutPaletFloor(int floorNb, bool cote){
+  
+}
+
+void Arm::ChoixPileStock(){
+  
+}
+
+void Arm::ChoixPileDeStock(){
+  
 }

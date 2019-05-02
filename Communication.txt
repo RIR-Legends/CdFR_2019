@@ -1,0 +1,24 @@
+Communication : 
+
+Rasp --> Arduino : 
+Message reçu : 1
+En attente d'une commande : 0
+Arret total : A
+
+TakePaletFloor : f
+TakePaletWall : w
+OutPaletFloor : F
+OutPaletWall : W
+
+Init Actionneur : I (init + poqition parking)
+Transport : T
+
+
+Arduino --> Rasp :
+
+Message reçu : 1
+Action terminé : t
+En attente d'une commande : 0
+Départ , tirette tiré : D
+SwitchCotéOrange : o
+SwitchCotéViolet : v

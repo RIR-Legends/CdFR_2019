@@ -18,6 +18,10 @@ class Arm{
  void Transport();
  void TakePaletWall(int, bool);
  void OutPaletWall(int, bool);
+ void OutPaletFloor(int, bool);
+ void ChoixPileStock(); // determine la pile ou il doit ranger le palet
+ void ChoixPileDeStock(); // determine la pile ou il doit prendre un palet
+
 
   private:
   Door DoorAction;

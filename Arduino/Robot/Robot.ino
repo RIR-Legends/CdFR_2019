@@ -106,7 +106,7 @@ void TestElevator(){
 
 void TestForeArm(){
   //ForeArmAction.MoveTo(520,515);
-  //ForeArmAction.InitDynamixel();
+  ForeArmAction.InitDynamixel();
   //ForeArmAction.DeploiementSaisieFloor();
   //ForeArmAction.DeploiementDrop();
   ForeArmAction.DeploiementSaisieWall();
