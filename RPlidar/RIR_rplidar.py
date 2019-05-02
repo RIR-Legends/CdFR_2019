@@ -30,10 +30,11 @@ INFO_TYPE = 4
 HEALTH_TYPE = 6
 SCAN_TYPE = 129
 
-#Constants & Command to start A2 motor
 MAX_MOTOR_PWM = 1023
 DEFAULT_MOTOR_PWM = 660
 SET_PWM_BYTE = b'\xF0'
+
+offsetAngle = 0
 
 _HEALTH_STATUS = {
     0: 'Good',
@@ -61,7 +62,7 @@ def _process_scan(raw, log):
     check_bit = raw[1] & 0b1
     if check_bit != 1:
         raise RPLidarException('Check bit not equal to 1')
-    angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64.
+    angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
     distance = (raw[3] + (raw[4] << 8)) / 4.
     log.debug('Received scan response: {0} (new scan), {1} (quality), {2} (angle), {3} (distance)'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
@@ -85,11 +86,10 @@ class RPLidar(object):
         file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
         self.logData.addHandler(file_handler)
         stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.DEBUG)
+        stream_handler.setLevel(logging.INFO)
         self.logDbg.addHandler(stream_handler)
         
         self.connect()
-        self.start_motor()
 
     def connect(self):
         '''Connects to the serial port with the name `self.port`. If it was
@@ -107,6 +107,7 @@ class RPLidar(object):
             self.logDbg.exception('Connection failed : %s' % err)
             raise RPLidarException('Failed to connect to the sensor '
                                    'due to: %s' % err)
+        self.stop()
 
     def disconnect(self):
         '''Disconnects from the serial port'''
@@ -125,10 +126,8 @@ class RPLidar(object):
     def start_motor(self):
         '''Starts sensor motor'''
         self.logDbg.info('Starting motor...')
-        # For A1
-        self._serial_port.dtr = False
 
-        # For A2
+        self._serial_port.dtr = False
         self.set_pwm(DEFAULT_MOTOR_PWM)
         self.motor_running = True
         self.logDbg.info('Motor started!')
@@ -136,10 +135,9 @@ class RPLidar(object):
     def stop_motor(self):
         '''Stops sensor motor'''
         self.logDbg.info('Stopping motor...')
-        # For A2
+
         self.set_pwm(0)
         time.sleep(.001)
-        # For A1
         self._serial_port.dtr = True
         self.motor_running = False
         self.logDbg.info('Motor stopped!')
@@ -265,7 +263,7 @@ class RPLidar(object):
         self._send_cmd(RESET_BYTE)
         time.sleep(.002)
 
-    def iter_measurments(self, max_buf_meas=500):
+    def iter_measurments(self, max_buf_meas=1000):
         '''Iterate over measurments. Note that consumer must be fast enough,
         otherwise data will be accumulated inside buffer and consumer will get
         data with increaing lag.
@@ -288,7 +286,7 @@ class RPLidar(object):
         '''
         self.start_motor()
         status, error_code = self.get_health()
-        self.logDbg.debug('Health status: %s [%d]', status, error_code)
+        self.logDbg.info('Health status: %s [%d]', status, error_code)
         if status == _HEALTH_STATUS[2]:
             self.logDbg.warning('Trying to reset sensor due to the error. Error code: %d', error_code)
             self.reset()
@@ -312,7 +310,6 @@ class RPLidar(object):
             raise RPLidarException('Wrong response data type')
         while True:
             raw = self._read_response(dsize)
-            self.logDbg.debug('Received scan response: %s' % raw)
             if max_buf_meas:
                 data_in_buf = self._serial_port.in_waiting
                 if data_in_buf > max_buf_meas*dsize:
@@ -323,7 +320,7 @@ class RPLidar(object):
                     self._serial_port.read(data_in_buf//dsize*dsize)
             yield _process_scan(raw,self.logData)
 
-    def iter_scans(self, max_buf_meas=500, min_len=5):
+    def iter_scans(self, max_buf_meas= 1000, min_len=5):
         '''Iterate over scans. Note that consumer must be fast enough,
         otherwise data will be accumulated inside buffer and consumer will get
         data with increasing lag.
