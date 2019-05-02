@@ -23,6 +23,3 @@ void loop() {
     }
     // Suppose to turn off robot.
 }
-
-
-

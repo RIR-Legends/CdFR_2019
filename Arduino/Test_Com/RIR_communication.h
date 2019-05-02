@@ -18,7 +18,7 @@ class RIR_Com{
     int Arret;
     int Initialisation;
     int Transport;
-    int Plaet_Floor_In;
+    int Palet_Floor_In;
     int Palet_Wall_In;
     int Palet_Floor_Out;
     int Palet_Wall_Out;

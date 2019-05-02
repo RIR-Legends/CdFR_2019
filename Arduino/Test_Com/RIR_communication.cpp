@@ -13,7 +13,7 @@ RIR_Com::RIR_Com()
     Arret           = 'A';
     Initialisation  = 'I';
     Transport       = 'T';
-    Plaet_Floor_In  = 'f';
+    Palet_Floor_In  = 'f';
     Palet_Wall_In   = 'w';
     Palet_Floor_Out = 'F';
     Palet_Wall_Out  = 'W';
