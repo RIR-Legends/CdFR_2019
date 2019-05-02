@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Initial source : http://anothermaker.xyz/iot/communication-entre-un-raspberry-pi-et-un-arduino-5319
+
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 
 class Communication():
