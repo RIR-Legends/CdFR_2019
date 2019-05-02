@@ -12,23 +12,35 @@ Elevator ElevatorRobot;
 Pompe PompeRobot;
 Arm ArmRobot; 
 
+int stock[2] = {0,1};
+
+int consigneStock[2]= {0,0};
+
+int consigneDesStock[2]= {0,0};
+
+
 void setup() {
+
+//stock = {0,0};
+//consigneStock = {0,0};
+//consigneDesStock = {0,0};
+  
   // put your setup code here, to run once:
 
   //SetupRobot.SetElevator();
   //SetupRobot.SetPomp();
-  ArmRobot.InitArm();
-  delay(2000);
+      Serial.begin(9600);
 
-    Serial.begin(9600);
+  //ArmRobot.InitArm();
+  delay(2000);
 
 
 //TestDoor();
 //TestForeArm();
 //TestElevator();
 //TestPomp();
-TestArm();
-
+//TestArm();
+TestPile();
 
 }
 
@@ -36,6 +48,39 @@ void loop() {
 
  
 }
+
+void TestPile(){
+
+ChoixStockPile();
+
+}
+
+void ChoixStockPile(){
+  //choix coté
+  if (stock[0] == stock[1]){
+    consigneStock[1] = 0;
+  }else if(stock[0] < stock[1]){
+    consigneStock[1] = 0;
+  }else{
+     consigneStock[1] = 1;
+  }
+  //Choix étage
+  consigneStock[0] = stock[consigneStock[1]+1];
+}
+
+void ChoixDesStockPile(){
+  //choix coté
+  if (stock[0] == stock[1]){
+    consigneStock[1] = 0;
+  }else if(stock[0] < stock[1]){
+    consigneStock[1] = 1;
+  }else{
+     consigneStock[1] = 0;
+  }
+  //Choix étage
+  consigneStock[0] = stock[consigneStock[1]-1];
+}
+
 
 void TestArm(){
   ArmRobot.Transport();
