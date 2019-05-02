@@ -4,7 +4,7 @@
 # Code adapted from https://github.com/SkoltechRobotics/rplidar
 
 import logging
-from logging.handlers import RotatingFileHandler
+from logging import FileHandler
 import time
 import codecs
 import serial
@@ -58,13 +58,15 @@ def _process_scan(raw, log):
     inversed_new_scan = bool((raw[0] >> 1) & 0b1)
     quality = raw[0] >> 2
     if new_scan == inversed_new_scan:
+        return False, 0, 0, 0
         raise RPLidarException('New scan flags mismatch')
     check_bit = raw[1] & 0b1
     if check_bit != 1:
+        return False, 0, 0, 0
         raise RPLidarException('Check bit not equal to 1')
     angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
     distance = (raw[3] + (raw[4] << 8)) / 4.
-    log.debug('Received scan response: {0} (new scan), {1} (quality), {2} (angle), {3} (distance)'.format(new_scan,quality,angle,distance))
+    log.info('{0} :: {1} :: {2} :: {3}'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
 
 
@@ -81,7 +83,7 @@ class RPLidar(object):
         
         self.logDbg = logging.getLogger('Debug')
         self.logData = logging.getLogger('Data')
-        file_handler = RotatingFileHandler('data.log', 'a', 1000000, 1)
+        file_handler = FileHandler('data.log')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
         self.logData.addHandler(file_handler)
