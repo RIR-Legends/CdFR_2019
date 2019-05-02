@@ -1,5 +1,6 @@
 #include "Arm.h"
 
+
 Arm::Arm(){
 
 }
@@ -200,13 +201,4 @@ void Arm::PostOutPaletWall(){
   ForeArmAction.DeploiementSaisieFloor();
   delay(500);
   ElevatorRobot.GoToFloor(6);
-}
-
-
-void Arm::ChoixPileStock(){
-  
-}
-
-void Arm::ChoixPileDeStock(){
-  
 }

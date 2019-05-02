@@ -31,9 +31,6 @@ class Arm{
   void PreOutPaletWall(int, bool);
  void OutPaletWall();
  void PostOutPaletWall();
- 
- void ChoixPileStock(); // determine la pile ou il doit ranger le palet
- void ChoixPileDeStock(); // determine la pile ou il doit prendre un palet
 
 
   private:
@@ -42,6 +39,7 @@ class Arm{
   Setup SetupRobot;
   Elevator ElevatorRobot;
   Pompe PompeRobot;
+
  
 };
 #endif
