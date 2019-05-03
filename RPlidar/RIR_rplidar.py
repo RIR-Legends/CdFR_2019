@@ -42,7 +42,7 @@ _HEALTH_STATUS = {
     2: 'Error',
 }
 
-logging.basicConfig(	filename="rplidar.log", 
+logging.basicConfig(	filename="RIR_logs/rplidar.log", 
 						format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s', 
 						level=logging.DEBUG)
 						
@@ -83,7 +83,7 @@ class RPLidar(object):
         
         self.logDbg = logging.getLogger('Debug')
         self.logData = logging.getLogger('Data')
-        file_handler = FileHandler('data.log')
+        file_handler = FileHandler('RIR_logs/data.log')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
         self.logData.addHandler(file_handler)
