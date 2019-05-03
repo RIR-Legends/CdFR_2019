@@ -23,6 +23,10 @@ class Move:
         # coding features
         self.errorMax = 10      # unité ?
         self.odrv0 = odrv0
+        # variables de sauvegarde des positions réelles (TEST)
+        self.pos_setpoint0 = 0
+        self.pos_setpoint1 = 0
+
 
     def wait_end_move(self, axis, goal, errorMax):
 
@@ -47,39 +51,71 @@ class Move:
     def translation(self, distance):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % distance)
-        # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
+
+        # Controle de la Position en Absolu:
+                            # pos_estimate --> pos_setpoint   # Distance / Perimètre = nb tour a parcourir
+        target0 = pos_setpoint0 - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = pos_setpoint1 + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action !
         self.odrv0.axis0.controller.move_to_pos(target0)   #moteur 0 inversé par rapport moteur 1
         self.odrv0.axis1.controller.move_to_pos(target1)
-        time.sleep(1)
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
+        # Save la position en tics dans les variables pos_estimate
+        odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
+        pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
+        odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
+        pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
+
+
+    def translation_rel(self, distance):
+
+        # Fonction qui fait avancer droit le robot d'une distance donnée en mm
+        print("Lancement d'une Translation de %f mm" % distance)
+
+        # Controle de la Position en Relatif:
+        # Distance / Perimètre = nb tour a parcourir
+        target0 = - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = (self.nbCounts * distance)/self.WheelPerimeter
+        # Action !
+            #move_inc en phase test / erreure d'attribut
+        self.odrv0.axis0.controller.move_incremental(target0, )   #moteur 0 inversé par rapport moteur 1
+        self.odrv0.axis1.controller.move_incremental(target1, )
+
+        # Attente de la fin du mouvement
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
+        # Save la position en tics dans les variables pos_estimate
+        pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
+        odrv0.axis0.controller.pos_setpoint = pos_setpoint0
+        pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
+        odrv0.axis1.controller.pos_setpoint = pos_setpoint1
 
     def rotation(self, angle):
+        # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
         print("Lancement d'une Rotation de %f°" % angle)
-
-        # calcul du périmètre de la roue
-        self.WheelPerimeter = self.WheelDiameter * pi
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
 
+        # Controle de la Position Angulaire en Absolu :
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-
         #Action ! :
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
-        time.sleep(1)
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
+        # Save la position en tics dans les variables pos_estimate
+        pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
+        pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
 
     def stop(self):
         # Met la vitessea des roues à 0.
