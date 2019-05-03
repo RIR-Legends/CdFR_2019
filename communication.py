@@ -6,12 +6,14 @@
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 
 class Communication():
-    MSG = { "Recu" : '1',               "Attente" : '0',
+    MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
+    
             "Arret" : 'a',              "Initialisation" : 'I',     "Transport" : 'T',
             "Palet_Floor_In" : 'f',     "Palet_Wall_In" : 'w',
             "Palet_Floor_Out" : 'F',    "Palet_Wall_Out" : 'W',
-            "Action_Finished" : 't',    "Tirette" : 'D',
-            "Violet" : 'v',             "Orange" : 'o'}
+            
+            "Tirette" : 'D',            "Violet" : 'v',             "Orange" : 'o',
+            "Avancer" : 'a',            "Reculer" : 'r'}
 
     def __init__(self, port = '/dev/ttyASC0'):
         self.__arduino = serial.Serial(port, 9600)
@@ -21,12 +23,18 @@ class Communication():
         self.readyNext = True
         self.Tirette = True
         self.OrangeSide = None
+        self.Avancer = False
+        self.Reculer = False
         
         self.__arduino.flushInput()
     
     def send(self,msg):
         self.__rasp_msg = msg
         self.readyNext = False
+        if msg == MSG["Action_Finished"]:
+            self.Avancer = False
+            self.Reculer = False
+        
         while self.__ard_msg != MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg)
             self.__ard_msg = self.__arduino.readline()
@@ -67,6 +75,11 @@ class Communication():
             self.OrangeSide = True
         elif msg == MSG["Violet"]:
             self.OrangeSide = False
+            
+        if msg == MSG["Avancer"]:
+            self.Avancer = True
+        elif msg == MSG["Reculer"]:
+            self.Reculer = True
         
 def test():
     com = Communication()

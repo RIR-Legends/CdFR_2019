@@ -1,37 +1,36 @@
-Communication : 
+# Communication Interpréteur
 
-Rasp --> Arduino : 
-Message reçu : 1
+### Commun:
 En attente d'une commande : 0
-Arret total : A
-
-PreTakePaletFloor :e
-TakePaletFloor : f
-PostTakePaletFloor :g
-
-PreOutPaletFloor :E
-OutPaletFloor : F
-PostOutPaletFloor :G
-
-PreTakePaletWall : v
-TakePaletWall : w
-PostTakePaletWall : x
-
-PreOutPaletWall : V
-OutPaletWall : W
-PostOutPaletWall : X
-
-Init Actionneur : I (init + poqition parking)
-Transport : T
-
-
-Arduino --> Rasp :
-
 Message reçu : 1
 Action terminé : t
-En attente d'une commande : 0
-Départ , tirette tiré : D
+
+
+### Rasp --> Arduino : 
+Arret total : A
+Init Actionneur : I (init + position parking)
+Transport : T
+
+//PreTakePaletFloor :e
+TakePaletFloor : f
+//PostTakePaletFloor :g
+
+//PreOutPaletFloor :E
+OutPaletFloor : F
+//PostOutPaletFloor :G
+
+//PreTakePaletWall : v
+TakePaletWall : w
+//PostTakePaletWall : x
+
+//PreOutPaletWall : V
+OutPaletWall : W
+//PostOutPaletWall : X
+
+
+### Arduino --> Rasp :
+Départ , tirette tirée : D
 SwitchCotéOrange : o
 SwitchCotéViolet : v
-reculer : r
-avancer : a
+Reculer : r
+Avancer : a
