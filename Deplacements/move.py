@@ -84,7 +84,7 @@ class Move:
         # Action ! # TEST avec capteurs evitement obstacle
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
-                values[i]= readadc(i)
+                values[i]= MCP3008.readadc(i)
                 if values[i]> 800:
                     self.odrv0.axis0.controller.speed(0)
                     self.odrv0.axis1.controller.speed(0)
@@ -117,7 +117,7 @@ class Move:
         #Action ! :
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
-                values[i]= readadc(i)
+                values[i]= MCP3008.readadc(i)
                 if values[i] > 800:
                     self.odrv0.axis0.controller.speed(0)
                     self.odrv0.axis1.controller.speed(0)
