@@ -19,6 +19,7 @@ class Point:
 
     def get_point(self):
         return (self.x, self.y, self.theta)
+    
 
 
 def main():
