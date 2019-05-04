@@ -6,16 +6,16 @@
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 
 class Communication():
-    MSG = { "Recu" : ord('1'),               "Attente" : ord('0'),            "Action_Finished" : ord('t'),
+    MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
     
             "Arret" : 'a',              "Initialisation" : 'I',     "Transport" : 'T',
-            "Palet_Floor_In" : 'f',     "Palet_Wall_In" : 'w'),
-            "Palet_Floor_Out" : 'F',    "Palet_Wall_Out" : 'W'),
+            "Palet_Floor_In" : 'f',     "Palet_Wall_In" : 'w',
+            "Palet_Floor_Out" : 'F',    "Palet_Wall_Out" : 'W',
             
             "Tirette" : 'D',            "Violet" : 'v',             "Orange" : 'o',
             "Avancer" : 'a',            "Reculer" : 'r'}
 
-    def __init__(self, port = '/dev/ttyACM1'):
+    def __init__(self, port = '/dev/ttyACM0'):
         self.__arduino = serial.Serial(port, 9600)
         self.__ard_msg = ""
         self.__rasp_msg = Communication.MSG["Attente"]
@@ -36,27 +36,28 @@ class Communication():
             self.Reculer = False
         
         while self.__ard_msg != Communication.MSG["Recu"]:
-            self.__arduino.write(self.__rasp_msg)
-            self.__ard_msg = chr(self.__arduino.readline())
+            self.__arduino.write(self.__rasp_msg.encode())
+            self.__ard_msg = self.__arduino.read().decode()
         self.__rasp_msg = Communication.MSG["Attente"]
         for i in range(1000):
-            self.__arduino.write(self.__rasp_msg)
+            self.__arduino.write(self.__rasp_msg.encode())
     
     def read(self, print_rep = False):
+        self.__ard_msg = self.__arduino.read().decode()
         while self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
-            self.__ard_msg = chr(self.__arduino.readline())
+            self.__ard_msg = self.__arduino.read().decode()
         self.__interpreter(self.__ard_msg)
         
         self.__rasp_msg = Communication.MSG["Recu"]
-        while chr(self.__arduino.readline()) != Communication.MSG["Attente"] or chr(self.__arduino.readline()) != Communication.MSG["Recu"]:
-            self.__arduino.write(self.__rasp_msg)
+        while self.__arduino.read().decode() != Communication.MSG["Attente"] or self.__arduino.read().decode() != Communication.MSG["Recu"]:
+            self.__arduino.write(self.__rasp_msg.encode())
             
         if print_rep:
             print(Communication.MSG[self.__ard_msg])
         
     def check(self):
-        self.__arduino.write(Communication.MSG["Attente"])
-        return chr(self.__arduino.readline()) != Communication.MSG["Recu"] and chr(self.__arduino.readline()) != Communication.MSG["Attente"]
+        self.__arduino.write(Communication.MSG["Attente"].encode())
+        return self.__arduino.read().decode() != Communication.MSG["Recu"] and self.__arduino.read().decode() != Communication.MSG["Attente"]
         
     def checkAndRead(self, print_rep = False):
         if self.check():
