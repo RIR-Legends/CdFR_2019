@@ -85,9 +85,7 @@ class Move:
         values = [0]*5
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
                 values[i]= MCP3008.readadc(i)
@@ -99,7 +97,9 @@ class Move:
                     self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
 
-                
+        # Attente de la fin du mouvement
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
 
 
