@@ -8,12 +8,12 @@ import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 class Communication():
     MSG = { "Recu" : ord('1'),               "Attente" : ord('0'),            "Action_Finished" : ord('t'),
     
-            "Arret" : ord('a'),              "Initialisation" : ord('I'),     "Transport" : ord('T'),
-            "Palet_Floor_In" : ord('f'),     "Palet_Wall_In" : ord('w'),
-            "Palet_Floor_Out" : ord('F'),    "Palet_Wall_Out" : ord('W'),
+            "Arret" : 'a',              "Initialisation" : 'I',     "Transport" : 'T',
+            "Palet_Floor_In" : 'f',     "Palet_Wall_In" : 'w'),
+            "Palet_Floor_Out" : 'F',    "Palet_Wall_Out" : 'W'),
             
-            "Tirette" : ord('D'),            "Violet" : ord('v'),             "Orange" : ord('o'),
-            "Avancer" : ord('a'),            "Reculer" : ord('r')}
+            "Tirette" : 'D',            "Violet" : 'v',             "Orange" : 'o',
+            "Avancer" : 'a',            "Reculer" : 'r'}
 
     def __init__(self, port = '/dev/ttyACM1'):
         self.__arduino = serial.Serial(port, 9600)
@@ -37,18 +37,18 @@ class Communication():
         
         while self.__ard_msg != Communication.MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg)
-            self.__ard_msg = self.__arduino.readline()
+            self.__ard_msg = chr(self.__arduino.readline())
         self.__rasp_msg = Communication.MSG["Attente"]
         for i in range(1000):
             self.__arduino.write(self.__rasp_msg)
     
     def read(self, print_rep = False):
         while self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
-            self.__ard_msg = self.__arduino.readline()
+            self.__ard_msg = chr(self.__arduino.readline())
         self.__interpreter(self.__ard_msg)
         
         self.__rasp_msg = Communication.MSG["Recu"]
-        while self.__arduino.readline() != Communication.MSG["Attente"] or self.__arduino.readline() != Communication.MSG["Recu"]:
+        while chr(self.__arduino.readline()) != Communication.MSG["Attente"] or chr(self.__arduino.readline()) != Communication.MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg)
             
         if print_rep:
@@ -56,7 +56,7 @@ class Communication():
         
     def check(self):
         self.__arduino.write(Communication.MSG["Attente"])
-        return self.__arduino.readline() != Communication.MSG["Recu"] and self.__arduino.readline() != Communication.MSG["Attente"]
+        return chr(self.__arduino.readline()) != Communication.MSG["Recu"] and chr(self.__arduino.readline()) != Communication.MSG["Attente"]
         
     def checkAndRead(self, print_rep = False):
         if self.check():
