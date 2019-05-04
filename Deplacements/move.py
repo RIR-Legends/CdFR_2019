@@ -83,8 +83,8 @@ class Move:
 
         # Action ! # TEST avec capteurs evitement obstacle
         values = 0
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
+        #self.odrv0.axis0.controller.move_to_pos(target0)
+        #self.odrv0.axis1.controller.move_to_pos(target1)
 
         #while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
 
