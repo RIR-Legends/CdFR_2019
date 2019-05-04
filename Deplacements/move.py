@@ -91,10 +91,12 @@ class Move:
                 values = MCP3008.readadc(1)
                 print(values)
                 if values > 800:
-                    self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+                    self.odrv0.axis0.controller.speed(0)
+                    self.odrv0.axis1.controller.speed(0)
+                    #self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
                     #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
                     #self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
-                    self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+                    #self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
                     #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
                     #target0 = target0 - self.odrv0.axis0.encoder.pos_estimate
