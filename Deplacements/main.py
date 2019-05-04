@@ -7,10 +7,8 @@ import move as m
 from communication import Communication
 param = p.Param()
 com = Communication()
-Obstacle =
 
-while Obstacle == 1:
-    pass
+
 def demo_simple(odrv0) :
 
     move = m.Move(odrv0)
