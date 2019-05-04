@@ -28,6 +28,8 @@ class Move:
         #self.pos_setpoint1 = 0
         self.odrv0.axis0.controller.move_to_pos(0)
         self.odrv0.axis1.controller.move_to_pos(0)
+        self.wait_end_move(self.odrv0.axis0, 0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, 0, self.errorMax)
 
     def wait_end_move(self, axis, goal, errorMax):
 
