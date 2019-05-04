@@ -51,15 +51,13 @@ void RIR_send(int msg)
 {
     __ard_msg = msg;
     while (__rasp_msg != Recu){
-            Serial.write(__ard_msg);
-            delay(1000);
-            __rasp_msg = Serial.read();
+        Serial.write(__ard_msg);
+        delay(1000);
+        __rasp_msg = Serial.read();
     }
     __ard_msg = Attente;
     for (int i = 0 ; i < 1000 ; i++){
-        if(Serial.available()){
-            Serial.write(__ard_msg);
-        }
+        Serial.write(__ard_msg);
     }
 }
 
@@ -78,10 +76,8 @@ void RIR_read()
 
 bool RIR_check()
 {
-    if (Serial.available()){
-        Serial.write(Attente);
-        return Serial.read() != Attente && Serial.read() != Recu;
-    }
+    Serial.write(Attente);
+    return Serial.read() != Attente && Serial.read() != Recu;
     return false;
 }
 
