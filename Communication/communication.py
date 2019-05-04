@@ -6,14 +6,14 @@
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 
 class Communication():
-    MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
+    MSG = { "Recu" : ord('1'),               "Attente" : ord('0'),            "Action_Finished" : ord('t'),
     
-            "Arret" : 'a',              "Initialisation" : 'I',     "Transport" : 'T',
-            "Palet_Floor_In" : 'f',     "Palet_Wall_In" : 'w',
-            "Palet_Floor_Out" : 'F',    "Palet_Wall_Out" : 'W',
+            "Arret" : ord('a'),              "Initialisation" : ord('I'),     "Transport" : ord('T'),
+            "Palet_Floor_In" : ord('f'),     "Palet_Wall_In" : ord('w'),
+            "Palet_Floor_Out" : ord('F'),    "Palet_Wall_Out" : ord('W'),
             
-            "Tirette" : 'D',            "Violet" : 'v',             "Orange" : 'o',
-            "Avancer" : 'a',            "Reculer" : 'r'}
+            "Tirette" : ord('D'),            "Violet" : ord('v'),             "Orange" : ord('o'),
+            "Avancer" : ord('a'),            "Reculer" : ord('r')}
 
     def __init__(self, port = '/dev/ttyACM1'):
         self.__arduino = serial.Serial(port, 9600)
