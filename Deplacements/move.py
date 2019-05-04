@@ -89,6 +89,7 @@ class Move:
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
 
                 values = MCP3008.readadc(1)
+                print(values)
                 if values > 800:
                     self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
                     #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
@@ -96,8 +97,8 @@ class Move:
                     self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
                     #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
-                    target0 = target0 - self.odrv0.axis0.encoder.pos_estimate
-                    target1 = target1 - self.odrv0.axis1.encoder.pos_estimate
+                    #target0 = target0 - self.odrv0.axis0.encoder.pos_estimate
+                    #target1 = target1 - self.odrv0.axis1.encoder.pos_estimate
                     print("Obstacle détécté !")
                 else:
                     self.odrv0.axis0.controller.move_to_pos(target0)
