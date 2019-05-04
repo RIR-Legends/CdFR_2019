@@ -92,12 +92,12 @@ class Move:
 
         print(values)
         while values < 800:
-            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
             self.odrv0.axis0.controller.move_to_pos(target0)
-            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
             self.odrv0.axis1.controller.move_to_pos(target1)
             print("Relance du robot !")
-            
+
         else:
             self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
             self.odrv0.axis1.controller.set_vel_setpoint(0,0)
