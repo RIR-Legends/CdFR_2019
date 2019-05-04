@@ -54,8 +54,8 @@ class Move:
 
         # Controle de la Position en Absolu:
                             # pos_estimate --> pos_setpoint   # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.controller.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = self.odrv0.axis1.controller.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
+        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action !
         self.odrv0.axis0.controller.move_to_pos(target0)   #moteur 0 inversé par rapport moteur 1
