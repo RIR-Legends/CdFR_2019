@@ -82,6 +82,7 @@ class Move:
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action ! # TEST avec capteurs evitement obstacle
+        values[5]
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
                 values[i]= MCP3008.readadc(i)
@@ -115,6 +116,7 @@ class Move:
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         #Action ! :
+        values[5]
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
                 values[i]= MCP3008.readadc(i)
