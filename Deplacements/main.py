@@ -45,7 +45,7 @@ def run_test(odrv0) :
     #com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
     move.translation(-150) # recule pour rentrer dans la REd case
     #com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
-    move.translation(-150) # recule pour eviter le Red atom
+    #move.translation(-150) # recule pour eviter le Red atom
     print("TRANS EN COURS")
     move.stop()
     print("STOP EN COURS")

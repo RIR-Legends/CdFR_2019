@@ -9,8 +9,9 @@ from math import *
 
 class Param:
     def __init__(self):
-
+        print("finding an odrive...")
         self.odrv0 = odrive.find_any()
+        print('Odrive found ! ')
 
     def config(self):
         self.odrv0
@@ -64,9 +65,8 @@ class Param:
     def calib_always(self):
 
         # Find a connected ODrive (this will block until you connect one)
-        print("finding an odrive...")
+
         self.odrv0
-        print('Odrive found ! ')
 
         # Lance la calibration moteur si pas déjà faite
         print("starting calibration...")
