@@ -101,10 +101,12 @@ class Move:
                     self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
                     print("vitesse axis1 à zero  ")
-                    
+
                     print("Obstacle détécté !")
                 else:
+                    self.odrv0.axis0.controller.set_vel_setpoint(0,0)
                     self.odrv0.axis0.controller.move_to_pos(target0)
+                    self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     self.odrv0.axis1.controller.move_to_pos(target1)
                     print("Relance du robot !")
 
