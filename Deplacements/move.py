@@ -98,9 +98,11 @@ class Move:
                     self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
                     target0 = target0 - self.odrv0.axis0.encoder.pos_estimate
                     target1 = target1 - self.odrv0.axis1.encoder.pos_estimate
+                    print("Obstacle détécté !")
                 else:
                     self.odrv0.axis0.controller.move_to_pos(target0)
                     self.odrv0.axis1.controller.move_to_pos(target1)
+                    print("Relance du robot !")
 
 
         # Attente de la fin du mouvement
