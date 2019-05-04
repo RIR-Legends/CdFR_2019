@@ -24,8 +24,8 @@ class Move:
         self.errorMax = 10      # unité ?
         self.odrv0 = odrv0
         # variables de sauvegarde des positions réelles (TEST)
-        self.pos_setpoint0 = 0
-        self.pos_setpoint1 = 0
+        #self.pos_setpoint0 = 0
+        #self.pos_setpoint1 = 0
 
 
     def wait_end_move(self, axis, goal, errorMax):
@@ -54,8 +54,8 @@ class Move:
 
         # Controle de la Position en Absolu:
                             # pos_estimate --> pos_setpoint   # Distance / Perimètre = nb tour a parcourir
-        target0 = pos_setpoint0 - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = pos_setpoint1 + (self.nbCounts * distance)/self.WheelPerimeter
+        target0 = self.odrv0.axis0.controller.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = self.odrv0.axis1.controller.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action !
         self.odrv0.axis0.controller.move_to_pos(target0)   #moteur 0 inversé par rapport moteur 1
@@ -65,11 +65,11 @@ class Move:
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
-        # Save la position en tics dans les variables pos_estimate
-        odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
-        pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
-        odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
-        pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
+        # [A TESTER] Save la position en tics dans les variables pos_estimate
+        #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
+        #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
+        #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
+        #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
 
 
     def translation_rel(self, distance):
@@ -114,8 +114,8 @@ class Move:
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
         # Save la position en tics dans les variables pos_estimate
-        pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
-        pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
+        #pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
+        #pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
 
     def stop(self):
         # Met la vitessea des roues à 0.

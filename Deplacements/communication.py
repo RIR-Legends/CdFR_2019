@@ -15,7 +15,7 @@ class Communication():
             "Tirette" : 'D',            "Violet" : 'v',             "Orange" : 'o',
             "Avancer" : 'a',            "Reculer" : 'r'}
 
-    def __init__(self, port = '/dev/ttyASC0'):
+    def __init__(self, port = '/dev/ttyACM1'):
         self.__arduino = serial.Serial(port, 9600)
         self.__ard_msg = ""
         self.__rasp_msg = Communication.MSG["Attente"]

@@ -46,7 +46,11 @@ def run_test(odrv0) :
     move.translation(-150) # recule pour rentrer dans la REd case
     com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
     move.translation(-150) # recule pour eviter le Red atom
+    print("TRANS EN COURS")
+    move.stop()
+    print("STOP EN COURS")
     move.rotation(90)   #Tourne d'1/4 de tr vers la Green Case
+    print("ROT EN COURS")
 
 #param.RAZ() # Lance fonction remise à zero des moteurs
 param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
