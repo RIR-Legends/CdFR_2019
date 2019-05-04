@@ -97,7 +97,7 @@ class Move:
             self.odrv0.axis0.controller.move_to_pos(target0)
             #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
             self.odrv0.axis1.controller.move_to_pos(target1)
-            print("Relance du robot !")
+            print("demarrage")
 
         else:
             self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
@@ -114,8 +114,8 @@ class Move:
 
 
         # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
 
 
