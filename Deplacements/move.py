@@ -46,30 +46,6 @@ class Move:
             for i in range(0, 10):
                 movAvg += avg[i] / 10
 
-    def translation(self, distance):
-        # fonction qui permet d'avancer droit pour une distance donnée en mm
-        print("Lancement d'une Translation de %f mm" % distance)
-
-        # Controle de la Position en Absolu:
-                            # pos_estimate --> pos_setpoint   # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
-
-        # Action !
-        self.odrv0.axis0.controller.move_to_pos(target0)   #moteur 0 inversé par rapport moteur 1
-        self.odrv0.axis1.controller.move_to_pos(target1)
-
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-        # [A TESTER] Save la position en tics dans les variables pos_estimate
-        #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
-        #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
-        #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
-        #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
-
-
     def translation_rel(self, distance):
 
         # Fonction qui fait avancer droit le robot d'une distance donnée en mm
@@ -94,6 +70,41 @@ class Move:
         pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
         odrv0.axis1.controller.pos_setpoint = pos_setpoint1
 
+
+
+    def translation(self, distance):
+        # fonction qui permet d'avancer droit pour une distance donnée en mm
+        print("Lancement d'une Translation de %f mm" % distance)
+
+        # Controle de la Position en Absolu:
+                            # pos_estimate --> pos_setpoint   # Distance / Perimètre = nb tour a parcourir
+        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
+
+        # Action ! # TEST avec capteurs evitement obstacle
+        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
+            for i in range(0,4):
+                values[i]= readadc(i)
+                if values[i]> 800:
+                    self.odrv0.axis0.controller.speed(0)
+                    self.odrv0.axis1.controller.speed(0)
+                else:
+                    self.odrv0.axis0.controller.move_to_pos(target0)
+                    self.odrv0.axis1.controller.move_to_pos(target1)
+                    # Attente de la fin du mouvement
+                    self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                    self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
+
+        # [A TESTER] Save la position en tics dans les variables pos_estimate
+        #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
+        #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
+        #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
+        #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
+
+
+
+
     def rotation(self, angle):
         # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
         print("Lancement d'une Rotation de %f°" % angle)
@@ -104,12 +115,20 @@ class Move:
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         #Action ! :
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
+        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
+            for i in range(0,4):
+                values[i]= readadc(i)
+                if values[i] > 800:
+                    self.odrv0.axis0.controller.speed(0)
+                    self.odrv0.axis1.controller.speed(0)
+                else:
+                    self.odrv0.axis0.controller.move_to_pos(target0)
+                    self.odrv0.axis1.controller.move_to_pos(target1)
+                    # Attente de la fin du mouvement
+                    self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                    self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
 
         # Save la position en tics dans les variables pos_estimate
         #pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
