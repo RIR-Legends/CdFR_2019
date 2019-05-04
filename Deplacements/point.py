@@ -14,8 +14,8 @@ class Point:
         print('Coordonnée en y = %f ' % self.y)
         print('Theta = %f ' % self.theta)
 
-    def set_parcour(self, ):
-        self.hypo = (self.x ** 2 + self.y ** 2) ** pow(0.5)
+    def set_parcour(self):
+        self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
 
     def get_point(self):
         return self.P
