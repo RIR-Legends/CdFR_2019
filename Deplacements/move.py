@@ -26,7 +26,8 @@ class Move:
         # variables de sauvegarde des positions réelles (TEST)
         #self.pos_setpoint0 = 0
         #self.pos_setpoint1 = 0
-
+        self.odrv0.axis0.controller.move_to_pos(0)
+        self.odrv0.axis1.controller.move_to_pos(0)
 
     def wait_end_move(self, axis, goal, errorMax):
 
