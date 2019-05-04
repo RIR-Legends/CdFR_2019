@@ -96,7 +96,7 @@ class Move:
             self.odrv0.axis0.controller.move_to_pos(target0)
             #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
             self.odrv0.axis1.controller.move_to_pos(target1)
-            print("Relance du robot !")
+            print("demarrage")
 
         else:
             self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
@@ -108,61 +108,4 @@ class Move:
             self.odrv0.axis1.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
             print("vitesse axis1 à zero  ")
-
-            print("Obstacle détécté !")
-
-
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-
-
-        # [A TESTER] Save la position en tics dans les variables pos_estimate
-        #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
-        #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
-        #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
-        #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
-
-
-
-
-    def rotation(self, angle):
-        # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
-        print("Lancement d'une Rotation de %f°" % angle)
-        # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-        RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-
-        # Controle de la Position Angulaire en Absolu :
-        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-        #Action ! :
-        values = [0]*5
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-            for i in range(0,4):
-                values[i]= MCP3008.readadc(i)
-                if values[i] > 800:
-                    self.odrv0.axis0.controller.speed(0)
-                    self.odrv0.axis1.controller.speed(0)
-                else:
-                    self.odrv0.axis0.controller.move_to_pos(target0)
-                    self.odrv0.axis1.controller.move_to_pos(target1)
-                    # Attente de la fin du mouvement
-                    self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-                    self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-
-
-        # Save la position en tics dans les variables pos_estimate
-        #pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
-        #pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
-
-    def stop(self):
-        # Met la vitessea des roues à 0.
-        print("Le robot s'arrête")
-        self.odrv0.axis0.controller.speed(0)
-        self.odrv0.axis1.controller.speed(0)
-
-    def initialisation(self):
-        # Thibault
-        pass
+            print("Arret")
