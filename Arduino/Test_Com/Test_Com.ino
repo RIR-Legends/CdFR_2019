@@ -56,8 +56,9 @@ void RIR_send(int msg)
         __rasp_msg = Serial.read();
     }
     __ard_msg = Attente;
-    for (int i = 0 ; i < 1000 ; i++){
+    for (int i = 0 ; i < 40 ; i++){
         Serial.write(__ard_msg);
+        delay(100);
     }
 }
 

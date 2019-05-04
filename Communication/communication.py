@@ -37,27 +37,48 @@ class Communication():
         
         while self.__ard_msg != Communication.MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg.encode())
-            self.__ard_msg = self.__arduino.read().decode()
+            try:
+                self.__ard_msg = self.__arduino.read().decode()
+            except:
+                self.__ard_msg = Communication.MSG["Attente"]
         self.__rasp_msg = Communication.MSG["Attente"]
-        for i in range(1000):
+        for i in range(100):
             self.__arduino.write(self.__rasp_msg.encode())
     
     def read(self, print_rep = False):
-        self.__ard_msg = self.__arduino.read().decode()
-        while self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
+        try:
             self.__ard_msg = self.__arduino.read().decode()
+        except:
+            self.__ard_msg = Communication.MSG["Attente"]
+        if self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
+            try:
+                self.__ard_msg = self.__arduino.read().decode()
+            except:
+                self.__ard_msg = Communication.MSG["Attente"]
         self.__interpreter(self.__ard_msg)
         
         self.__rasp_msg = Communication.MSG["Recu"]
-        while self.__arduino.read().decode() != Communication.MSG["Attente"] or self.__arduino.read().decode() != Communication.MSG["Recu"]:
+        try:
+            self.__ard_msg = self.__arduino.read().decode()
+        except:
+            self.__ard_msg = Communication.MSG["Attente"]
+        while self.__ard_msg != Communication.MSG["Attente"] and self.__ard_msg != Communication.MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg.encode())
+            try:
+                self.__ard_msg = self.__arduino.read().decode()
+            except:
+                self.__ard_msg = Communication.MSG["Attente"]
             
         if print_rep:
             print(Communication.MSG[self.__ard_msg])
         
     def check(self):
         self.__arduino.write(Communication.MSG["Attente"].encode())
-        return self.__arduino.read().decode() != Communication.MSG["Recu"] and self.__arduino.read().decode() != Communication.MSG["Attente"]
+        try:
+            self.__ard_msg = self.__arduino.read().decode()
+        except:
+            self.__ard_msg = Communication.MSG["Attente"]
+        return self.__ard_msg != Communication.MSG["Recu"] and self.__ard_msg != Communication.MSG["Attente"]
         
     def checkAndRead(self, print_rep = False):
         if self.check():
@@ -89,7 +110,7 @@ def test():
     while com.OrangeSide == None:
         com.checkAndRead(True)
     side = "violet"
-    if OrangeSide:
+    if com.OrangeSide:
         side = "orange"
     print("Side is {}\n" .format(side))
     
