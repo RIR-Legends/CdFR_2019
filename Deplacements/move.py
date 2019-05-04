@@ -96,6 +96,12 @@ class Move:
                     self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
                     self.odrv0.axis1.controller.set_vel_setpoint(0,0)
                     self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
+                    target0 = target0 - self.odrv0.axis0.encoder.pos_estimate
+                    target1 = target1 - self.odrv0.axis1.encoder.pos_estimate
+                else:
+                    self.odrv0.axis0.controller.move_to_pos(target0)
+                    self.odrv0.axis1.controller.move_to_pos(target1)
+
 
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
