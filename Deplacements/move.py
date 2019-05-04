@@ -37,9 +37,7 @@ class Move:
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         while movAvg >= errorMax:
-            print("Encoder : ", axis.encoder.pos_estimate)
-            print("Goal/Target : ", goal)
-            print("movAvg : ", movAvg)
+            print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(index, 10):
                 index = 0
                 avg[i] = abs(goal - axis.encoder.pos_estimate)
