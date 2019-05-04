@@ -39,7 +39,7 @@ class Communication():
             self.__arduino.write(self.__rasp_msg.encode())
             self.__ard_msg = self.__arduino.read().decode()
         self.__rasp_msg = Communication.MSG["Attente"]
-        for i in range(1000):
+        for i in range(100):
             self.__arduino.write(self.__rasp_msg.encode())
     
     def read(self, print_rep = False):
@@ -49,7 +49,8 @@ class Communication():
         self.__interpreter(self.__ard_msg)
         
         self.__rasp_msg = Communication.MSG["Recu"]
-        while self.__arduino.read().decode() != Communication.MSG["Attente"] or self.__arduino.read().decode() != Communication.MSG["Recu"]:
+        self.__ard_msg = self.__arduino.read().decode()
+        while self.__ard_msg != Communication.MSG["Attente"] or self.__ard_msg != Communication.MSG["Recu"]:
             self.__arduino.write(self.__rasp_msg.encode())
             
         if print_rep:
@@ -57,9 +58,8 @@ class Communication():
         
     def check(self):
         self.__arduino.write(Communication.MSG["Attente"].encode())
-        msg = self.__arduino.read().decode()
-        print(msg)
-        return msg != Communication.MSG["Recu"] and msg != Communication.MSG["Attente"]
+        self.__ard_msg = self.__arduino.read().decode()
+        return self.__ard_msg != Communication.MSG["Recu"] and self.__ard_msg != Communication.MSG["Attente"]
         
     def checkAndRead(self, print_rep = False):
         if self.check():
