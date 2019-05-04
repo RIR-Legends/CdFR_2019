@@ -55,7 +55,8 @@ param.calib_always()
 # Choix de lancement des demos :
 #demo_simple(param.odrv0)
 #demo_tour(param.odrv0)
-demo_relatif(param.odrv0)
+#demo_relatif(param.odrv0)
+run_test(param.odrv0)
 
 
 
