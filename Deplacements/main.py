@@ -4,9 +4,9 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-
+from communication import Communication
 param = p.Param()
-
+com = Communication()
 def demo_simple(odrv0) :
 
     move = m.Move(odrv0)
@@ -42,10 +42,15 @@ def run_test(odrv0) :
     # Strategie proposé de parcour
     move = m.Move(odrv0)
     move.translation(400) # A verifier distante sortie Redium case to Red atom
-    #fct :Pickup Red atom
-    move.translation(-300) # recule pour rentrer dans la REd case
-    # fct : Dropdown atom on the Red case
+    com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
+    move.translation(-150) # recule pour rentrer dans la REd case
+    com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
+    move.translation(-150) # recule pour eviter le Red atom
+    print("TRANS EN COURS")
+    move.stop()
+    print("STOP EN COURS")
     move.rotation(90)   #Tourne d'1/4 de tr vers la Green Case
+    print("ROT EN COURS")
 
 #param.RAZ() # Lance fonction remise à zero des moteurs
 param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
@@ -54,7 +59,8 @@ param.calib_always()
 # Choix de lancement des demos :
 #demo_simple(param.odrv0)
 #demo_tour(param.odrv0)
-demo_relatif(param.odrv0)
+#demo_relatif(param.odrv0)
+run_test(param.odrv0)
 
 
 
