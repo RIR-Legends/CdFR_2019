@@ -52,14 +52,17 @@ void RIR_send(int msg)
     __ard_msg = msg;
     while (__rasp_msg != Recu){
         Serial.write(__ard_msg);
-        delay(1000);
-        __rasp_msg = Serial.read();
+        delay(100);
+        if (Serial.available() > 0) {
+          __rasp_msg = Serial.read();
+        }
     }
     __ard_msg = Attente;
-    for (int i = 0 ; i < 40 ; i++){
+    for (int i = 0 ; i < 30 ; i++){
         Serial.write(__ard_msg);
-        delay(100);
+        delay(10);
     }
+    Serial.println("Message sent");
 }
 
 void RIR_read()
