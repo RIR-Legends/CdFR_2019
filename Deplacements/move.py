@@ -145,9 +145,13 @@ class Move:
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
 
         # Controle de la Position Angulaire en Absolu :
-        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * RunAngle) / self.WheelPerimeter
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
         #Action ! :
+        '''
         values = [0]*5
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
             for i in range(0,4):
@@ -162,6 +166,7 @@ class Move:
                     self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
                     self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
+                    '''
 
 
         # Save la position en tics dans les variables pos_estimate

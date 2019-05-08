@@ -15,10 +15,10 @@ def demo_simple(odrv0) :
 
     time.sleep(1)
     move.translation(400)
-    #time.sleep(2)
-    #move.rotation(90)
-    #time.sleep(2)
-    #move.translation(150)
+    time.sleep(2)
+    move.rotation(90)
+    time.sleep(2)
+    move.translation(150)
 
 def demo_relatif(odrv0) :
     move = m.Move(odrv0)
