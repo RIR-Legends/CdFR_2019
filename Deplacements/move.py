@@ -83,7 +83,7 @@ class Move:
 
         # Controle de la Position en Absolu:
                                                         # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action ! # TEST avec capteurs evitement obstacle
@@ -144,7 +144,7 @@ class Move:
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
 
         # Controle de la Position Angulaire en Absolu :
-        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         #Action ! :
         values = [0]*5
