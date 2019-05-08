@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import Robot
+import time
 
 
 
@@ -12,6 +13,8 @@ def main():
     
     # Attente du départ (Tirette)
     robot.waitingTrigger()
+    DepartTime = time.time()
+    Now = time.time() - DepartTime
     #### Lancer le timer ICI
     #### Lancer le thread de détection
     
