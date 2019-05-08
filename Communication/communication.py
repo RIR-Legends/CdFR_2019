@@ -6,6 +6,7 @@
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 import time
 
+    
 class Communication():
     MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
     
@@ -27,8 +28,8 @@ class Communication():
         self.Avancer = False
         self.Reculer = False
         
-        self.__arduino.flushInput()
-    
+        #self.__arduino.flushInput()
+        
     def send(self,msg):
         self.__rasp_msg = msg
         self.readyNext = False
@@ -45,49 +46,24 @@ class Communication():
             time.sleep(.5)
             
         self.__rasp_msg = Communication.MSG["Attente"]
-        for i in range(10):
-            self.__arduino.write(self.__rasp_msg.encode())
-            time.sleep(.5)
+        self.__arduino.write(self.__rasp_msg.encode())
     
     def read(self, print_rep = False):
-        while self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
-            try:
-                self.__ard_msg = self.__arduino.read().decode()
-            except:
-                self.__ard_msg = Communication.MSG["Attente"]
+        #self.__arduino.flushInput()
+        #time.sleep(1)
+        try:
+            self.__ard_msg = self.__arduino.read().decode()
+        except:
+            self.__ard_msg = Communication.MSG["Attente"]
+        if print_rep:
+            print(self.__ard_msg)
+        if (self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]):
+            return
         self.__interpreter(self.__ard_msg)
         
         self.__rasp_msg = Communication.MSG["Recu"]
-        try:
-            self.__ard_msg = self.__arduino.read().decode()
-        except:
-            self.__ard_msg = Communication.MSG["Attente"]
-        while self.__ard_msg != Communication.MSG["Attente"] and self.__ard_msg != Communication.MSG["Recu"]:
-            self.__arduino.write(self.__rasp_msg.encode())
-            try:
-                self.__ard_msg = self.__arduino.read().decode()
-            except:
-                self.__ard_msg = Communication.MSG["Arret"]
-            time.sleep(.5)
+        self.__arduino.write(self.__rasp_msg.encode())
             
-        if print_rep:
-            print(Communication.MSG[self.__ard_msg])
-        
-    def check(self):
-        self.__arduino.write(Communication.MSG["Attente"].encode())
-        time.sleep(.5)
-        try:
-            self.__ard_msg = self.__arduino.read().decode()
-        except:
-            self.__ard_msg = Communication.MSG["Attente"]
-        return self.__ard_msg != Communication.MSG["Attente"] and self.__ard_msg != Communication.MSG["Recu"]
-        
-    def checkAndRead(self, print_rep = False):
-        if self.check():
-            self.read()
-            return True
-        return False
-        
     def __interpreter(self,msg):
         if msg == Communication.MSG["Tirette"]:
             self.Tirette = False
@@ -104,28 +80,34 @@ class Communication():
             self.Avancer = True
         elif msg == Communication.MSG["Reculer"]:
             self.Reculer = True
-        
+    
+    
+    
+    
 def test():
-    com = Communication()
+    com = Communication('COM5')
     
     print("Waiting side...")
     while com.OrangeSide == None:
-        com.checkAndRead(True)
+        com.read(True)
     side = "violet"
     if com.OrangeSide:
         side = "orange"
     print("Side is {}\n" .format(side))
+    time.sleep(1)
     
     print("Waiting tirette...")
     while com.Tirette:
-        com.checkAndRead(True)
-    print("Let's Go!!\n\n")
+        com.read(True)
+    print("Let's Go!!\n")
+    time.sleep(1)
     
     print("Trying one action now.")
     com.send(Communication.MSG["Transport"])
     while not com.readyNext:
-        com.checkAndRead(True)
+        com.read(True)
     print("Job is done.\n")
+    time.sleep(1)
     
     print("Turn off robot...")
     com.send(Communication.MSG["Arret"])

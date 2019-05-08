@@ -27,24 +27,25 @@ void setup() {
   Serial.begin(9600);  
 }
 
+
 void loop() {
     // Sending side
     RIR_send(Orange);
 
     RIR_send(Tirette);
 
-    while(!RIR_checkAndRead()){
-      delay(10);
+    while(!RIR_read()){
+      continue;
     }
     // Do the action
-    delay(5000);
 
     RIR_send(Action_Finished);
 
-    while(!RIR_checkAndRead()){
-      delay(10);
+    while(!RIR_read()){
+      continue;
     }
     // Suppose to turn off robot.
+    delay(100000);
 }
 
 void RIR_send(int msg)
@@ -52,52 +53,33 @@ void RIR_send(int msg)
     __ard_msg = msg;
     while (__rasp_msg != Recu){
         Serial.write(__ard_msg);
-        delay(500);
+        Serial.flush();  
         if (Serial.available() > 0) {
           __rasp_msg = Serial.read();
         }
+        delay(100);
     }
-    __ard_msg = Attente;
-    for (int i = 0 ; i < 10 ; i++){
-        Serial.write(__ard_msg);
-        delay(500);
-    }
-    Serial.println("S");
+    
+    Serial.write(__ard_msg);
+    delay(100);
 }
 
-void RIR_read()
+bool RIR_read()
 {
-    while (Serial.available() && (__rasp_msg == Attente || __rasp_msg == Recu)){
-        __rasp_msg = Serial.read();
-        delay(500);
+    Serial.flush();  
+    if (Serial.available() > 0) {
+      __rasp_msg = Serial.read();
     }
-    // Interprete value, so change internal variables
+    if (__rasp_msg == Attente || __rasp_msg == Recu){
+      delay(100);
+      return false;
+    }
+    // Interprete value
     
     __ard_msg = Recu;
-    while (Serial.available() && (__rasp_msg != Attente || __rasp_msg != Recu)){
-        __rasp_msg = Serial.read();
-        Serial.write(__ard_msg);
-        delay(500);
-    }
-    Serial.println("R");
+    Serial.write(__ard_msg);
+    delay(100);
+    return true;
 }
 
-bool RIR_check()
-{
-    Serial.write(Attente);
-    delay(500);
-    if(Serial.available()){
-      __rasp_msg = Serial.read();
-      return __rasp_msg != Attente && __rasp_msg != Recu;
-    }
-    return false;
-}
 
-bool RIR_checkAndRead()
-{
-    if (RIR_check()){
-        RIR_read();
-        return true;
-    }
-    return false;
-}
