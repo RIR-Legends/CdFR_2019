@@ -58,11 +58,11 @@ void RIR_send(int msg)
         }
     }
     __ard_msg = Attente;
-    for (int i = 0 ; i < 30 ; i++){
+    for (int i = 0 ; i < 10 ; i++){
         Serial.write(__ard_msg);
         delay(500);
     }
-    Serial.println("SENT");
+    Serial.println("S");
 }
 
 void RIR_read()
@@ -79,7 +79,7 @@ void RIR_read()
         Serial.write(__ard_msg);
         delay(500);
     }
-    Serial.println("READ");
+    Serial.println("R");
 }
 
 bool RIR_check()
