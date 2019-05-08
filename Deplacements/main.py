@@ -20,15 +20,11 @@ def demo_simple(odrv0) :
     time.sleep(2)
     move.translation(200)
 
-def demo_relatif(odrv0) :
+def demo_rotation(odrv0) :
     move = m.Move(odrv0)
     #Test la fonction de controle de position relative (par rapport à pos précedente)
-    time.sleep(1)
-    move.translation(200)
     time.sleep(2)
-    move.rotation(90)
-    time.sleep(2)
-    move.translation_rel(200)
+    move.rotation(3600)
     time.sleep(2)
 
 def demo_tour(odrv0) :
@@ -60,8 +56,8 @@ param.calib_always()
 
 # Choix de lancement des demos :
 #demo_simple(param.odrv0)
-demo_tour(param.odrv0)
-#demo_relatif(param.odrv0)
+#demo_tour(param.odrv0)
+demo_rotation(param.odrv0)
 #run_test(param.odrv0)
 
 

@@ -93,23 +93,21 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target1)
 
         #while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-        '''
+
         values = MCP3008.readadc(1)
 
         print(values)
         while values > 800:
 
-            self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
+            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
             #target_prime = self.odrv0.axis0.controller.pos_estimate
-            self.odrv0.axis0.controller.vel_setpoint(0)
+            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            self.odrv1.axis0.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis0.controller.move_to_pos()
             #time.sleep(2000)
             #target0 = target0 - target_prime
             #self.odrv0.axis0.controller.move_to_pos(target0)
             print("Obstacle détécté !")
-
-        else:
-
 
             #self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
             #self.odrv0.axis1.controller.vel_setpoint(0)
@@ -122,20 +120,16 @@ class Move:
             #print("vitesse axis1 à zero  ")
 
 
-        '''
+
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-
 
         # [A TESTER] Save la position en tics dans les variables pos_estimate
         #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
         #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
         #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
         #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
-
-
 
 
     def rotation(self, angle):
@@ -151,6 +145,22 @@ class Move:
         #Action ! :
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
+
+        values = MCP3008.readadc(1)
+
+        print(values)
+        while values > 800:
+
+            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
+            #target_prime = self.odrv0.axis0.controller.pos_estimate
+            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            self.odrv1.axis0.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis0.controller.move_to_pos()
+            #time.sleep(2000)
+            #target0 = target0 - target_prime
+            #self.odrv0.axis0.controller.move_to_pos(target0)
+            print("Obstacle détécté !")
+
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
@@ -169,9 +179,7 @@ class Move:
                     self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
                     self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
-                    '''
-
-
+        '''
         # Save la position en tics dans les variables pos_estimate
         #pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
         #pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
