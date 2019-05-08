@@ -83,7 +83,7 @@ class Move:
 
         # Controle de la Position en Absolu:
                                                         # Distance / Perimètre = nb tour a parcourir
-        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
+        target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         # Action ! # TEST avec capteurs evitement obstacle
