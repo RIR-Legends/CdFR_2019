@@ -149,11 +149,27 @@ class Move:
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
 
         #Action ! :
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
+        #self.odrv0.axis0.controller.move_to_pos(target0)
+        #self.odrv0.axis1.controller.move_to_pos(target1)
 
         values = MCP3008.readadc(1)
+        print(values)
+        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
+            if (values > 800 ):
+                self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+                self.odrv1.axis0.controller.set_vel_setpoint(0,0)
+                print("Obstacle détécté !")
 
+            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
+            #target_prime = self.odrv0.axis0.controller.pos_estimate
+
+            #self.odrv0.axis0.controller.move_to_pos()
+            #time.sleep(2000)
+            #target0 = target0 - target_prime
+            #self.odrv0.axis0.controller.move_to_pos(target0)
+            self.odrv0.axis0.controller.move_to_pos(target0)
+            self.odrv0.axis1.controller.move_to_pos(target1)
+        '''
         print(values)
         while values > 800:
 
@@ -169,7 +185,7 @@ class Move:
 
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
+        '''
         '''
         values = [0]*5
         while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
