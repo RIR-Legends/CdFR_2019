@@ -154,7 +154,7 @@ class Move:
             #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
             #target_prime = self.odrv0.axis0.controller.pos_estimate
             self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            self.odrv1.axis0.controller.set_vel_setpoint(0,0)
+            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis0.controller.move_to_pos()
             #time.sleep(2000)
             #target0 = target0 - target_prime
