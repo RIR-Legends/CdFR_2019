@@ -62,9 +62,8 @@ class Param:
             self.odrv0.axis1.controller.move_to_pos(0)
 
 
-    def calib_always(self):
-
-        # Find a connected ODrive (this will block until you connect one)
+    def calib(self):
+        # Fonction de calibration sans condition
 
         self.odrv0
 
@@ -79,27 +78,6 @@ class Param:
         # Met les moteurs en boucle fermée
         self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-
-    def calib(self):
-
-        # Find a connected ODrive (this will block until you connect one)
-        print("finding an odrive...")
-        self.odrv0
-        print('Odrive found ! ')
-
-        # Lance la calibration moteur si pas déjà faite {TEST}
-        if self.odrv0.axis0.motor.pre_calibrated == False and self.odrv0.axis1.motor.pre_calibrated == False:
-            print("starting calibration...")
-            self.odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-            self.odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-
-            while self.odrv0.axis0.current_state != 1 and self.odrv0.axis1.current_state != 1:
-                time.sleep(0.1)
-
-            # Met les moteurs en boucle fermée
-            self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-            self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-
 
 
     def unlock_wheels(self):

@@ -22,120 +22,61 @@ class Move:
 
         # coding features
         self.errorMax = 10      # unité ?
-        self.odrv0 = odrv0
-        # variables de sauvegarde des positions réelles (TEST)
-        '''
-        #self.pos_setpoint0 = 0
-        #self.pos_setpoint1 = 0
-        self.odrv0.axis0.controller.move_to_pos(0)
-        self.odrv0.axis1.controller.move_to_pos(0)
-        self.wait_end_move(self.odrv0.axis0, 0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, 0, self.errorMax)
-        '''
+        self.OBS = False        # Init Booleen Obstacle Detecté
+        self.odrv0 = odrv0      # Assignation du odrive name
 
     def wait_end_move(self, axis, goal, errorMax):
 
         # fonction appelée à la fin des fonctions Move pour assurer
         # l'execution complète du mouvement/déplacement.
 
+        ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
+
         avg = 10 * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         print("on est dans WaitEndMove ")
         while movAvg >= errorMax:
-            #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             print("Values vaut : ", MCP3008.readadc(1) )
-            for i in range(index, 10):
-                index = 0
-                avg[i] = abs(goal - axis.encoder.pos_estimate)
-
-            movAvg = 0
-            for i in range(0, 10):
-                movAvg += avg[i] / 10
-
-    def translation_rel(self, distance):
-
-        # Fonction qui fait avancer droit le robot d'une distance donnée en mm
-        print("Lancement d'une Translation de %f mm" % distance)
-
-        # Controle de la Position en Relatif:
-        # Distance / Perimètre = nb tour a parcourir
-        target0 = - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = (self.nbCounts * distance)/self.WheelPerimeter
-        # Action !
-            #move_inc en phase test / erreure d'attribut
-        self.odrv0.axis0.controller.move_incremental(target0, )   #moteur 0 inversé par rapport moteur 1
-        self.odrv0.axis1.controller.move_incremental(target1, )
-
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-        # Save la position en tics dans les variables pos_estimate
-        pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
-        odrv0.axis0.controller.pos_setpoint = pos_setpoint0
-        pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
-        odrv0.axis1.controller.pos_setpoint = pos_setpoint1
-
-
+            #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
+            if MCP3008.readadc(1) > 800 :
+                print("Obstacle détécté !")
+                self.OBS = True
+                return 1
+            else :
+                self.OBS = False
+                for i in range(index, 10):
+                    index = 0
+                    avg[i] = abs(goal - axis.encoder.pos_estimate)
+                movAvg = 0
+                for i in range(0, 10):
+                    movAvg += avg[i] / 10
+        return 0
 
     def translation(self, distance):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % distance)
 
-        # Controle de la Position en Absolu:
+        # Controle de la Position Longit en Absolu:
                                                         # Distance / Perimètre = nb tour a parcourir
         target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
-        # Action ! # TEST avec capteurs evitement obstacle
-        values = 0
 
-
-
-        #while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-
+        # Assignation de values avec valeur du capteur IR
         values = MCP3008.readadc(1)
 
-        print(values)
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-            if (values > 800 ):
-                self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-                self.odrv1.axis0.controller.set_vel_setpoint(0,0)
-                print("Obstacle détécté !")
+        #Action ! :
+        self.odrv0.axis0.controller.move_to_pos(target0)
+        self.odrv0.axis1.controller.move_to_pos(target1)
 
-            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
-            #target_prime = self.odrv0.axis0.controller.pos_estimate
+        # Attente fin de mouvement SI aucun obstacle détécté
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
-            #self.odrv0.axis0.controller.move_to_pos()
-            #time.sleep(2000)
-            #target0 = target0 - target_prime
-            #self.odrv0.axis0.controller.move_to_pos(target0)
-            self.odrv0.axis0.controller.move_to_pos(target0)
-            self.odrv0.axis1.controller.move_to_pos(target1)
-            # Attente de la fin du mouvement
-            #self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-            #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-            #self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
-            #self.odrv0.axis1.controller.vel_setpoint(0)
-                #self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
-            #print("vitesse axis0 à zero  ")
-
-            #self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
-            #self.odrv0.axis1.controller.vel_setpoint(0)
-                #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
-            #print("vitesse axis1 à zero  ")
-
-
-
-
-
-        # [A TESTER] Save la position en tics dans les variables pos_estimate
-        #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
-        #pos_setpoint0 = odrv0.axis0.controller.pos_setpoint
-        #odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.controller.pos_estimate
-        #pos_setpoint1 = odrv0.axis1.controller.pos_setpoint
+        """ [A inclure fonction évitement (OBS = True)] """
+        # Rmq : Pour arréter les moteurs :
+        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
 
 
     def rotation(self, angle):
@@ -148,63 +89,40 @@ class Move:
         target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
 
-        #Action ! :
-        #self.odrv0.axis0.controller.move_to_pos(target0)
-        #self.odrv0.axis1.controller.move_to_pos(target1)
-
+        # Assignation de values avec valeur du capteur IR
         values = MCP3008.readadc(1)
-        print(values)
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-            if (values > 800 ):
-                self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-                self.odrv1.axis0.controller.set_vel_setpoint(0,0)
-                print("Obstacle détécté !")
 
-            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
-            #target_prime = self.odrv0.axis0.controller.pos_estimate
-
-            #self.odrv0.axis0.controller.move_to_pos()
-            #time.sleep(2000)
-            #target0 = target0 - target_prime
-            #self.odrv0.axis0.controller.move_to_pos(target0)
-            self.odrv0.axis0.controller.move_to_pos(target0)
-            self.odrv0.axis1.controller.move_to_pos(target1)
-        '''
-        print(values)
-        while values > 800:
-
-            #self.odrv0.axis0.controller.config.contro_mode = CTRL_MODE_POSITION_CONTROL
-            #target_prime = self.odrv0.axis0.controller.pos_estimate
-            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
-            #self.odrv0.axis0.controller.move_to_pos()
-            #time.sleep(2000)
-            #target0 = target0 - target_prime
-            #self.odrv0.axis0.controller.move_to_pos(target0)
-            print("Obstacle détécté !")
-
+        # Action :
+        self.odrv0.axis0.controller.move_to_pos(target0)
+        self.odrv0.axis1.controller.move_to_pos(target1)
+        # Attente fin de mouvement SI aucun obstacle détécté
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-        '''
-        '''
-        values = [0]*5
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
-            for i in range(0,4):
-                values[i]= MCP3008.readadc(i)
-                if values[i] > 800:
-                    self.odrv0.axis0.controller.speed(0)
-                    self.odrv0.axis1.controller.speed(0)
-                else:
-                    self.odrv0.axis0.controller.move_to_pos(target0)
-                    self.odrv0.axis1.controller.move_to_pos(target1)
-                    # Attente de la fin du mouvement
-                    self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-                    self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
-        '''
-        # Save la position en tics dans les variables pos_estimate
-        #pos_setpoint0 = self.odrv0.axis0.controller.pos_estimate
-        #pos_setpoint1 = self.odrv0.axis1.controller.pos_estimate
+        """ [A inclure fonction évitement (OBS = True)] """
+        # Rmq : Pour arréter les moteurs :
+        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+
+
+    def translation_rel(self, distance):
+
+        # Fonction qui fait avancer droit le robot d'une distance donnée en mm
+        print("Lancement d'une Translation de %f mm" % distance)
+
+        # Controle de la Position en Relatif:
+        # Distance / Perimètre = nb tour a parcourir
+        target0 = - (self.nbCounts * distance)/self.WheelPerimeter
+        target1 = (self.nbCounts * distance)/self.WheelPerimeter
+
+        # Action !
+        #move_inc en phase test / erreure d'attribut
+        self.odrv0.axis0.controller.move_incremental(target0, )   #moteur 0 inversé par rapport moteur 1
+        self.odrv0.axis1.controller.move_incremental(target1, )
+
+        # Attente de la fin du mouvement
+        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
 
     def stop(self):
         # Met la vitessea des roues à 0.
@@ -212,6 +130,5 @@ class Move:
         self.odrv0.axis0.controller.speed(0)
         self.odrv0.axis1.controller.speed(0)
 
-    def initialisation(self):
-        # Thibault
-        pass
+        """ ou  POUR ARReTER LES MOTEURS : """
+        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
