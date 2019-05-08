@@ -91,8 +91,7 @@ class Move:
         # Action ! # TEST avec capteurs evitement obstacle
         values = 0
 
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
+
 
         #while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
 
@@ -110,6 +109,13 @@ class Move:
             #target0 = target0 - target_prime
             #self.odrv0.axis0.controller.move_to_pos(target0)
             print("Obstacle détécté !")
+        else :
+            
+            self.odrv0.axis0.controller.move_to_pos(target0)
+            self.odrv0.axis1.controller.move_to_pos(target1)
+            # Attente de la fin du mouvement
+            self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+            self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
             #self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
             #self.odrv0.axis1.controller.vel_setpoint(0)
@@ -123,9 +129,7 @@ class Move:
 
 
 
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+
 
         # [A TESTER] Save la position en tics dans les variables pos_estimate
         #odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.controller.pos_estimate
