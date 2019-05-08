@@ -41,8 +41,10 @@ class Move:
         avg = 10 * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
+        print("on est dans WaitEndMove ")
         while movAvg >= errorMax:
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
+            print("Values vaut : ", MCP3008.readadc(1) )
             for i in range(index, 10):
                 index = 0
                 avg[i] = abs(goal - axis.encoder.pos_estimate)
