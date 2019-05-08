@@ -3,7 +3,9 @@
 //#include "ForeArm.h"
 //#include "Elevator.h"
 //#include "Pompe.h"
+
 #include "Arm.h"
+#include "Tirette.h"
 
 Door DoorAction;
 ForeArm ForeArmAction;
@@ -11,6 +13,8 @@ Setup SetupRobot;
 Elevator ElevatorRobot;
 Pompe PompeRobot;
 Arm ArmRobot; 
+Tirette TiretteRobot; 
+
 
 int stock[2] = {0,1};
 
@@ -33,6 +37,7 @@ void setup() {
 
   //ArmRobot.InitArm();
   delay(2000);
+  SetupRobot.SetTirette();
 
 
 //TestDoor();
@@ -40,14 +45,20 @@ void setup() {
 //TestElevator();
 //TestPomp();
 //TestArm();
-TestPile();
+//TestPile();
 
 }
 
 void loop() {
 
- 
+   TestTirette();
 }
+
+void TestTirette(){
+  //Serial.println(TiretteRobot.GetCote());
+  Serial.println(TiretteRobot.GetTirette());
+}
+
 
 void TestPile(){
 

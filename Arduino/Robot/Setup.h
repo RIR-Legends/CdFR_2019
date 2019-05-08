@@ -15,11 +15,17 @@
 #define POMPPIN 8
 #define VANPIN 7
 
+//PIN BOUTTON
+#define COTEPIN 44
+#define TIRETTEPIN 23
+
+
 class Setup{
   public:
     Setup();
     void SetElevator();
     void SetPomp();
+    void SetTirette(); 
   
 };
 #endif

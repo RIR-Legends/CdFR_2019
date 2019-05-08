@@ -17,3 +17,8 @@ void Setup::SetPomp(){
   pinMode(VANPIN, OUTPUT);
 
 }
+
+void Setup::SetTirette(){
+  pinMode(TIRETTEPIN, INPUT_PULLUP);
+  pinMode(COTEPIN, INPUT);
+}
