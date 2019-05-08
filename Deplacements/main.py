@@ -14,7 +14,7 @@ def demo_simple(odrv0) :
     move = m.Move(odrv0)
 
     time.sleep(1)
-    move.translation(10000)
+    move.translation(400)
     #time.sleep(2)
     #move.rotation(90)
     #time.sleep(2)
@@ -59,8 +59,8 @@ param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc 
 param.calib_always()
 
 # Choix de lancement des demos :
-#demo_simple(param.odrv0)
-demo_tour(param.odrv0)
+demo_simple(param.odrv0)
+#demo_tour(param.odrv0)
 #demo_relatif(param.odrv0)
 #run_test(param.odrv0)
 

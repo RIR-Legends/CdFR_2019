@@ -93,6 +93,7 @@ class Move:
         self.odrv0.axis1.controller.move_to_pos(target1)
 
         #while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1 :
+        '''
         values = MCP3008.readadc(1)
 
         print(values)
@@ -109,19 +110,19 @@ class Move:
 
         else:
 
-            '''
-            self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
-            self.odrv0.axis1.controller.vel_setpoint(0)
-            #self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
-            print("vitesse axis0 à zero  ")
 
-            self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
-            self.odrv0.axis1.controller.vel_setpoint(0)
-            #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
-            print("vitesse axis1 à zero  ")
-            '''
+            #self.odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+            #self.odrv0.axis1.controller.vel_setpoint(0)
+                #self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
+            #print("vitesse axis0 à zero  ")
+
+            #self.odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+            #self.odrv0.axis1.controller.vel_setpoint(0)
+                #self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
+            #print("vitesse axis1 à zero  ")
 
 
+        '''
         # Attente de la fin du mouvement
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
