@@ -52,7 +52,7 @@ void RIR_send(int msg)
     __ard_msg = msg;
     while (__rasp_msg != Recu){
         Serial.write(__ard_msg);
-        delay(100);
+        delay(500);
         if (Serial.available() > 0) {
           __rasp_msg = Serial.read();
         }
@@ -60,28 +60,36 @@ void RIR_send(int msg)
     __ard_msg = Attente;
     for (int i = 0 ; i < 30 ; i++){
         Serial.write(__ard_msg);
-        delay(10);
+        delay(500);
     }
-    Serial.println("Message sent");
+    Serial.println("SENT");
 }
 
 void RIR_read()
 {
     while (Serial.available() && (__rasp_msg == Attente || __rasp_msg == Recu)){
         __rasp_msg = Serial.read();
+        delay(500);
     }
     // Interprete value, so change internal variables
     
     __ard_msg = Recu;
-    while (Serial.available() && (Serial.read() != Attente || Serial.read() != Recu)){
+    while (Serial.available() && (__rasp_msg != Attente || __rasp_msg != Recu)){
+        __rasp_msg = Serial.read();
         Serial.write(__ard_msg);
+        delay(500);
     }
+    Serial.println("READ");
 }
 
 bool RIR_check()
 {
     Serial.write(Attente);
-    return Serial.read() != Attente && Serial.read() != Recu;
+    delay(500);
+    if(Serial.available()){
+      __rasp_msg = Serial.read();
+      return __rasp_msg != Attente && __rasp_msg != Recu;
+    }
     return false;
 }
 

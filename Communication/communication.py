@@ -4,6 +4,7 @@
 # Initial source : http://anothermaker.xyz/iot/communication-entre-un-raspberry-pi-et-un-arduino-5319
 
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
+import time
 
 class Communication():
     MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
@@ -41,16 +42,15 @@ class Communication():
                 self.__ard_msg = self.__arduino.read().decode()
             except:
                 self.__ard_msg = Communication.MSG["Attente"]
+            time.sleep(.5)
+            
         self.__rasp_msg = Communication.MSG["Attente"]
-        for i in range(100):
+        for i in range(10):
             self.__arduino.write(self.__rasp_msg.encode())
+            time.sleep(.5)
     
     def read(self, print_rep = False):
-        try:
-            self.__ard_msg = self.__arduino.read().decode()
-        except:
-            self.__ard_msg = Communication.MSG["Attente"]
-        if self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
+        while self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]:
             try:
                 self.__ard_msg = self.__arduino.read().decode()
             except:
@@ -67,18 +67,20 @@ class Communication():
             try:
                 self.__ard_msg = self.__arduino.read().decode()
             except:
-                self.__ard_msg = Communication.MSG["Attente"]
+                self.__ard_msg = Communication.MSG["Arret"]
+            time.sleep(.5)
             
         if print_rep:
             print(Communication.MSG[self.__ard_msg])
         
     def check(self):
         self.__arduino.write(Communication.MSG["Attente"].encode())
+        time.sleep(.5)
         try:
             self.__ard_msg = self.__arduino.read().decode()
         except:
             self.__ard_msg = Communication.MSG["Attente"]
-        return self.__ard_msg != Communication.MSG["Recu"] and self.__ard_msg != Communication.MSG["Attente"]
+        return self.__ard_msg != Communication.MSG["Attente"] and self.__ard_msg != Communication.MSG["Recu"]
         
     def checkAndRead(self, print_rep = False):
         if self.check():
