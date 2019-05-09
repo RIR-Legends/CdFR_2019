@@ -17,7 +17,7 @@
 
 //PIN BOUTTON
 #define COTEPIN 44
-#define TIRETTEPIN 23
+#define TIRETTEPIN 35
 
 
 class Setup{

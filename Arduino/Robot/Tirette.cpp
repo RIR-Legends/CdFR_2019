@@ -16,6 +16,6 @@ int Tirette::GetCote(){
 }
 
 int Tirette::GetTirette(){
-  stateCote = digitalRead(TIRETTE);
+  stateTirette = digitalRead(TIRETTE);
   return stateTirette;
 }

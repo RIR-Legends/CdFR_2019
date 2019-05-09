@@ -19,6 +19,6 @@ void Setup::SetPomp(){
 }
 
 void Setup::SetTirette(){
-  pinMode(TIRETTEPIN, INPUT_PULLUP);
+  pinMode(TIRETTEPIN, INPUT);
   pinMode(COTEPIN, INPUT);
 }
