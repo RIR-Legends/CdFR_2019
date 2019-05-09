@@ -43,6 +43,7 @@ class Move:
             if MCP3008.readadc(1) > 800 :
                 print("Obstacle détécté !")
                 self.OBS = True
+                self.stop()
                 return 1
             else :
                 self.OBS = False
@@ -78,8 +79,10 @@ class Move:
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
         if self.OBS == True:
-            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+            self.stop()
+
+            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
 
     def rotation(self, angle):
@@ -104,11 +107,11 @@ class Move:
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
-        if self.OBS == True:
-            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+        #if self.OBS == True:
+            self.stop()
+            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
-        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
 
 
     def translation_rel(self, distance):
@@ -134,8 +137,9 @@ class Move:
     def stop(self):
         # Met la vitessea des roues à 0.
         print("Le robot s'arrête")
-        self.odrv0.axis0.controller.speed(0)
-        self.odrv0.axis1.controller.speed(0)
-
+        #self.odrv0.axis0.controller.speed(0)
+        #self.odrv0.axis1.controller.speed(0)
+        self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+        self.odrv0.axis1.controller.set_vel_setpoint(0,0)
         """ ou  POUR ARReTER LES MOTEURS : """
         #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
