@@ -35,11 +35,12 @@ class Move:
         avg = 10 * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
-        print("on est dans WaitEndMove ")
+
         while movAvg >= errorMax:
             print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            if MCP3008.readadc(1) > 800 :
+            #for i in range(1,5):
+            if MCP3008.readadc(i) > 800 :
                 print("Obstacle détécté !")
                 self.OBS = True
                 return 1
@@ -64,7 +65,7 @@ class Move:
 
 
         # Assignation de values avec valeur du capteur IR
-        values = MCP3008.readadc(1)
+        #values = MCP3008.readadc(1)
 
         #Action ! :
         self.odrv0.axis0.controller.move_to_pos(target0)
@@ -76,7 +77,9 @@ class Move:
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
-        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+        if self.OBS == True:
+            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
 
     def rotation(self, angle):
@@ -101,6 +104,10 @@ class Move:
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
+        if self.OBS == True:
+            self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+
         #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
 
 
