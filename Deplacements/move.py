@@ -43,16 +43,28 @@ class Move:
             if MCP3008.readadc(1) > 800 :
                 print("Obstacle détécté !")
                 self.OBS = True
-                self.stop()
+                self.detect_obs(axis, goal)
 
             else :
                 self.OBS = False
+                self.detect_obs(axis, goal)
                 for i in range(index, 10):
                     index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
                 movAvg = 0
                 for i in range(0, 10):
                     movAvg += avg[i] / 10
+
+    def detect_obs(self,axis, goal):
+
+        if self.OBS == True :
+            print("Obstacle détécté !")
+            self.stop()
+        else:
+            print("Run !")
+            axis.controller.move_to_pos(goal)
+
+
 
 
     def translation(self, distance):
