@@ -78,8 +78,8 @@ class Move:
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
-        if self.OBS == True:
-            self.stop()
+        #if self.OBS == True:
+            #self.stop()
 
             #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
@@ -108,7 +108,7 @@ class Move:
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
         #if self.OBS == True:
-            self.stop()
+            #self.stop()
             #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
