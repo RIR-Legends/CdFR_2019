@@ -40,7 +40,7 @@ class Move:
             print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             #for i in range(1,5):
-            if MCP3008.readadc(i) > 800 :
+            if MCP3008.readadc(1) > 800 :
                 print("Obstacle détécté !")
                 self.OBS = True
                 return 1
