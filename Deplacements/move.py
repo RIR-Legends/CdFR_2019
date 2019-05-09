@@ -44,7 +44,7 @@ class Move:
                 print("Obstacle détécté !")
                 self.OBS = True
                 self.stop()
-                return 1
+
             else :
                 self.OBS = False
                 for i in range(index, 10):
@@ -53,7 +53,7 @@ class Move:
                 movAvg = 0
                 for i in range(0, 10):
                     movAvg += avg[i] / 10
-        return 0
+
 
     def translation(self, distance):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
@@ -139,7 +139,6 @@ class Move:
         print("Le robot s'arrête")
         #self.odrv0.axis0.controller.speed(0)
         #self.odrv0.axis1.controller.speed(0)
+        """ ou  POUR ARReTER LES MOTEURS : """
         self.odrv0.axis0.controller.set_vel_setpoint(0,0)
         self.odrv0.axis1.controller.set_vel_setpoint(0,0)
-        """ ou  POUR ARReTER LES MOTEURS : """
-        #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
