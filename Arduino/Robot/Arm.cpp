@@ -21,7 +21,13 @@ void Arm::InitArm(){
   delay(1000);
   ElevatorRobot.InitialPosition();
   Parking();
+  delay(1000);
   DoorAction.CloseAll();
+}
+
+void Arm::InitPosiArm(){
+  ForeArmAction.DeploiementSaisieFloor();
+  ElevatorRobot.InitialPosition();
 }
 
 void Arm::Parking(){
@@ -180,9 +186,7 @@ void Arm::PreOutPaletWall(int floorNb, bool cote){
   delay(500);
   PompeRobot.Open();
   delay(500);
-  ElevatorRobot.GoToFloor(7);
-  delay(500);
-  ElevatorRobot.GoToFloor(4);
+  ElevatorRobot.GoToFloor(floorNb+1);
   delay(500);
   ForeArmAction.DeploiementOutWall();
   delay(500);

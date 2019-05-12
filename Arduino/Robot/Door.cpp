@@ -18,11 +18,11 @@ void Door::InitDoor(){
 }
 
 void Door::OpenR(){
-	MoveToR(650);
+	MoveToR(750);
 }
 
 void Door::OpenL(){
-	MoveToL(650);
+	MoveToL(600);
 }
 
 void Door::CloseR(){

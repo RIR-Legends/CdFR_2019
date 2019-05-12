@@ -107,7 +107,7 @@ void Elevator::GetOutPalet(){
 }
 
 void Elevator::Transport(){
-  MoveTo(200);
+  MoveTo(150);
 }
 
 void Elevator::GetPaletWall(){
