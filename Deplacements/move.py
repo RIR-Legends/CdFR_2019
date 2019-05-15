@@ -90,6 +90,7 @@ class Move:
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             else :
                 self.stop()
+                time.sleep(2000)
                 self.OBS = False
                 print("ActDone = ",self.ActDone)
                 print("OBS = ",self.OBS)
