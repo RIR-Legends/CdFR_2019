@@ -46,15 +46,15 @@ def run_test(odrv0) :
     print("Job is done.\n")
     time.sleep(1)
     move.translation(-150) # recule pour rentrer dans la REd case
-    #com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
-    #while not com.readyNext:
-    #    com.read(True)
-    #print("Job is done.\n")
-    #time.sleep(1)
-    #move.translation(-150) # recule pour eviter le Red atom
+    com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
+    while not com.readyNext:
+        com.read(True)
+    print("Job is done.\n")
+    time.sleep(1)
+    move.translation(-150) # recule pour eviter le Red atom
     print("TRANS EN COURS")
-    #move.stop()
-    #print("STOP EN COURS")
+    move.stop()
+    print("STOP EN COURS")
     move.rotation(90)   #Tourne d'1/4 de tr vers la Green Case
     print("ROT EN COURS")
 
