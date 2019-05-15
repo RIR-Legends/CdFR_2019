@@ -88,12 +88,15 @@ class Move:
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
-            else :
+            elif self.OBS == True and self.ActDone == False:
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
-                print("ActDone = ",self.ActDone)
-                print("OBS = ",self.OBS)
+            else :
+                print("Action Terminée !")
+                self.ActDone = False
+                break
+
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
@@ -112,25 +115,32 @@ class Move:
         target0 = self.odrv0.axis0.encoder.pos_estimate - (self.nbCounts * distance)/self.WheelPerimeter
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
-
-        # Assignation de values avec valeur du capteur IR
-        #values = MCP3008.readadc(1)
-
         #Action ! :
+        '''
         self.odrv0.axis0.controller.move_to_pos(target0)
         self.odrv0.axis1.controller.move_to_pos(target1)
 
         # Attente fin de mouvement SI aucun obstacle détécté
         self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
         self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+        '''
 
         """ [A inclure fonction évitement (OBS = True)] """
-        # Rmq : Pour arréter les moteurs :
-        #if self.OBS == True:
-            #self.stop()
-
-            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+        while self.odrv0.axis0.encoder.pos_estimate != target0 : #and self.odrv0.axis1.encoder.pos_estimate != target1
+            if self.OBS == False and self.ActDone == False:
+                self.odrv0.axis0.controller.move_to_pos(target0)
+                self.odrv0.axis1.controller.move_to_pos(target1)
+                # Attente fin de mouvement SI aucun obstacle détécté
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
+            elif self.OBS == True and self.ActDone == False:
+                self.stop()
+                time.sleep(2)
+                self.OBS = False
+            else :
+                print("Action Terminée !")
+                self.ActDone = False
+                break
 
 
 
