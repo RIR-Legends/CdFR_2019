@@ -91,6 +91,8 @@ class Move:
             else :
                 self.stop()
                 self.OBS == False
+                print("ActDone = ",self.ActDone)
+                print("OBS = ",self.OBS)
 
         """ [A inclure fonction évitement (OBS = True)] """
         # Rmq : Pour arréter les moteurs :
