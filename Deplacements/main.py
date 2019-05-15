@@ -39,36 +39,35 @@ def demo_tour(odrv0) :
 def run_test(odrv0) :
     # Strategie proposé de parcour
     move = m.Move(odrv0)
-    move.translation(400) # A verifier distante sortie Redium case to Red atom
+    move.translation(400) # A verifier distance sortie Redium case to Red atom
     com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
     while not com.readyNext:
         com.read(True)
     print("Job is done.\n")
     time.sleep(1)
     move.translation(-150) # recule pour rentrer dans la REd case
-    com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
-    while not com.readyNext:
-        com.read(True)
-    print("Job is done.\n")
+    #com.send(Communication.MSG["Palet_Floor_Out"]) # fct : Dropdown atom on the Red case
+    #while not com.readyNext:
+    #    com.read(True)
+    #print("Job is done.\n")
     time.sleep(1)
     move.translation(-150) # recule pour eviter le Red atom
-    print("TRANS EN COURS")
     move.stop()
-    print("STOP EN COURS")
     move.rotation(90)   #Tourne d'1/4 de tr vers la Green Case
-    print("ROT EN COURS")
+
 
 #param.RAZ() # Lance fonction remise à zero des moteurs
 param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
 param.calib()
 
-# Choix de lancement des demos :
+""" Choix de lancement des demos : """
+
 #demo_simple(param.odrv0)
 #demo_tour(param.odrv0)
 #demo_rotation(param.odrv0)
 run_test(param.odrv0)
 
-
+"""--------------------------------"""
 
 print('Fin du programme')
 

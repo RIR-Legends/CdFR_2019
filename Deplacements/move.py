@@ -38,11 +38,12 @@ class Move:
         movAvg = abs(goal - axis.encoder.pos_estimate)
         self.ActDone = False
         while movAvg >= errorMax:
-            print("Values vaut : ", MCP3008.readadc(1) )
+            #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             #for i in range(1,5):
             if MCP3008.readadc(1) > 800 :
                 self.OBS = True
+                print("Obstacle détécté")
                 #self.detect_obs(axis, goal)
                 return 1
 
@@ -69,7 +70,7 @@ class Move:
 
     def rotation(self, angle):
         # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
-        print("Lancement d'une Rotation de %f°" % angle)
+        print("Lancement d'une Rotation de %f°" % int(angle))
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
         RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
 
@@ -81,7 +82,11 @@ class Move:
         #values = MCP3008.readadc(1)
 
         # Action :
-        while self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
+        """ [A inclure fonction évitement (OBS = True)] """
+        """--------------------------------------------"""
+
+        while 1: # [A tester] (a la place de condition en dessous)
+            #self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
             if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
@@ -93,22 +98,16 @@ class Move:
                 time.sleep(2)
                 self.OBS = False
             else :
-                print("Action Terminée !")
+                print("Rotation Terminée !")
                 self.ActDone = False
                 break
 
 
-        """ [A inclure fonction évitement (OBS = True)] """
-        # Rmq : Pour arréter les moteurs :
-        #if self.OBS == True:
-            #self.stop()
-            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
 
     def translation(self, distance):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
-        print("Lancement d'une Translation de %f mm" % distance)
+        print("Lancement d'une Translation de %f mm" % int(distance))
 
         # Controle de la Position Longit en Absolu:
                                                         # Distance / Perimètre = nb tour a parcourir
@@ -116,17 +115,10 @@ class Move:
         target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * distance)/self.WheelPerimeter
 
         #Action ! :
-        '''
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
-
-        # Attente fin de mouvement SI aucun obstacle détécté
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-        '''
-
         """ [A inclure fonction évitement (OBS = True)] """
-        while self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
+        """--------------------------------------------"""
+        while 1: # [A tester] (a la place de condition en dessous)
+            #self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
             if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
@@ -138,30 +130,10 @@ class Move:
                 time.sleep(2)
                 self.OBS = False
             else :
-                print("Action Terminée !")
+                print("Translation Terminée !")
                 self.ActDone = False
                 break
 
-
-
-    def translation_rel(self, distance):
-
-        # Fonction qui fait avancer droit le robot d'une distance donnée en mm
-        print("Lancement d'une Translation de %f mm" % distance)
-
-        # Controle de la Position en Relatif:
-        # Distance / Perimètre = nb tour a parcourir
-        target0 = - (self.nbCounts * distance)/self.WheelPerimeter
-        target1 = (self.nbCounts * distance)/self.WheelPerimeter
-
-        # Action !
-        #move_inc en phase test / erreure d'attribut
-        self.odrv0.axis0.controller.move_incremental(target0, )   #moteur 0 inversé par rapport moteur 1
-        self.odrv0.axis1.controller.move_incremental(target1, )
-
-        # Attente de la fin du mouvement
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
 
 
     def stop(self):
