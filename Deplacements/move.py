@@ -82,7 +82,7 @@ class Move:
 
         # Action :
         while self.odrv0.axis0.encoder.pos_estimate != target0 : #and self.odrv0.axis1.encoder.pos_estimate != target1
-            if self.OBS == False and ActDone == False:
+            if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
