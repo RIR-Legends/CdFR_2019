@@ -81,7 +81,8 @@ class Move:
         #values = MCP3008.readadc(1)
 
         # Action :
-        while odrv0.axis0.encoder.pos_estimate !=  target0 #and odrv0.axis1.encoder.pos_estimate !=  target1
+        while odrv0.axis0.encoder.pos_estimate != target0
+            #and odrv0.axis1.encoder.pos_estimate != target1
             if self.OBS == False and ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
