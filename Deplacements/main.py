@@ -6,7 +6,7 @@ import param as p
 import move as m
 from communication import Communication
 param = p.Param()
-com = Communication('COM5')
+com = Communication('/dev/ttyACM0')
 
 
 def demo_simple(odrv0) :
