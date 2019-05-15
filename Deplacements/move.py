@@ -81,7 +81,7 @@ class Move:
         #values = MCP3008.readadc(1)
 
         # Action :
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1:
+        while self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
             if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
@@ -126,7 +126,7 @@ class Move:
         '''
 
         """ [A inclure fonction évitement (OBS = True)] """
-        while self.odrv0.axis0.encoder.pos_estimate != target0 and self.odrv0.axis1.encoder.pos_estimate != target1:
+        while self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
             if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
