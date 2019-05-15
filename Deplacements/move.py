@@ -22,7 +22,8 @@ class Move:
 
         # coding features
         self.errorMax = 10      # unité ?
-        self.OBS = False        # Init Booleen Obstacle Detecté
+        self.OBS = False        # Init  Ostacle Detecté
+        self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
 
     def wait_end_move(self, axis, goal, errorMax):
@@ -35,28 +36,29 @@ class Move:
         avg = 10 * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
-
+        self.ActDone = False
         while movAvg >= errorMax:
             print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             #for i in range(1,5):
             if MCP3008.readadc(1) > 800 :
-                print("Obstacle détécté !")
                 self.OBS = True
-                self.detect_obs(axis, goal)
+                #self.detect_obs(axis, goal)
+                return 1
 
             else :
                 self.OBS = False
-                self.detect_obs(axis, goal)
+                #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
                 for i in range(index, 10):
                     index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
                 movAvg = 0
                 for i in range(0, 10):
                     movAvg += avg[i] / 10
+        self.ActDone = True
 
     def detect_obs(self,axis, goal):
-
+        # EN test pas utilisé ici
         if self.OBS == True :
             print("Obstacle détécté !")
             self.stop()
@@ -65,6 +67,37 @@ class Move:
             axis.controller.move_to_pos(goal)
 
 
+    def rotation(self, angle):
+        # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
+        print("Lancement d'une Rotation de %f°" % angle)
+        # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
+        RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
+
+        # Controle de la Position Angulaire en Absolu :
+        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
+
+        # Assignation de values avec valeur du capteur IR
+        #values = MCP3008.readadc(1)
+
+        # Action :
+        while odrv0.axis0.encoder.pos_estimate !=  target0 #and odrv0.axis1.encoder.pos_estimate !=  target1
+            if self.OBS == False and ActDone == False:
+                self.odrv0.axis0.controller.move_to_pos(target0)
+                self.odrv0.axis1.controller.move_to_pos(target1)
+                # Attente fin de mouvement SI aucun obstacle détécté
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
+            else :
+                self.stop()
+                self.OBS == False
+
+        """ [A inclure fonction évitement (OBS = True)] """
+        # Rmq : Pour arréter les moteurs :
+        #if self.OBS == True:
+            #self.stop()
+            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
+            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
 
     def translation(self, distance):
@@ -93,34 +126,6 @@ class Move:
         #if self.OBS == True:
             #self.stop()
 
-            #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-            #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
-
-
-    def rotation(self, angle):
-        # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
-        print("Lancement d'une Rotation de %f°" % angle)
-        # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
-        RunAngle = (float(angle) * pi * self.AxlTrack ) / 360.0
-
-        # Controle de la Position Angulaire en Absolu :
-        target0 = self.odrv0.axis0.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-        target1 = self.odrv0.axis1.encoder.pos_estimate + (self.nbCounts * RunAngle) / self.WheelPerimeter
-
-        # Assignation de values avec valeur du capteur IR
-        values = MCP3008.readadc(1)
-
-        # Action :
-        self.odrv0.axis0.controller.move_to_pos(target0)
-        self.odrv0.axis1.controller.move_to_pos(target1)
-        # Attente fin de mouvement SI aucun obstacle détécté
-        self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
-        self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
-
-        """ [A inclure fonction évitement (OBS = True)] """
-        # Rmq : Pour arréter les moteurs :
-        #if self.OBS == True:
-            #self.stop()
             #self.odrv0.axis0.controller.set_vel_setpoint(0,0)
             #self.odrv0.axis1.controller.set_vel_setpoint(0,0)
 
