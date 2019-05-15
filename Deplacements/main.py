@@ -4,9 +4,9 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-#from communication import Communication
+from communication import Communication
 param = p.Param()
-#com = Communication()
+com = Communication('COM5')
 
 
 def demo_simple(odrv0) :
@@ -40,10 +40,18 @@ def run_test(odrv0) :
     # Strategie proposé de parcour
     move = m.Move(odrv0)
     move.translation(400) # A verifier distante sortie Redium case to Red atom
-    #com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
+    com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
+    while not com.readyNext:
+        com.read(True)
+    print("Job is done.\n")
+    time.sleep(1)
     move.translation(-150) # recule pour rentrer dans la REd case
     #com.send(Communication.MSG["Palet_Floor_Out"])# fct : Dropdown atom on the Red case
-    move.translation(-150) # recule pour eviter le Red atom
+    #while not com.readyNext:
+    #    com.read(True)
+    #print("Job is done.\n")
+    #time.sleep(1)
+    #move.translation(-150) # recule pour eviter le Red atom
     print("TRANS EN COURS")
     #move.stop()
     #print("STOP EN COURS")
