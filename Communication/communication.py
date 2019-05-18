@@ -94,20 +94,20 @@ def test():
     if com.OrangeSide:
         side = "orange"
     print("Side is {}\n" .format(side))
-    time.sleep(1)
+    time.sleep(10)
     
     print("Waiting tirette...")
     while com.Tirette:
         com.read(True)
     print("Let's Go!!\n")
-    time.sleep(1)
+    time.sleep(10)
     
     print("Trying one action now.")
     com.send(Communication.MSG["Transport"])
     while not com.readyNext:
         com.read(True)
     print("Job is done.\n")
-    time.sleep(1)
+    time.sleep(5)
     
     print("Turn off robot...")
     com.send(Communication.MSG["Arret"])
