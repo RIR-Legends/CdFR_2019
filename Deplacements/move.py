@@ -17,7 +17,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 275    # en mm mais la valeur est douteuse
+        self.AxlTrack = 275    # en mm 
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
@@ -142,7 +142,7 @@ class Move:
         #self.odrv0.axis0.controller.speed(0)
         #self.odrv0.axis1.controller.speed(0)
         """ ou  POUR ARReTER LES MOTEURS : """
-        
+
         self.odrv0.axis0.controller.set_vel_setpoint(0,0)
         self.odrv0.axis1.controller.set_vel_setpoint(0,0)
         self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
