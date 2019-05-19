@@ -22,12 +22,12 @@ void ForeArm::DeploiementDrop(){
 }
 
 void ForeArm::ParquetG(){
-  MoveTo(525,180); 
+  MoveTo(500,180); 
   
 }
 
 void ForeArm::ParquetD(){
-  MoveTo(525,860);
+  MoveTo(500,860);
   
 }
 

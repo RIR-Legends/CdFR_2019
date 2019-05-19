@@ -15,11 +15,23 @@
 #define POMPPIN 8
 #define VANPIN 7
 
+//PIN BOUTTON
+#define COTEPIN 44
+#define TIRETTEPIN 35
+
+//PIN CAPTEUR DE PRESSION
+#define CAPTEURPREPIN A1
+
+
+
 class Setup{
   public:
     Setup();
     void SetElevator();
     void SetPomp();
+    void SetTirette(); 
+    void SetCapPression();
+    void SetAll();
   
 };
 #endif

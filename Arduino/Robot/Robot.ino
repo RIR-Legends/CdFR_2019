@@ -3,7 +3,10 @@
 //#include "ForeArm.h"
 //#include "Elevator.h"
 //#include "Pompe.h"
+
 #include "Arm.h"
+#include "Tirette.h"
+#include "CapteurPression.h"
 
 Door DoorAction;
 ForeArm ForeArmAction;
@@ -11,11 +14,12 @@ Setup SetupRobot;
 Elevator ElevatorRobot;
 Pompe PompeRobot;
 Arm ArmRobot; 
+Tirette TiretteRobot; 
+CapteurPression CapteurPressionRobot;
 
-int stock[2] = {0,1};
 
+int stock[2] = {0,0};
 int consigneStock[2]= {0,0};
-
 int consigneDesStock[2]= {0,0};
 
 
@@ -29,10 +33,17 @@ void setup() {
 
   //SetupRobot.SetElevator();
   //SetupRobot.SetPomp();
+  //SetupRobot.SetTirette();
+  //SetupRobot.SetCapPression();
+  SetupRobot.SetAll();
+
+  
+  
       Serial.begin(9600);
 
-  //ArmRobot.InitArm();
+  ArmRobot.InitArm();
   delay(2000);
+  
 
 
 //TestDoor();
@@ -41,57 +52,153 @@ void setup() {
 //TestPomp();
 //TestArm();
 TestPile();
+TestDePile();
 
 }
 
 void loop() {
 
- 
+   //TestTirette();
+   //TestPression();
 }
+void TestPression(){
+  Serial.println(CapteurPressionRobot.GetPression());   
+  PompeRobot.Open();
+
+}
+
+
+void TestTirette(){
+  //Serial.println(TiretteRobot.GetCote());
+  Serial.println(TiretteRobot.GetTirette());
+}
+
 
 void TestPile(){
+    ArmRobot.Transport();
+  delay(1000);
 
 ChoixStockPile();
+//TEST TakePaletFloor
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostTakePaletFloor();
+  delay(500); 
+ChoixStockPile();
+//TEST TakePaletFloor
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostTakePaletFloor();
+  delay(500); 
+  //ArmRobot.InitArm();
+  ArmRobot.InitPosiArm();
+  delay(500);
+  ChoixStockPile();
+//TEST TakePaletFloor
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostTakePaletFloor();
+  delay(500); 
+ChoixStockPile();
+//TEST TakePaletFloor
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostTakePaletFloor();
+  delay(500);
+  ArmRobot.InitPosiArm();
+  delay(500); 
+  ChoixStockPile();
+//TEST TakePaletFloor
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostTakePaletFloor();
+  delay(500); 
 
 }
 
+void TestDePile(){
+   ArmRobot.InitPosiArm();
+   delay(500);
+   ArmRobot.Transport();
+  delay(1000);
+
+ChoixDesStockPile();
+//TEST OutPaletFloor  
+  ArmRobot.PreOutPaletFloor();
+  ArmRobot.OutPaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostOutPaletFloor();
+  delay(500); 
+ChoixDesStockPile();
+//TEST OutPaletFloor  
+  ArmRobot.PreOutPaletFloor();
+  ArmRobot.OutPaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostOutPaletFloor();
+  delay(500); 
+  //ArmRobot.InitArm();
+  ArmRobot.InitPosiArm();
+  delay(500);
+  ChoixDesStockPile();
+//TEST OutPaletFloor  
+  ArmRobot.PreOutPaletFloor();
+  ArmRobot.OutPaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostOutPaletFloor();
+  delay(500); 
+ChoixDesStockPile();
+//TEST OutPaletFloor  
+  ArmRobot.PreOutPaletFloor();
+  ArmRobot.OutPaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostOutPaletFloor();
+  delay(500);
+  ArmRobot.InitPosiArm();
+  delay(500); 
+  ChoixDesStockPile();
+//TEST OutPaletFloor  
+  ArmRobot.PreOutPaletFloor();
+  ArmRobot.OutPaletFloor(consigneStock[0],consigneStock[1]);
+  ArmRobot.PostOutPaletFloor();
+  delay(500); 
+
+}
 void ChoixStockPile(){
   //choix coté
+
   if (stock[0] == stock[1]){
-    consigneStock[1] = 0;
+    consigneStock[1] = 1;
   }else if(stock[0] < stock[1]){
     consigneStock[1] = 0;
   }else{
      consigneStock[1] = 1;
   }
   //Choix étage
-  consigneStock[0] = stock[consigneStock[1]+1];
+  consigneStock[0] = stock[consigneStock[1]]+1;
+    stock[consigneStock[1]] = stock[consigneStock[1]]+1;
 }
 
 void ChoixDesStockPile(){
   //choix coté
   if (stock[0] == stock[1]){
-    consigneStock[1] = 0;
-  }else if(stock[0] < stock[1]){
     consigneStock[1] = 1;
+  }else if(stock[0] > stock[1]){
+    consigneStock[1] = 0;
   }else{
-     consigneStock[1] = 0;
+     consigneStock[1] = 1;
   }
   //Choix étage
-  consigneStock[0] = stock[consigneStock[1]-1];
+  consigneStock[0] = stock[consigneStock[1]];
+    stock[consigneStock[1]] = stock[consigneStock[1]]-1;
 }
 
 
 void TestArm(){
   ArmRobot.Transport();
   delay(1000);
-
+  //ArmRobot.InitPosiArm();
 
 //TEST TakePaletFloor
-//  ArmRobot.PreTakePaletFloor();
-//  ArmRobot.TakePaletFloor(1,0);
-//  ArmRobot.PostTakePaletFloor();
-//  delay(500);  
+  ArmRobot.PreTakePaletFloor();
+  ArmRobot.TakePaletFloor(1,0);
+  ArmRobot.PostTakePaletFloor();
+  delay(500);  
 
 //TEST OutPaletFloor
 //  ArmRobot.PreOutPaletFloor();
@@ -111,12 +218,12 @@ void TestArm(){
 //  delay(500);  
 
 //TEST TakePaletFloor
-  ArmRobot.PreOutPaletWall(1,0);
-  delay(1000);
-  ArmRobot.OutPaletWall();
-  delay(1000);
-  ArmRobot.PostOutPaletWall();
-  delay(500); 
+//  ArmRobot.PreOutPaletWall(1,0);
+//  delay(1000);
+//  ArmRobot.OutPaletWall();
+//  delay(1000);
+//  ArmRobot.PostOutPaletWall();
+//  delay(500); 
 
   //ArmRobot.Transport();
 //  delay(1000);

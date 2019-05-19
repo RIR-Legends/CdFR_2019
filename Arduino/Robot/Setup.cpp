@@ -17,3 +17,19 @@ void Setup::SetPomp(){
   pinMode(VANPIN, OUTPUT);
 
 }
+
+void Setup::SetTirette(){
+  pinMode(TIRETTEPIN, INPUT);
+  pinMode(COTEPIN, INPUT);
+}
+
+void Setup::SetCapPression(){
+    pinMode(CAPTEURPREPIN, INPUT);
+}
+
+void Setup::SetAll(){
+  SetElevator();
+  SetPomp();
+  SetTirette();
+  SetCapPression();
+}

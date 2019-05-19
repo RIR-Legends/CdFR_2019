@@ -15,6 +15,7 @@ class Arm{
  void InitArm();
  void Parking();
  void Transport();
+ void InitPosiArm();
 
  void PreTakePaletFloor();
  void TakePaletFloor(int, bool);
