@@ -94,10 +94,10 @@ param.calib()
 
 """ Choix de lancement des demos : """
 
-#demo_simple(param.odrv0)
+demo_simple(param.odrv0)
 #demo_tour(param.odrv0)
 #demo_rotation(param.odrv0)
-run_test(param.odrv0)
+#run_test(param.odrv0)
 
 """--------------------------------"""
 

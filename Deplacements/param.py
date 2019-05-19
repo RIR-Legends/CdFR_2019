@@ -16,8 +16,8 @@ class Param:
     def config(self):
         self.odrv0
         # 40Amp max dans le moteur (gros couple et sécurité pour pas fumer le moteur)
-        self.odrv0.axis0.motor.config.current_lim = 40
-        self.odrv0.axis1.motor.config.current_lim = 40
+        self.odrv0.axis0.motor.config.current_lim = 10
+        self.odrv0.axis1.motor.config.current_lim = 10
 
         # vmax en tick/s les encodeurs font 8192 tick/tours
         # controller.*.vel_limite prend le pas sur trap_traj.*.vel_limt
@@ -28,11 +28,11 @@ class Param:
         self.odrv0.axis1.trap_traj.config.vel_limit = 4000
         self.odrv0.axis0.trap_traj.config.vel_limit = 4000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 1500
-        self.odrv0.axis1.trap_traj.config.accel_limit = 1500
+        self.odrv0.axis0.trap_traj.config.accel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 1000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 1500
-        self.odrv0.axis1.trap_traj.config.decel_limit = 1500
+        self.odrv0.axis0.trap_traj.config.decel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.decel_limit = 1000
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
