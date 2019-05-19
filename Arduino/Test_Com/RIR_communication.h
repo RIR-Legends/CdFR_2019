@@ -9,6 +9,7 @@ class RIR_Com{
     ~RIR_Com();
     void RIR_send(int);
     bool RIR_read();
+    void RIR_waitEndMove(int);
 
     int Reponse;
 

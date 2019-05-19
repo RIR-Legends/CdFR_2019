@@ -17,22 +17,23 @@ RIR_Com::~RIR_Com()
 void RIR_Com::RIR_send(int msg)
 {
     __ard_msg = msg;
-    while (__rasp_msg != __Recu){
+    Serial.flush(); 
+    do {
         Serial.write(__ard_msg);
-        Serial.flush();  
+        //Serial.flush();  
         if (Serial.available() > 0) {
           __rasp_msg = Serial.read();
         }
-        delay(100);
-    }
-    
+        delay(500);
+    }while(__rasp_msg != __Recu);
+
+    __ard_msg = __Attente;
     Serial.write(__ard_msg);
     delay(100);
 }
 
 bool RIR_Com::RIR_read()
 {
-    Serial.flush();  
     if (Serial.available() > 0) {
       __rasp_msg = Serial.read();
     }
@@ -46,4 +47,13 @@ bool RIR_Com::RIR_read()
     Serial.write(__ard_msg);
     delay(100);
     return true;
+}
+
+void RIR_Com::RIR_waitEndMove(int msg)
+{
+  RIR_send(msg);
+  while(Reponse != Action_Finished){
+    RIR_read();
+  }
+  Reponse = -1;
 }
