@@ -49,7 +49,7 @@ def run_test(odrv0) :
         com.read(True)
     time.sleep(.1)
     #ICI ON AVANCE
-    move.translation(100)
+    move.translation(500)
     print("Moving forward DONE")
     com.send(Communication.MSG["Action_Finished"])
     print("Waiting moving backward...")
@@ -57,7 +57,7 @@ def run_test(odrv0) :
         com.read(True)
     time.sleep(.1)
     #ICI ON RECULE
-    move.translation(-100)
+    move.translation(-500)
     print("Moving backward DONE")
     com.send(Communication.MSG["Action_Finished"])
     print("Waiting end of movement.")

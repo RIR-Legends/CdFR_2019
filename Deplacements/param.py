@@ -25,14 +25,14 @@ class Param:
         self.odrv0.axis1.controller.config.vel_limit = 3000
 
         # trap_traj parametrage des valeurs limit du comportement dynamique
-        self.odrv0.axis1.trap_traj.config.vel_limit = 1250
-        self.odrv0.axis0.trap_traj.config.vel_limit = 1250
+        self.odrv0.axis1.trap_traj.config.vel_limit = 3000
+        self.odrv0.axis0.trap_traj.config.vel_limit = 3000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 750
-        self.odrv0.axis1.trap_traj.config.accel_limit = 750
+        self.odrv0.axis0.trap_traj.config.accel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 1000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 750
-        self.odrv0.axis1.trap_traj.config.decel_limit = 750
+        self.odrv0.axis0.trap_traj.config.decel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.decel_limit = 1000
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
