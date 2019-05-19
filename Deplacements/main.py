@@ -48,6 +48,7 @@ def run_test(odrv0) :
     while not com.Avancer:
         com.read(True)
     time.sleep(.1)
+
     #ICI ON AVANCE
     move.translation(500)
     print("Moving forward DONE")
@@ -56,6 +57,15 @@ def run_test(odrv0) :
     while not com.Reculer:
         com.read(True)
     time.sleep(.1)
+
+    #ICI ON TOURNE
+    move.rotation(-90)
+    print("Rotation DONE")
+    com.send(Communication.MSG["Action_Finished"])
+    print("Waiting end of movement.")
+    while not com.readyNext:
+        com.read(True)
+
     #ICI ON RECULE
     move.translation(-500)
     print("Moving backward DONE")
@@ -65,6 +75,7 @@ def run_test(odrv0) :
         com.read(True)
     print("Palet_Floor_In DONE.")
     time.sleep(1)
+
     print("Transport...")
     com.waitEndMove(Communication.MSG["Transport"], True)
     print("Transport DONE")
