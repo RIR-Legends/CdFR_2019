@@ -6,7 +6,6 @@
 import serial  # https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 import time
 
-    
 class Communication():
     MSG = { "Recu" : '1',               "Attente" : '0',            "Action_Finished" : 't',
     
@@ -22,14 +21,16 @@ class Communication():
         self.__ard_msg = ""
         self.__rasp_msg = Communication.MSG["Attente"]
         
-        self.readyNext = True
+        self.readyNext = False
         self.Tirette = True
         self.OrangeSide = None
         self.Avancer = False
         self.Reculer = False
         
-        #self.__arduino.flushInput()
-        
+        while not self.readyNext:
+            self.read()
+        time.sleep(.1)
+                
     def send(self,msg):
         self.__rasp_msg = msg
         self.readyNext = False
@@ -49,8 +50,6 @@ class Communication():
         self.__arduino.write(self.__rasp_msg.encode())
     
     def read(self, print_rep = False):
-        #self.__arduino.flushInput()
-        #time.sleep(1)
         try:
             self.__ard_msg = self.__arduino.read().decode()
         except:
@@ -58,6 +57,7 @@ class Communication():
         if print_rep:
             print(self.__ard_msg)
         if (self.__ard_msg == Communication.MSG["Attente"] or self.__ard_msg == Communication.MSG["Recu"]):
+            time.sleep(.1)
             return
         self.__interpreter(self.__ard_msg)
         
@@ -80,37 +80,65 @@ class Communication():
             self.Avancer = True
         elif msg == Communication.MSG["Reculer"]:
             self.Reculer = True
-    
-    
-    
+            
+    def waitEndMove(self,msg,print_rep = False):
+        self.send(msg)
+        while not self.readyNext:
+            self.read(print_rep)
+        time.sleep(1)
     
 def test():
-    com = Communication('COM5')
+    #com = Communication('COM5')
+    com = Communication() 
     
-    print("Waiting side...")
-    while com.OrangeSide == None:
-        com.read(True)
-    side = "violet"
-    if com.OrangeSide:
-        side = "orange"
-    print("Side is {}\n" .format(side))
+    print("Initialisation...")
+    com.waitEndMove(Communication.MSG["Initialisation"], True)
+    print("Initilisation DONE")
     time.sleep(1)
     
-    print("Waiting tirette...")
-    while com.Tirette:
-        com.read(True)
-    print("Let's Go!!\n")
-    time.sleep(1)
+    #print("Waiting side...")
+    #while com.OrangeSide == None:
+    #    com.read(True)
+    #side = "violet"
+    #if com.OrangeSide:
+    #    side = "orange"
+    #print("Side is {}\n" .format(side))
+    #time.sleep(10)
+    #
+    #print("Waiting tirette...")
+    #while com.Tirette:
+    #    com.read(True)
+    #print("Let's Go!!\n")
+    #time.sleep(10)
     
-    print("Trying one action now.")
-    com.send(Communication.MSG["Transport"])
+    print("Palet_Floor_In...")
+    com.send(Communication.MSG["Palet_Floor_In"])
+    print("Waiting moving forward...")
+    while not com.Avancer:
+        com.read(True)
+    time.sleep(.1) #ICI ON AVANCE
+    print("Moving forward DONE")
+    com.send(Communication.MSG["Action_Finished"])
+    print("Waiting moving backward...")
+    while not com.Reculer:
+        com.read(True)
+    time.sleep(.1) #ICI ON RECULE    
+    print("Moving backward DONE")
+    com.send(Communication.MSG["Action_Finished"])
+    print("Waiting end of movement.")
     while not com.readyNext:
         com.read(True)
-    print("Job is done.\n")
+    print("Palet_Floor_In DONE.")
+    time.sleep(1)
+    
+    print("Transport...")
+    com.waitEndMove(Communication.MSG["Transport"], True)
+    print("Transport DONE")
     time.sleep(1)
     
     print("Turn off robot...")
     com.send(Communication.MSG["Arret"])
+    print("Robot is turned off!")
     
 if __name__ == '__main__':
     test()

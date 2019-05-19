@@ -4,7 +4,7 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-from Communication.communication import Communication
+from communication import Communication
 
 def demo_simple(odrv0) :
 
