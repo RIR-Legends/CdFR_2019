@@ -5,9 +5,6 @@ import time
 import param as p
 import move as m
 from communication import Communication
-param = p.Param()
-com = Communication('/dev/ttyACM0')
-
 
 def demo_simple(odrv0) :
 
@@ -38,34 +35,58 @@ def demo_tour(odrv0) :
 
 def run_test(odrv0) :
     # Strategie proposé de parcour
+    com = Communication('/dev/ttyACM0')
     move = m.Move(odrv0)
-    move.translation(400) # A verifier distance sortie Redium case to Red atom
-    com.send(Communication.MSG["Palet_Floor_In"]) #fct :Pickup Red atom
+    print("Initialisation des Actionneurs...")
+    com.waitEndMove(Communication.MSG["Initialisation"], True)
+    print("Initilisation DONE")
+    time.sleep(1)
+
+    print("Palet_Floor_In...")
+    com.send(Communication.MSG["Palet_Floor_In"])
+    print("Waiting moving forward...")
+    while not com.Avancer:
+        com.read(True)
+    time.sleep(.1)
+    #ICI ON AVANCE
+    move.translation(100)
+    print("Moving forward DONE")
+    com.send(Communication.MSG["Action_Finished"])
+    print("Waiting moving backward...")
+    while not com.Reculer:
+        com.read(True)
+    time.sleep(.1)
+    #ICI ON RECULE
+    move.translation(-100)
+    print("Moving backward DONE")
+    com.send(Communication.MSG["Action_Finished"])
+    print("Waiting end of movement.")
     while not com.readyNext:
         com.read(True)
-    print("Job is done.\n")
+    print("Palet_Floor_In DONE.")
     time.sleep(1)
-    move.translation(-150) # recule pour rentrer dans la REd case
-    #com.send(Communication.MSG["Palet_Floor_Out"]) # fct : Dropdown atom on the Red case
-    #while not com.readyNext:
-    #    com.read(True)
-    #print("Job is done.\n")
+    print("Transport...")
+    com.waitEndMove(Communication.MSG["Transport"], True)
+    print("Transport DONE")
     time.sleep(1)
-    move.translation(-150) # recule pour eviter le Red atom
-    move.stop()
-    move.rotation(90)   #Tourne d'1/4 de tr vers la Green Case
 
+    print("Turn off robot...")
+    com.send(Communication.MSG["Arret"])
+    print("Robot is turned off!")
 
+""" Paramétrage et Calibration """
+param = p.Param()
 #param.RAZ() # Lance fonction remise à zero des moteurs
 param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
 param.calib()
+""" ------------------------------- """
 
 """ Choix de lancement des demos : """
 
 #demo_simple(param.odrv0)
-#demo_tour(param.odrv0)
+demo_tour(param.odrv0)
 #demo_rotation(param.odrv0)
-run_test(param.odrv0)
+#run_test(param.odrv0)
 
 """--------------------------------"""
 
