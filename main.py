@@ -2,23 +2,23 @@
 # -*- coding: utf-8 -*-
 
 import Robot
-import time
-
+from Timer import NinetySec
 
 
 def main():
     # Initialisation
     robot = Robot()
     checkUp()
+    timer = NinetySec()
     
-    # Attente du départ (Tirette)
-    robot.waitingTrigger()
-    DepartTime = time.time()
-    Now = time.time() - DepartTime
-    #### Lancer le timer ICI
-    #### Lancer le thread de détection
+    # Départ
+    timer.start()
+
+    # A la fin
+    timer.join()
     
-    move("PointZero")
+    
+    #move("PointZero")
     
     
     
