@@ -10,15 +10,23 @@ import matplotlib.pyplot as plt
 
 # EKF state covariance
 Cx = np.diag([0.5, 0.5, np.deg2rad(30.0)])**2
+# ???
 
 #  Simulation parameter
 Qsim = np.diag([0.2, np.deg2rad(1.0)])**2
+# Measurement error
 Rsim = np.diag([1.0, np.deg2rad(10.0)])**2
+# Motion error
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 50.0  # simulation time [s]
 MAX_RANGE = 20.0  # maximum observation range
+#(Unlimited dans le cas RPLidar)
 M_DIST_TH = 2.0  # Threshold of Mahalanobis distance for data association.
+# Tolerance entre landmarks, 
+# Si trop petit, trop de creation de landmarks
+# Si trop grand, incertitude de la position landmarks imprecise
+# Suffisament petit sans rajouter de landmarks lors des tests
 STATE_SIZE = 3  # State size [x,y,yaw]
 LM_SIZE = 2  # LM state size [x,y]
 
@@ -132,8 +140,6 @@ def calc_LM_Pos(x, z):
 
     zp[0, 0] = x[0, 0] + z[0] * math.cos(x[2, 0] + z[1])
     zp[1, 0] = x[1, 0] + z[0] * math.sin(x[2, 0] + z[1])
-    #zp[0, 0] = x[0, 0] + z[0, 0] * math.cos(x[2, 0] + z[0, 1])
-    #zp[1, 0] = x[1, 0] + z[0, 0] * math.sin(x[2, 0] + z[0, 1])
 
     return zp
 
