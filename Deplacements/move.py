@@ -17,7 +17,7 @@ class Move:
         # Robot physical constant
         self.WheelDiameter = 80     # en mm
         self.nbCounts = 8192    # Nombre de tics pr un tour d'encoder
-        self.AxlTrack = 275    # en mm 
+        self.AxlTrack = 275    # en mm
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
@@ -37,25 +37,32 @@ class Move:
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         self.ActDone = False
+
+        # [A tester] (pour lecture capteur en fonction du sens de Translation)
+        if goal > axis.encoder.pos_estimate:
+            Sen = array([1,2,3])
+        else:
+            Sen = array([4,5])
+
         while movAvg >= errorMax:
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            #for i in range(1,5):
-            if MCP3008.readadc(1) > 800 :
-                self.OBS = True
-                print("Obstacle détécté")
-                #self.detect_obs(axis, goal)
-                return 1
+            for i in range(Sen):
+                if MCP3008.readadc(i) > 800 :
+                    self.OBS = True
+                    print("Obstacle détécté")
+                    #self.detect_obs(axis, goal)
+                    return 1
 
-            else :
-                self.OBS = False
-                #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
-                for i in range(index, 10):
-                    index = 0
-                    avg[i] = abs(goal - axis.encoder.pos_estimate)
-                movAvg = 0
-                for i in range(0, 10):
-                    movAvg += avg[i] / 10
+                else :
+                    self.OBS = False
+                    #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
+                    for i in range(index, 10):
+                        index = 0
+                        avg[i] = abs(goal - axis.encoder.pos_estimate)
+                    movAvg = 0
+                    for i in range(0, 10):
+                        movAvg += avg[i] / 10
         self.ActDone = True
 
     def detect_obs(self,axis, goal):
