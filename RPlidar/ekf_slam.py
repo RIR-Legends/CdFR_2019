@@ -9,17 +9,14 @@ import matplotlib.pyplot as plt
 
 
 # EKF state covariance
-Cx = np.diag([0.5, 0.5, np.deg2rad(30.0)])**2
-# ???
+Cx = np.diag([0.5, 0.5, np.deg2rad(30.0)])**2 # ???
 
 #  Simulation parameter
-Qsim = np.diag([0.2, np.deg2rad(1.0)])**2
-# Measurement error
-Rsim = np.diag([1.0, np.deg2rad(10.0)])**2
-# Motion error
+Qsim = np.diag([0.1, np.deg2rad(1.0)])**2 # Observation error in distance and angle [MAX]
+Rsim = np.diag([0.01, np.deg2rad(5.0)])**2 # Motion error in distance and angle (deviation) [MAX]
 
 DT = 0.1  # time tick [s]
-SIM_TIME = 50.0  # simulation time [s]
+SIM_TIME = 90.0  # simulation time [s]
 MAX_RANGE = 20.0  # maximum observation range
 #(Unlimited dans le cas RPLidar)
 M_DIST_TH = 2.0  # Threshold of Mahalanobis distance for data association.
@@ -67,13 +64,6 @@ def ekf_slam(xEst, PEst, u, z):
     return xEst, PEst
 
 
-def calc_input():
-    v = 1.0  # [m/s]
-    yawrate = 0.1  # [rad/s]
-    u = np.array([[v, yawrate]]).T
-    return u
-
-
 def observation(xTrue, xd, u, RFID):
 
     xTrue = motion_model(xTrue, u)
@@ -102,6 +92,7 @@ def observation(xTrue, xd, u, RFID):
     return xTrue, z, xd, ud
 
 
+# Reduced (for now)
 def motion_model(x, u):
 
     F = np.array([[1.0, 0, 0],
@@ -232,7 +223,7 @@ def main():
 
     while SIM_TIME >= time:
         time += DT
-        u = calc_input()
+        u = np.array([[1.0, 0.1]]).T # Velocity in m/s and rad/s
 
         xTrue, z, xDR, ud = observation(xTrue, xDR, u, RFID)
 
