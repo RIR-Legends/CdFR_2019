@@ -12,11 +12,10 @@ import matplotlib.pyplot as plt
 Cx = np.diag([0.5, 0.5, np.deg2rad(30.0)])**2 # ???
 
 #  Simulation parameter
-Qsim = np.diag([0.1, np.deg2rad(1.0)])**2 # Observation error in distance and angle [MAX]
-Rsim = np.diag([0.01, np.deg2rad(5.0)])**2 # Motion error in distance and angle (deviation) [MAX]
+Qsim = np.diag([0.36, np.deg2rad(1.0)])**2 # Observation error in distance and angle [MAX]
+Rsim = np.diag([0.01, np.deg2rad(5.0)])**2 # Movement error in distance and angle (deviation) [MAX]
 
-DT = 0.1  # time tick [s]
-SIM_TIME = 90.0  # simulation time [s]
+Iterations = 100  # number of iterations
 MAX_RANGE = 20.0  # maximum observation range
 #(Unlimited dans le cas RPLidar)
 M_DIST_TH = 2.0  # Threshold of Mahalanobis distance for data association.
@@ -26,18 +25,21 @@ M_DIST_TH = 2.0  # Threshold of Mahalanobis distance for data association.
 # Suffisament petit sans rajouter de landmarks lors des tests
 STATE_SIZE = 3  # State size [x,y,yaw]
 LM_SIZE = 2  # LM state size [x,y]
+# RFID positions [x, y]
+RFID = np.array([[10.0, -2.0],
+                 [15.0, 10.0],
+                 [3.0, 15.0],
+                 [-5.0, 20.0]])
 
-show_animation = False
+show_animation = True
 
 
 def ekf_slam(xEst, PEst, u, z):
-
     # Predict
     S = STATE_SIZE
     xEst[0:S] = motion_model(xEst[0:S], u)
     G, Fx = jacob_motion(xEst[0:S], u)
     PEst[0:S, 0:S] = G.T * PEst[0:S, 0:S] * G + Fx.T * Cx * Fx
-    initP = np.eye(2)
 
     # Update
     for iz in range(len(z[:, 0])):  # for each observation
@@ -49,7 +51,7 @@ def ekf_slam(xEst, PEst, u, z):
             # Extend state and covariance matrix
             xAug = np.vstack((xEst, calc_LM_Pos(xEst, z[iz, :])))
             PAug = np.vstack((np.hstack((PEst, np.zeros((len(xEst), LM_SIZE)))),
-                              np.hstack((np.zeros((LM_SIZE, len(xEst))), initP))))
+                              np.hstack((np.zeros((LM_SIZE, len(xEst))), np.eye(2)))))
             xEst = xAug
             PEst = PAug
         lm = get_LM_Pos_from_state(xEst, minid)
@@ -64,16 +66,13 @@ def ekf_slam(xEst, PEst, u, z):
     return xEst, PEst
 
 
-#def observation(xTrue, xd, u, RFID):
-def observation(xTrue, u, RFID):
-
-    xTrue = motion_model(xTrue, u)
+def observation(xTrue, uDT, RFID):
+    xTrue = motion_model(xTrue, uDT)
 
     # add noise to gps x-y
     z = np.zeros((0, 3))
 
     for i in range(len(RFID[:, 0])):
-
         dx = RFID[i, 0] - xTrue[0, 0]
         dy = RFID[i, 1] - xTrue[1, 0]
         d = math.sqrt(dx**2 + dy**2)
@@ -86,24 +85,23 @@ def observation(xTrue, u, RFID):
 
     # add noise to input
     ud = np.array([[
-        u[0, 0] + np.random.randn() * Rsim[0, 0],
-        u[1, 0] + np.random.randn() * Rsim[1, 1]]]).T
+        uDT[0, 0] + np.random.randn() * Rsim[0, 0],
+        uDT[1, 0] + np.random.randn() * Rsim[1, 1]]]).T
 
-    #return xTrue, z, xd, ud
     return xTrue, z, ud
 
 
-def motion_model(x, u):
+def motion_model(x, uDT):
 
     F = np.array([[1.0, 0, 0],
                   [0, 1.0, 0],
                   [0, 0, 1.0]])
 
-    B = np.array([[DT * math.cos(x[2, 0]), 0],
-                  [DT * math.sin(x[2, 0]), 0],
-                  [0.0, DT]])
+    B = np.array([[uDT[0, 0] * math.cos(x[2, 0])],
+                  [uDT[0, 0] * math.sin(x[2, 0])],
+                  [uDT[1, 0]]])
 
-    x = (F @ x) + (B @ u)
+    x = (F @ x) + B
     return x
 
 
@@ -117,8 +115,8 @@ def jacob_motion(x, u):
     Fx = np.hstack((np.eye(STATE_SIZE), np.zeros(
         (STATE_SIZE, LM_SIZE * calc_n_LM(x)))))
 
-    jF = np.array([[0.0, 0.0, -DT * u[0] * math.sin(x[2, 0])],
-                   [0.0, 0.0, DT * u[0] * math.cos(x[2, 0])],
+    jF = np.array([[0.0, 0.0, -u[0] * math.sin(x[2, 0])],
+                   [0.0, 0.0, u[0] * math.cos(x[2, 0])],
                    [0.0, 0.0, 0.0]])
 
     G = np.eye(STATE_SIZE) + Fx.T * jF * Fx
@@ -199,43 +197,26 @@ def pi_2_pi(angle):
 
 
 def main():
-    print(__file__ + " start!!")
-
-    time = 0.0
-
-    # RFID positions [x, y]
-    RFID = np.array([[10.0, -2.0],
-                     [15.0, 10.0],
-                     [3.0, 15.0],
-                     [-5.0, 20.0]])
-
     # State Vector [x y yaw v]'
     xEst = np.zeros((STATE_SIZE, 1))
     xTrue = np.zeros((STATE_SIZE, 1))
     PEst = np.eye(STATE_SIZE)
 
-    xDR = np.zeros((STATE_SIZE, 1))  # Dead reckoning
-
     # history
     hxEst = xEst
     hxTrue = xTrue
-    hxDR = xTrue
 
-    while SIM_TIME >= time:
-        time += DT
-        u = np.array([[1.0, 0.1]]).T # Velocity in m/s and rad/s
-        #u = np.array([[distance/DT, deviation/DT]]).T # Velocity in m/s and rad/s
-
-        #xTrue, z, xDR, ud = observation(xTrue, xDR, u, RFID)
-        xTrue, z, ud = observation(xTrue, u, RFID)
-
+    for _ in range(Iterations):
+        uDT = np.array([[np.random.randn(), np.random.randn()]]).T # Movement in m and rad (only parameter to update)
+        xTrue, z, ud = observation(xTrue, uDT, RFID)
         xEst, PEst = ekf_slam(xEst, PEst, ud, z)
-
-        x_state = xEst[0:STATE_SIZE]
+        x_state = xEst[0:STATE_SIZE] #(x,y,yaw) estimation of the robot
+        
+        
+        
 
         # store data history
         hxEst = np.hstack((hxEst, x_state))
-        #hxDR = np.hstack((hxDR, xDR))
         hxTrue = np.hstack((hxTrue, xTrue))
 
         if show_animation:  # pragma: no cover
@@ -251,8 +232,6 @@ def main():
 
             plt.plot(hxTrue[0, :],
                      hxTrue[1, :], "-b")
-            #plt.plot(hxDR[0, :],
-            #         hxDR[1, :], "-k")
             plt.plot(hxEst[0, :],
                      hxEst[1, :], "-r")
             plt.axis("equal")
