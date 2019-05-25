@@ -1,9 +1,24 @@
 #include "RIR_communication.h"
 
+#include "Arm.h"
+#include "Tirette.h"
+#include "CapteurPression.h"
+
+Door DoorAction;
+ForeArm ForeArmAction;
+Setup SetupRobot;
+Elevator ElevatorRobot;
+Pompe PompeRobot;
+Arm ArmRobot; 
+Tirette TiretteRobot; 
+CapteurPression CapteurPressionRobot;
+
 RIR_Com com;
 
 void setup() {
   Serial.begin(9600);
+
+  SetupRobot.SetAll();
 
   delay(1000);
   com.RIR_send(com.Action_Finished); //Arduino doit entamer la communication en PREMIER!
@@ -25,22 +40,27 @@ void loop() {
         
       case com.Initialisation:
         delay(100);
+        ArmRobot.InitArm();
         com.RIR_send(com.Action_Finished);
         break;
         
       case com.Transport:
         delay(100);
+        ArmRobot.Transport();
         com.RIR_send(com.Action_Finished);
         break;
         
       case com.Palet_Floor_In:
         delay(100);
+        ArmRobot.PreTakePaletFloor();
         com.RIR_waitEndMove(com.Avance);
         //Serial.flush();
         delay(100);
+        ArmRobot.TakePaletFloor();
         com.RIR_waitEndMove(com.Recule);
         //Serial.flush();
         delay(100);
+        ArmRobot.PostTakePaletFloor();
         com.RIR_send(com.Action_Finished);
         break;
         
@@ -55,10 +75,13 @@ void loop() {
         
       case com.Palet_Floor_Out:
         delay(100);
+        ArmRobot.PreTakePaletFloor();
         com.RIR_waitEndMove(com.Avance);
         delay(100);
+        ArmRobot.TakePaletFloor();
         com.RIR_waitEndMove(com.Recule);
         delay(100);
+        ArmRobot.PostTakePaletFloor();
         com.RIR_send(com.Action_Finished);
         break;
         
@@ -72,4 +95,3 @@ void loop() {
         break;
     }
 }
-
