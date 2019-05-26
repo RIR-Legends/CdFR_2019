@@ -106,6 +106,7 @@ class Move:
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                print("Rotation : Pas d'Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             #elif compteur_evitement == 3:
                 #evitement(fdgf,sfv,sfg)
@@ -115,6 +116,7 @@ class Move:
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
+                print("Rotation : Obstacle")
             else :
                 print("Rotation Terminée !")
                 self.ActDone = False
@@ -142,11 +144,13 @@ class Move:
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                ("Translation : Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             elif self.OBS == True and self.ActDone == False:
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
+                ("Translation : Pas d'Obstacle")
             else :
                 print("Translation Terminée !")
                 self.ActDone = False
