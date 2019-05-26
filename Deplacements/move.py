@@ -47,6 +47,7 @@ class Move:
         SenOn = [0 for i in range(len(Sen))]
 
         while movAvg >= errorMax:
+            Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in Sen:
