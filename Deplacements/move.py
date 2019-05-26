@@ -52,6 +52,7 @@ class Move:
                     self.OBS = True
                     print("Obstacle détécté")
                     #self.detect_obs(axis, goal)
+                    print("Values vaut : ", MCP3008.readadc(i) )
                     return 1
 
                 else :
