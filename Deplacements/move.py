@@ -40,14 +40,14 @@ class Move:
 
         # [A tester] (pour lecture capteur en fonction du sens de Translation)
         if goal > axis.encoder.pos_estimate:
-            Sen = array([1,2,3])
+            Sen = [1,2,3]
         else:
-            Sen = array([4,5])
+            Sen = [4,5]
 
         while movAvg >= errorMax:
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            for i in range(Sen):
+            for i in Sen:
                 if MCP3008.readadc(i) > 800 :
                     self.OBS = True
                     print("Obstacle détécté")
@@ -100,7 +100,11 @@ class Move:
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
+            #elif compteur_evitement == 3:
+                #evitement(fdgf,sfv,sfg)
+                #compteur_evitement = 0
             elif self.OBS == True and self.ActDone == False:
+                # compteur_evitement =+ 1
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
