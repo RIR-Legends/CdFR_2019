@@ -25,6 +25,7 @@ class Move:
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
+        self.SenOn = list()
 
     def wait_end_move(self, axis, goal, errorMax):
 
@@ -44,13 +45,13 @@ class Move:
         else:
             Sen = [4,5]
 
-        SenOn = [0 for i in range(len(Sen))]
+        self.SenOn = [0 for i in range(len(Sen))]
 
         while movAvg >= errorMax:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            for i in Sen:
+            for i in range(len(Sen)):
                 if MCP3008.readadc(i) > 800 :
                     self.OBS = True
                     SenOn[i] = 1
@@ -62,6 +63,8 @@ class Move:
                 if i != 0:
                     Sen_count =+1
 
+
+
             if Sen_count == 0:
                 self.OBS = False
                 #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
@@ -71,7 +74,12 @@ class Move:
                 movAvg = 0
                 for i in range(0, 10):
                     movAvg += avg[i] / 10
+
+            elif Sen_count != 0:
+                return
+
         self.ActDone = True
+
 
     def detect_obs(self,axis, goal):
         # EN test pas utilisé ici
