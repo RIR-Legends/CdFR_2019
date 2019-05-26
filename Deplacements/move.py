@@ -54,12 +54,12 @@ class Move:
             for i in range(len(Sen)):
                 if MCP3008.readadc(i) > 800 :
                     self.OBS = True
-                    SenOn[i] = 1
+                    self.SenOn[i] = 1
                     print("Obstacle détécté")
                     #self.detect_obs(axis, goal)
                     print("Values vaut : ", MCP3008.readadc(i) )
 
-            for i in SenOn:
+            for i in self.SenOn:
                 if i != 0:
                     Sen_count =+1
 
