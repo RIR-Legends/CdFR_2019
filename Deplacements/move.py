@@ -61,7 +61,7 @@ class Move:
                 if i != 0:
                     Sen_count =+1
 
-            if Senc_count == 0:
+            if Sen_count == 0:
                 self.OBS = False
                 #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
                 for i in range(index, 10):
