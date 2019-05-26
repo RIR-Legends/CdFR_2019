@@ -44,26 +44,32 @@ class Move:
         else:
             Sen = [4,5]
 
+        SenOn = [0 for i in range(len(Sen))]
+
         while movAvg >= errorMax:
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in Sen:
                 if MCP3008.readadc(i) > 800 :
                     self.OBS = True
+                    SenOn[i] = 1
                     print("Obstacle détécté")
                     #self.detect_obs(axis, goal)
                     print("Values vaut : ", MCP3008.readadc(i) )
-                    return 1
 
-                else :
-                    self.OBS = False
-                    #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
-                    for i in range(index, 10):
-                        index = 0
-                        avg[i] = abs(goal - axis.encoder.pos_estimate)
-                    movAvg = 0
-                    for i in range(0, 10):
-                        movAvg += avg[i] / 10
+            for i in SenOn:
+                if i != 0:
+                    Sen_count =+1
+
+            if Senc_count = 0:
+                self.OBS = False
+                #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
+                for i in range(index, 10):
+                    index = 0
+                    avg[i] = abs(goal - axis.encoder.pos_estimate)
+                movAvg = 0
+                for i in range(0, 10):
+                    movAvg += avg[i] / 10
         self.ActDone = True
 
     def detect_obs(self,axis, goal):
