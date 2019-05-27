@@ -7,8 +7,8 @@ import move as m
 
 import sys
 sys.path.append('../../')
-from communication import Communication
-import Switch as s
+from utils.communication import Communication
+import utils.Switch as s
 
 def demo_simple(odrv0) :
 
