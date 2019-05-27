@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from point import Point
+from Deplacements.point import Point
 
 
 class Chemin:

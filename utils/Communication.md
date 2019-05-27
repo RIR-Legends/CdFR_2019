@@ -27,6 +27,8 @@ TakePaletWall : w
 OutPaletWall : W
 //PostOutPaletWall : X
 
+InitPosiArm : i
+
 
 ### Arduino --> Rasp :
 Départ , tirette tirée : D

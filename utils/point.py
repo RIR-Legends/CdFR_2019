@@ -18,7 +18,7 @@ class Point:
         self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
 
     def get_point(self):
-        return self.P
+        return (self.x, self.y, self.theta)
 
 
 def main():

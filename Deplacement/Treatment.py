@@ -1,3 +1,10 @@
+# import odrive
+
+# Changer le step, il doit être entre le point courant le le prochain en se basant
+# sur les coordonnées réelles du robot
+
+# origine robot en bas a gauche de la table
+# Angle 0 = axe Y
 
 class Treatment:
     def __init__(self):
