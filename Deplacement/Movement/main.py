@@ -5,7 +5,9 @@ import time
 import param as p
 import move as m
 import Switch as s
-from communication import Communication
+import sys
+sys.path.append('../../')
+from utils.communication import Communication
 
 def demo_simple(odrv0) :
 
