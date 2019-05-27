@@ -4,10 +4,11 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-import Switch as s
+
 import sys
 sys.path.append('../../')
-from utils.communication import Communication
+from communication import Communication
+import Switch as s
 
 def demo_simple(odrv0) :
 
