@@ -8,14 +8,13 @@
 # Transition de xEst, PEst, xTrue dans chaque fonction. Retirer des paramètres. Attention aux origines
 # Add option RFID in "__init__"
 
-##import sys
-##sys.path.append('../')
-
 import sys
 import math
 import numpy as np
 
-from point import Point
+import sys
+sys.path.append('../')
+from utils.point import Point
 
 
 class EKF():
