@@ -4,7 +4,7 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-import Tirette as Switch
+import Switch as s
 from communication import Communication
 
 def demo_simple(odrv0) :
@@ -94,7 +94,7 @@ param.calib()
 """ ------------------------------- """
 
 """ Choix de lancement des demos : """
-switch = Switch.Tirette()
+switch = s.Switch()
 switch.Tirette()
 
 if switch.Cote() == True:
