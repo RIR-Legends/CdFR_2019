@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO
-
+from time import sleep
 # Set up du board (reférence n° port)
 GPIO.setmode(GPIO.BOARD)
 
@@ -14,8 +14,8 @@ GPIO.setup(11, GPIO.IN)
 
 # Attente de réponse => TODO: test
 def Tirette():
-    GPIO.wait_for_edge(7, GPIO.RISING) # ou GPIO.RISING
-    print("tirette passée")
+    while GPIO.input(7): # ou GPIO.RISING
+        time.sleep(0.1)
 
 def Cote():
     if(GPIO.input(11) == 1): # TODO: Validé

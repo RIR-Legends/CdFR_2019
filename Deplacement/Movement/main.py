@@ -15,11 +15,11 @@ def demo_simple(odrv0) :
     move = m.Move(odrv0)
 
     time.sleep(1)
-    move.translation(200)
+    move.translation(1500)
     time.sleep(2)
     move.rotation(180)
     time.sleep(2)
-    move.translation(200)
+    move.translation(1000)
 
 def demo_rotation(odrv0) :
     move = m.Move(odrv0)
@@ -101,6 +101,7 @@ param.calib()
 s.Tirette()
 
 if s.Cote() == True:
+
     demo_simple(param.odrv0)
     #demo_tour(param.odrv0)
     #demo_rotation(param.odrv0)
