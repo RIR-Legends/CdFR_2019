@@ -347,5 +347,27 @@ class RPLidar(object):
                 if len(scan) > min_len:
                     yield scan
                 scan = []
-            if quality > 0 and distance > 0 and distance < 3610:
+            if quality > 0 and distance > 0 and distance < 180: #en cm (à vérifier) moitié de table
                 scan.append((quality, angle, distance))
+
+    def get_obstacles(self, step = 30, max_dist = 300, max_err = 5):
+        scans = self.iter_scans()
+        max_dist = max_dist * .1
+        scan = None
+        for scan in scans:
+            pass
+        
+        next_angle = 0
+        res = []
+        for measurement in scan:
+            if measurement[1] > next_angle + max_err:
+                res.append(0)
+                next_angle = next_angle + step
+            if measurement[1] > next_angle:
+                if measurement[2] < max_dist:
+                    res.append(1)
+                else:
+                    res.append(0)
+                next_angle = next_angle + step
+
+        return res
