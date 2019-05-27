@@ -15,13 +15,13 @@ GPIO.setup(11, GPIO.IN)
 # Attente de réponse => TODO: test
 def Tirette():
     GPIO.wait_for_edge(7, GPIO.FALLING) # ou GPIO.RISING
-
+    print("tirette passée")
 
 def Cote():
-    if(GPIO.input(11) == 1): # TODO: Test
+    if(GPIO.input(11) == 1): # TODO: Validé
         print("Jaune")
         return True
 
-    if(GPIO.input(11) == 0): # TODO: Test
+    if(GPIO.input(11) == 0): # TODO: Validé
         print("Violet")
         return False
