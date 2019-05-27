@@ -14,7 +14,7 @@ GPIO.setup(11, GPIO.IN)
 
 # Attente de réponse => TODO: test
 def Tirette():
-    GPIO.wait_for_edge(7, GPIO.FALLING) # ou GPIO.RISING
+    GPIO.wait_for_edge(7, GPIO.RISING) # ou GPIO.RISING
     print("tirette passée")
 
 def Cote():
@@ -25,3 +25,12 @@ def Cote():
     if(GPIO.input(11) == 0): # TODO: Validé
         print("Violet")
         return False
+
+def main():
+    Tirette()
+    Cote()
+
+
+
+if __name__ == '__main__':
+    main()
