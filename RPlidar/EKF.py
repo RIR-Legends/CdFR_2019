@@ -6,7 +6,6 @@
 
 ### A faire
 # Transition de xEst, PEst, xTrue dans chaque fonction. Retirer des paramètres. Attention aux origines
-# Fix RFID == [] in "estimate" and "observation"
 # Add option RFID in "__init__"
 
 import sys
@@ -74,14 +73,11 @@ class EKF():
             xEst = xEst + (K @ y)
             PEst = (np.eye(len(xEst)) - (K @ H)) @ PEst
     
-        xEst[2] = self.__pi_2_pi(xEst[2])
+        xEst[2] = EKF.__pi_2_pi(xEst[2])
     
         return xEst, PEst
 
-    def __observation(self, xTrue, uDT, RFID = [], simulation = False):
-        if RFID == []:
-            RFID = self.RFID
-    
+    def __observation(self, xTrue, uDT, RFID, simulation = False):
         xTrue = self.__motion_model(xTrue, uDT)
     
         # add noise to gps x-y
@@ -91,7 +87,7 @@ class EKF():
             dx = RFID[i, 0] - xTrue[0, 0]
             dy = RFID[i, 1] - xTrue[1, 0]
             d = math.sqrt(dx**2 + dy**2)
-            angle = self.__pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+            angle = EKF.__pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
             if simulation: 
                 if d <= self.__MAX_RANGE:
                     dn = d + np.random.randn() * self.__Qsim[0, 0]  # add noise
@@ -102,25 +98,25 @@ class EKF():
                 z = np.vstack((z, np.array([d, angle, i])))
     
         # add noise to input
-        ud = np.array([[
-            uDT[0, 0] + np.random.randn() * self.__Rsim[0, 0],
-            uDT[1, 0] + np.random.randn() * self.__Rsim[1, 1]]]).T
+        if simulation: 
+            ud = np.array([[
+                uDT[0, 0] + np.random.randn() * self.__Rsim[0, 0],
+                uDT[1, 0] + np.random.randn() * self.__Rsim[1, 1]]]).T
+        else:
+            ud = np.array([[uDT[0, 0], uDT[1, 0]]]).T
     
         return xTrue, z, ud
      
-    def estimate(self, movement, RFID_input = [], simulation = False):
+    def estimate(self, movement, RFID = [], simulation = False):
         '''
         movement : Point
         RFID : Liste de Point
         '''
         
-        if RFID_input == []:
+        if len(RFID) == 0:
             RFID = self.RFID
-        else:
-            RFID = []
-            for rfid in RFID_input:
-                RFID.append(rfid.x, rfid.y)
-            RFID = np.array(RFID)
+        if type(RFID) != type(np.array(0)):
+            RFID = EKF.__load_RFID(RFID)
         
         if movement.hypo == 0:
             movement.set_parcour()
@@ -196,9 +192,9 @@ class EKF():
         delta = lm - xEst[0:2]
         q = (delta.T @ delta)[0, 0]
         zangle = math.atan2(delta[1, 0], delta[0, 0]) - xEst[2, 0]
-        zp = np.array([[math.sqrt(q), self.__pi_2_pi(zangle)]])
+        zp = np.array([[math.sqrt(q), EKF.__pi_2_pi(zangle)]])
         y = (z - zp).T
-        y[1] = self.__pi_2_pi(y[1])
+        y[1] = EKF.__pi_2_pi(y[1])
         H = self.__jacobH(q, delta, xEst, LMid + 1)
         S = H @ PEst @ H.T + self.__Cx[0:2, 0:2]
     
@@ -221,8 +217,18 @@ class EKF():
     
         return H
     
-    def __pi_2_pi(self, angle):
+    def __pi_2_pi(angle):
         return (angle + math.pi) % (2 * math.pi) - math.pi
+        
+    def __load_RFID(RFID_input):
+        RFID = []
+        if type(RFID_input[0]) == type(Point(0,0,0)):
+            for rfid in RFID_input:
+                RFID.append(rfid.x, rfid.y)
+        elif type(RFID_input[0]) == type([]):
+            RFID = RFID_input
+        return np.array(RFID)
+            
 
 def simulation(iterations):
     show_animation = True
@@ -236,7 +242,7 @@ def simulation(iterations):
     for _ in range(int(iterations)):
         uDT = Point(0,0,np.random.randn())
         uDT.hypo = np.random.randn()
-        x_state = slam.estimate(movement = uDT, RFID_input = [], simulation = True)        # SEULE LIGNE IMPORTANTE
+        x_state = slam.estimate(movement = uDT, RFID = [], simulation = True)        # SEULE LIGNE IMPORTANTE
         x_state = [[x_state.x],[x_state.y],[x_state.theta]]
         
         

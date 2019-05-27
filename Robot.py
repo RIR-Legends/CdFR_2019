@@ -15,16 +15,20 @@ from RPlidar.RIR_rplidar import RPLidar as RPLidar
 
 class Robot():
     def __init__(self):
-        self.com = Communication()
+        # Initialisation de la communication avec l'Arduino
+        self.com = Communication() ### ATTENTION PEUT ETRE BLOQUANT
         
+        # Initialisation informations extérieur
         self.side = None
+        self.tirettePulled = False
         
-        
+        # Initialisation ODrive
         self.Oparam = OdriveParam()
         #self.Oparam.RAZ()
         self.Oparam.config()
         self.Oparam.calib_always()
         
+        # Intilialisation Trajectoire
         self.move = Movements(self.Oparam.odrv0)
         self.dbPoints = filedb.fileDB(db="points")
         self.treatment = Treatment()
@@ -32,20 +36,22 @@ class Robot():
         self.distanceOrder = 0
         self.currentPos = Point(0,0,0)
         
-        
-        self.lidar = RPLidar()
+        # Initialisation Lidar et SLAM
+        self.lidar = RPLidar() ### ATTENTION PEUT ETRE BLOQUANT
         
     def checkSide(self):
-        while self.com.OrangeSide == None:
-            self.com.checkAndRead()
-        self.side = "Violet"
-        if OrangeSide:
-            self.side = "Orange"
-        return self.side
+        ''' A refaire selon branchement sur Rasp '''
+        #while self.com.OrangeSide == None:
+        #    self.com.checkAndRead()
+        #self.side = "Violet"
+        #if OrangeSide:
+        #    self.side = "Orange"
+        #return self.side
         
     def waitingTrigger(self):
-        while self.com.Tirette:
-            self.com.checkAndRead()
+        ''' A refaire selon branchement sur Rasp '''
+        #while self.com.Tirette:
+        #    self.com.checkAndRead()
             
     def stopAll(self):
         self.move.stop()
@@ -56,7 +62,7 @@ class Robot():
         self.thetaOrder = res[1]
         self.distanceOrder = res[0]
     
-    def getData(self,name):
+    def getDataDB(self,name):
         ''' Va chercher et retourne le point associé au name dans la base de donnée '''
         data = literal_eval(self.dbPoints.get(name))
         return Point(data[0],data[1],data[2]) # Pour l'instant seuls les Points sont considérés dans la base de données
