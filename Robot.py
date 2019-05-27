@@ -11,7 +11,7 @@ from Deplacements.move import Move as Movements
 from Deplacements.Treatment import Treatment as Treatment
 
 
-from RPlidar.RIR_rplidar import RPLidar as RPLidar
+#from RPlidar.RIR_rplidar import RPLidar as RPLidar
 
 class Robot():
     def __init__(self):
