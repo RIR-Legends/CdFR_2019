@@ -97,10 +97,10 @@ param.calib()
 """ ------------------------------- """
 
 """ Choix de lancement des demos : """
-switch = s.Switch()
-switch.Tirette()
 
-if switch.Cote() == True:
+s.Tirette()
+
+if s.Cote() == True:
     demo_simple(param.odrv0)
     #demo_tour(param.odrv0)
     #demo_rotation(param.odrv0)
