@@ -10,7 +10,7 @@ Setup SetupRobot;
 Elevator ElevatorRobot;
 Pompe PompeRobot;
 Arm ArmRobot; 
-Tirette TiretteRobot; 
+//Tirette TiretteRobot; 
 CapteurPression CapteurPressionRobot;
 
 RIR_Com com;
