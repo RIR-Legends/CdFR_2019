@@ -19,7 +19,7 @@ class Treatment:
     def step(self, p):
         from math import sqrt
 
-        print("Coordonnées Points: X = %f, Y = %f, Theta = %f" % (p[0], p[1], p[2]))
+        print("Coordonnées Points: X = %d, Y = %d, Theta = %d" % (p[0], p[1], p[2]))
 
         self.deltaX = p[0] - self.X_abs
         self.deltaY = p[1] - self.Y_abs
