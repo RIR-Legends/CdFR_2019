@@ -47,14 +47,16 @@ class Move:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            for i in range(len(Sen)):
-                if senslist[i] == True:
+            for i in Sen:
+                if senslist[i]:
                     if MCP3008.readadc(Sen[i]) > 800 :
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")
                         #self.detect_obs(axis, goal)
                         #print("Values vaut : ", MCP3008.readadc(Sen[i])
+                # retour capteur collision
+                print("liste des capteurs actifs", self.SenOn)
 
             for i in self.SenOn:
                 if i != 0:
