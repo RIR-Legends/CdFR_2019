@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Import librairies externes
 from __future__ import print_function
 import odrive
