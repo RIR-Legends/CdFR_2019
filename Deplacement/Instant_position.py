@@ -20,6 +20,8 @@ class Positionate:
 
         distance = (distance0 + distance1) / 2
 
+        print(distance)
+
         self.current_X += distance * cos(self.current_theta)
         self.current_Y += distance * sin(self.current_theta)
 

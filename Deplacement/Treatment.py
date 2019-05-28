@@ -7,20 +7,23 @@
 
 
 class Treatment:
-    def __init__(self, X_abs, Y_abs, theta): # (abs, abs, abs)
+    def __init__(self, X_abs, Y_abs, Theta_abs):  # (abs, abs, abs)
         self.X_abs = X_abs
         self.Y_abs = Y_abs
-        self.Theta_abs = theta
+        self.Theta_abs = Theta_abs
         self.deltaX = 0
         self.deltaY = 0
         self.deltaTheta = 0
         self.hyp = 0
 
-    def step(self, p1):
+    def step(self, p):
         from math import sqrt
-        self.deltaX = p1['X'] - self.X_abs
-        self.deltaY = p1['Y'] - self.Y_abs
-        self.deltaTheta = p1['Theta'] - self.Theta_abs
+
+        print("Coordonnées Points: X = %f, Y = %f, Theta = %f" % (p[0], p[1], p[2]))
+
+        self.deltaX = p[0] - self.X_abs
+        self.deltaY = p[1] - self.Y_abs
+        self.deltaTheta = p[2] - self.Theta_abs
 
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
