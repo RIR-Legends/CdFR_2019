@@ -55,6 +55,9 @@ def main():
     # Boucle Bloquante Tirette
     Switch.tirette()
 
+    # initialisation des classes
+    positionate = Positionate()
+
     for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
         # Traitement
@@ -103,8 +106,7 @@ def main():
         # fin
 
         # instant position
-        positionate = Positionate(pos00, pos01, pos10, pos11, Traj_list[1])
-        [X_abs, Y_abs, Theta_abs] = positionate.step()
+        [X_abs, Y_abs, Theta_abs] = positionate.step(pos00, pos01, pos10, pos11, Traj_list[1])
         print("position abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
         # fin
 
