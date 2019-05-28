@@ -4,29 +4,26 @@
 from threading import Thread
 import time
 
-class NinetySec(Thread):
-    def __init__(self):
-        Thread.__init__(self)
 
-    def run(self):
-        DepartTime = time.time()
-        time.sleep(85)
+def RIR_timer(Motor, Lidar, Communication):
+    DepartTime = time.time()
+    time.sleep(5)
+    Now = time.time() - DepartTime
+    while Now < 10:
+        time.sleep(.1)
         Now = time.time() - DepartTime
-        while Now < 90:
-            time.sleep(.1)
-            Now = time.time() - DepartTime
-            #print(str(Now)+"\n")
-        #STOP ALL HERE
+        #print(str(Now)+"\n")
+    #STOP ALL HERE
 
 def main():
-    # Création des threads
-    thread = NinetySec()
-    
+    # Crï¿½ation des threads
+    launch_timer = threading.Thread(target=RIR_timer, args=(Odrive, RPLidar, Com))
+
     # Lancement des threads
     thread.start()
-    
+
     # Attend que les threads se terminent
-    thread.join()
-    
+    ##thread.join()
+
 if __name__ == '__main__':
     main()
