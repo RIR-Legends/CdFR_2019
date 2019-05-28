@@ -7,10 +7,11 @@ import odrive
 # Import programme Robot
 from Treatment import Treatment
 from utils.Recovery import Recuperation
+sys.path.append('Mouvement/')
 from Movement.move import Move
 from Instant_position import Positionate
 from Movement.param import Param
-from Dodging import Dodging
+# from Dodging import Dodging
 
 import sys
 sys.path.append('../')
