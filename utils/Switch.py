@@ -16,7 +16,7 @@ GPIO.setup(11, GPIO.IN)
 def tirette():
     while GPIO.input(7) == 0: # boucle de check tirette relevée
         print("attente tirette")
-        sleep(0.1)
+        sleep(1)
 
 def cote():
     if(GPIO.input(11) == 1): # TODO: Validé
