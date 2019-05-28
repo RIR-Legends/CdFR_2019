@@ -12,7 +12,7 @@ class Positionate:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
         self.theta_buffer = theta
         self.current_theta = 90  # en fonction du sens !
-        self.current_X = 0
+        self.current_X = 500
         self.current_Y = 0
 
 
