@@ -9,7 +9,7 @@ from Deplacement.utils.Recovery import Recuperation
 from utils.Registre import Creation
 from Deplacement.Movement.move import Move
 from Deplacement.Instant_position import Positionate
-import utils.Switch as switch
+import utils.Switch as Switch
 
 
 
