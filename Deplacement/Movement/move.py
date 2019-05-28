@@ -48,7 +48,7 @@ class Move:
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
-                if senslist[i]:
+                if senslist[i] == True:
                     if MCP3008.readadc(Sen[i]) > 800 :
                         self.OBS = True
                         self.SenOn[i] = 1
