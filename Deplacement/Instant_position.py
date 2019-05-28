@@ -33,8 +33,8 @@ class Positionate:
 
         print(distance)
 
-        self.current_X += distance * cos(self.current_theta) * 360 / 2 * pi
-        self.current_Y += distance * sin(self.current_theta) * 360 / 2 * pi
+        self.current_X += distance * cos(self.current_theta * 2 * pi / 360)
+        self.current_Y += distance * sin(self.current_theta * 2 * pi / 360)
 
         print("X_ABS =", self.current_X, "Y_ABS =", self.current_Y, "Theta_abs", self.current_theta)
 
