@@ -8,7 +8,7 @@ import sys
 # Import programme Robot
 from Treatment import Treatment
 from utils.Recovery import Recuperation
-sys.path.append('Mouvement/')
+sys.path.append('Movement/')
 from Movement.move import Move
 from Instant_position import Positionate
 from Movement.param import Param
