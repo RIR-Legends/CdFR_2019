@@ -8,8 +8,8 @@ class Positionate:
         self.delta_pos0 = pos01 - pos00
         self.delta_pos1 = pos11 - pos10
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
-        self.WheelPerimeter = self.WheelDiameter * pi  # en mm
         self.WheelDiameter = 80  # en mm
+        self.WheelPerimeter = self.WheelDiameter * pi  # en mm
         self.current_theta = theta
         self.current_X = 0
         self.current_Y = 0
