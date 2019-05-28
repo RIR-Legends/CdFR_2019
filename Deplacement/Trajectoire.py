@@ -52,8 +52,8 @@ def main():
     print(Registre_points)
     # fin
     """ TEST : RECULER SUR BORDURE """
-    move.translation(-100)
-    
+    move.translation(-100,[False,False,False,True,True])
+    """ ___________________________"""
     # Boucle Bloquante Tirette
     Switch.tirette()
 
