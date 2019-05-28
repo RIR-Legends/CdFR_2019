@@ -23,6 +23,9 @@ class Positionate:
 
         print("current_theta =", self.current_theta)
 
+        print("delta_pos0 =", self.delta_pos0)
+        print("delta_pos1 =", self.delta_pos1)
+
         distance0 = (self.delta_pos0 * self.WheelPerimeter) / self.nbCounts
         distance1 = (self.delta_pos1 * self.WheelPerimeter) / self.nbCounts
 
@@ -32,5 +35,7 @@ class Positionate:
 
         self.current_X += distance * cos(self.current_theta)
         self.current_Y += distance * sin(self.current_theta)
+
+        print("X_ABS =", self.current_X, "Y_ABS =", self.current_Y, "Theta_abs", self.current_theta)
 
         return [self.current_X, self.current_Y, self.current_theta]
