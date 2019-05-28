@@ -1,5 +1,6 @@
 # Ce fichier contient l'ensemble des points que l'on souhaite rencontrer
 
+import time
 import sys
 sys.path.append('../')
 from Deplacement.utils.Point_manager import Chemin
@@ -13,10 +14,10 @@ class Creation:
 
     def main(self):
         # coté jaune
-        self.chemin.add_point('Depart', 500, 0, 90)
-        self.chemin.add_point('Point1', 500, 1500, 90)
-        self.chemin.add_point('Point2', 500, 1500, -90)
-        self.chemin.add_point('Point3', 500, 500, 180)
+        self.chemin.add_point('aDepart', 500, 0, 90)
+        self.chemin.add_point('bPoint1', 500, 1500, 90)
+        self.chemin.add_point('cPoint2', 500, 1500, -90)
+        self.chemin.add_point('dPoint3', 500, 500, 180)
         # self.chemin.add_point('Point4', 200, 200, 180)
 
         print(self.chemin.dictionnaire)
@@ -24,6 +25,6 @@ class Creation:
 
 
 if __name__ == '__main__':
-    #creat = Creation()
-    #creat.main()
-    pass
+    creat = Creation(True)
+    creat.main()
+
