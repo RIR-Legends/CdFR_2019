@@ -5,7 +5,7 @@ from math import sin
 
 class Positionate:
     def __init__(self, pos00, pos01, pos10, pos11, theta):
-        self.delta_pos0 = pos01 - pos00
+        self.delta_pos0 = pos01 - pos00 # erreur calculée négative car moteur inversé
         self.delta_pos1 = pos11 - pos10
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
         self.WheelDiameter = 80  # en mm
@@ -26,10 +26,10 @@ class Positionate:
         print("delta_pos0 =", self.delta_pos0)
         print("delta_pos1 =", self.delta_pos1)
 
-        distance0 = (self.delta_pos0 * self.WheelPerimeter) / self.nbCounts
-        distance1 = (self.delta_pos1 * self.WheelPerimeter) / self.nbCounts
+        distance0 = (- self.delta_pos0 / self.nbCounts) * self.WheelPerimeter
+        distance1 = (self.delta_pos1 / self.nbCounts) * self.WheelPerimeter
 
-        distance = (distance0 + distance1) * 1000 / 2  #  Test
+        distance = (distance0 + distance1) / 2  #  Test
 
         print(distance)
 
