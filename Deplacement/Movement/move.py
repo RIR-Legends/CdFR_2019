@@ -152,7 +152,7 @@ class Move:
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             elif self.OBS == True and self.ActDone == False:
                 self.stop()
-                time.sleep(2)
+                time.sleep(1)
                 self.OBS = False
                 print("Translation : Obstacle")
             else :
