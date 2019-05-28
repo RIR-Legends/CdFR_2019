@@ -52,11 +52,15 @@ class RPLidarException(Exception):
     '''Basic exception class for RPLidar'''
 
 
-def _process_scan(raw, log):
+def _process_scan(raw, read):
     '''Processes input raw data and returns measurment data'''
     new_scan = bool(raw[0] & 0b1)
+    if (not new_scan) and (not read):
+        return new_scan, 0, 0, 0
     inversed_new_scan = bool((raw[0] >> 1) & 0b1)
     quality = raw[0] >> 2
+    if quality == 0:
+        return False, 0, 0, 0
     if new_scan == inversed_new_scan:
         return False, 0, 0, 0
         raise RPLidarException('New scan flags mismatch')
@@ -66,7 +70,6 @@ def _process_scan(raw, log):
         raise RPLidarException('Check bit not equal to 1')
     angle = 360 - ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
     distance = (raw[3] + (raw[4] << 8)) / 4.
-    log.info('{0} :: {1} :: {2} :: {3}'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
 
 
@@ -176,9 +179,9 @@ class RPLidar(object):
 
     def _read_response(self, dsize):
         '''Reads response packet with length of `dsize` bytes'''
-        self.logDbg.debug('Trying to read response: %d bytes', dsize)
+        #self.logDbg.debug('Trying to read response: %d bytes', dsize)
         data = self._serial_port.read(dsize)
-        self.logDbg.debug('Received data: %s', data)
+        #self.logDbg.debug('Received data: %s', data)
         if len(data) != dsize:
             self.logDbg.exception('In read_response : wrong body size')
             raise RPLidarException('Wrong body size')
@@ -320,8 +323,17 @@ class RPLidar(object):
                         'Clearing buffer...',
                         data_in_buf//dsize, max_buf_meas)
                     self._serial_port.read(data_in_buf//dsize*dsize)
-            yield _process_scan(raw,self.logData)
-            self._serial_port.read(data_in_buf//dsize*dsize)
+            data = _process_scan(raw, True)
+            if data[1] == 0 or data[3] == 0:
+                continue
+            yield data
+            if data[0] != True:
+                continue
+            while not data[0] == True:
+                data = _process_scan(self._read_response(dsize), False)
+            
+            
+            #self._serial_port.read(data_in_buf//dsize*dsize)
 
     def iter_scans(self, max_buf_meas= 1000, min_len=5):
         '''Iterate over scans. Note that consumer must be fast enough,
