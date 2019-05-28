@@ -9,7 +9,7 @@ from Deplacement.utils.Recovery import Recuperation
 from utils.Registre import Creation
 from Deplacement.Movement.move import Move
 from Deplacement.Instant_position import Positionate
-
+import utils.Switch as switch
 
 
 
@@ -25,8 +25,11 @@ def main():
     # Recherche des Odrive
     odrv0 = odrive.find_any()
 
+    # récuperation cote + tirette
+    cote = Switch.cote()  # Jaune = True, Violet = False
+
     # creation du dico avec les valeurs des points
-    creation = Creation()  # bool de l'interrupteur tirrette
+    creation = Creation(cote)  # bool de l'interrupteur tirrette TODO : Prise en compte du coté dans Registre
     creation.main()
     # fin
 
@@ -34,6 +37,9 @@ def main():
     recuperation = Recuperation(creation.chemin.dictionnaire)
     Registre_points = recuperation.main()
     # fin
+
+    # Boucle Bloquante Tirette
+    Switch.tirette()
 
     for P in range(len(Registre_points)):  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
