@@ -29,14 +29,12 @@ class Positionate:
         distance0 = (self.delta_pos0 * self.WheelPerimeter) / self.nbCounts
         distance1 = (self.delta_pos1 * self.WheelPerimeter) / self.nbCounts
 
-
-
         distance = (distance0 + distance1) / 2
 
         print(distance)
 
-        self.current_X += distance * cos(self.current_theta)
-        self.current_Y += distance * sin(self.current_theta)
+        self.current_X += distance * cos(self.current_theta) * 360 / 2 * pi
+        self.current_Y += distance * sin(self.current_theta) * 360 / 2 * pi
 
         print("X_ABS =", self.current_X, "Y_ABS =", self.current_Y, "Theta_abs", self.current_theta)
 
