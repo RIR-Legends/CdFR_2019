@@ -51,7 +51,7 @@ def main():
     Registre_points = recuperation.main()
     print(Registre_points)
     # fin
-
+    
     # Boucle Bloquante Tirette
     Switch.tirette()
 
