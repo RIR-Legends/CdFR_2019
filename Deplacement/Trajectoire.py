@@ -51,10 +51,7 @@ def main():
     Registre_points = recuperation.main()
     print(Registre_points)
     # fin
-    """ TEST : RECULER SUR BORDURE """
-    move = Move(odrv0)
-    move.translation(-100,[False,False,False,True,True])
-    """ ___________________________"""
+    
     # Boucle Bloquante Tirette
     Switch.tirette()
 
