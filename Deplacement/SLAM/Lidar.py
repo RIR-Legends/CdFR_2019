@@ -17,9 +17,6 @@ class Lidar():
         self.Lidar = RIR_rplidar()
         self.scans = self.Lidar.iter_scans()
 
-        # Parameters of Landmarks detection
-        self.min_angle_between_lm = 60 # En degré
-
     def get_RFID(self):
         ### Get last version of scans
         scan = next(self.scans)
@@ -94,23 +91,30 @@ class Lidar():
         for i in range(RFID):
             for j in range(i,RFID):
                 diff = (0, math.fabs(RFID[i][2] - RFID[j][2]))
-                if diff[1] > 60:
+                if diff[1] > 180:
+                    diff = (0, diff[1] - 180)
+                if diff[1] > 55:
                     diff = (math.sqrt(RFID[i][1]**2 + RFID[j][1]**2 - 2*RFID[i][1]*RFID[j][1]*math.cos(Lidar.__deg_2_rad(diff[1])))
                     if diff[0] > Lidar.Combi["B1B2"][0]-Lidar.Combi["B1B2"][1] and diff[0] > Lidar.Combi["B1B2"][0]+Lidar.Combi["B1B2"][1]
                         common[i][0], common[i][1] = common[i][0] + 1, common[i][1] + 1
                         common[j][0], common[j][1] = common[j][0] + 1, common[j][1] + 1
+                        continue
                     if diff[0] > Lidar.Combi["B1B3"][0]-Lidar.Combi["B1B3"][1] and diff[0] > Lidar.Combi["B1B3"][0]+Lidar.Combi["B1B3"][1]
                         common[i][0], common[i][1], common[i][2] = common[i][0] + 1, common[i][1] + 1, common[i][2] + 2
                         common[j][0], common[j][1], common[j][2] = common[j][0] + 1, common[j][1] + 1, common[j][2] + 2
+                        continue
                     if diff[0] > Lidar.Combi["B1M"][0]-Lidar.Combi["B1M"][1] and diff[0] > Lidar.Combi["B1M"][0]+Lidar.Combi["B1M"][1]
                         common[i][0], common[i][3] = common[i][0] + 1, common[i][3] + 1
                         common[j][0], common[j][3] = common[j][0] + 1, common[j][3] + 1
+                        continue
                     if diff[0] > Lidar.Combi["B2M"][0]-Lidar.Combi["B2M"][1] and diff[0] > Lidar.Combi["B2M"][0]+Lidar.Combi["B2M"][1]
                         common[i][1], common[i][3] = common[i][1] + 1, common[i][3] + 1
                         common[j][1], common[j][3] = common[j][1] + 1, common[j][3] + 1
+                        continue
                     if diff[0] > Lidar.Combi["B3M"][0]-Lidar.Combi["B3M"][1] and diff[0] > Lidar.Combi["B3M"][0]+Lidar.Combi["B3M"][1]
                         common[i][2], common[i][3] = common[i][2] + 1, common[i][3] + 1
                         common[j][2], common[j][3] = common[j][2] + 1, common[j][3] + 1
+                        continue
 
         RFID_final = []
         # Tri selon le point qui rassemble le plus de correspondance
