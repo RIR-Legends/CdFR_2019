@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import print_function
 
-import MCP3008
+from MCP3008 import *
 import odrive
 from odrive.enums import *  # a checker
 import time

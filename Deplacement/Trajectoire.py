@@ -5,14 +5,19 @@ from __future__ import print_function
 import odrive
 
 # Import programme Robot
-from Deplacement.Treatment import Treatment
-from Deplacement.Dodging import Dodging
-from Deplacement.utils.Recovery import Recuperation
+from Treatment import Treatment
+from utils.Recovery import Recuperation
+from Movement.move import Move
+from Instant_position import Positionate
+from Movement.param import Param
+from Dodging import Dodging
+
+import sys
+sys.path.append('../')
+
 from utils.Registre import Creation
-from Deplacement.Movement.move import Move
-from Deplacement.Instant_position import Positionate
 import utils.Switch as Switch
-from Deplacement.Movement.param import Param
+
 
 def main():
 

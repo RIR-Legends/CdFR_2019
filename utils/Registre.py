@@ -1,5 +1,7 @@
 # Ce fichier contient l'ensemble des points que l'on souhaite rencontrer
 
+import sys
+sys.path.append('../')
 from Deplacement.utils.Point_manager import Chemin
 
 
