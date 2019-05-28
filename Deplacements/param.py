@@ -21,18 +21,18 @@ class Param:
 
         # vmax en tick/s les encodeurs font 8192 tick/tours
         # controller.*.vel_limite prend le pas sur trap_traj.*.vel_limt
-        self.odrv0.axis0.controller.config.vel_limit = 40000
-        self.odrv0.axis1.controller.config.vel_limit = 40000
+        self.odrv0.axis0.controller.config.vel_limit = 50000
+        self.odrv0.axis1.controller.config.vel_limit = 50000
 
         # trap_traj parametrage des valeurs limit du comportement dynamique
-        self.odrv0.axis1.trap_traj.config.vel_limit = 40000
-        self.odrv0.axis0.trap_traj.config.vel_limit = 40000
+        self.odrv0.axis1.trap_traj.config.vel_limit = 50000
+        self.odrv0.axis0.trap_traj.config.vel_limit = 50000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 10000
-        self.odrv0.axis1.trap_traj.config.accel_limit = 10000
+        self.odrv0.axis0.trap_traj.config.accel_limit = 7000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 7000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 10000
-        self.odrv0.axis1.trap_traj.config.decel_limit = 10000
+        self.odrv0.axis0.trap_traj.config.decel_limit = 7000
+        self.odrv0.axis1.trap_traj.config.decel_limit = 7000
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL

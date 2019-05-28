@@ -40,25 +40,25 @@ class Move:
         self.ActDone = False
 
         # [A tester] (pour lecture capteur en fonction du sens de Translation)
-        if goal > axis.encoder.pos_estimate:
-            Sen = [1,2,3]
+        if goal < axis.encoder.pos_estimate:
+            Sen = [0,1,2]
         else:
-            Sen = [4,5]
+            Sen = [3,4]
         print(Sen)
-        
+
         self.SenOn = [0 for i in range(len(Sen))]
 
         while movAvg >= errorMax:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            for i in range(Sen):
-                if MCP3008.readadc(i) > 800 :
+            for i in range len(Sen):
+                if MCP3008.readadc(Sen[i]) > 800 :
                     self.OBS = True
                     self.SenOn[i] = 1
                     print("Obstacle détécté")
                     #self.detect_obs(axis, goal)
-                    print("Values vaut : ", MCP3008.readadc(i) )
+                    print("Values vaut : ", MCP3008.readadc(Sen[i])
 
             for i in self.SenOn:
                 if i != 0:
