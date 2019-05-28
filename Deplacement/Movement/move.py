@@ -27,7 +27,7 @@ class Move:
         self.odrv0 = odrv0      # Assignation du odrive name
         self.SenOn = list()
 
-    def wait_end_move(self, axis, goal, errorMax):
+    def wait_end_move(self, axis, goal, errorMax, senslist):
 
         # fonction appelée à la fin des fonctions Move pour assurer
         # l'execution complète du mouvement/déplacement.
@@ -40,11 +40,7 @@ class Move:
         self.ActDone = False
 
         # [A tester] (pour lecture capteur en fonction du sens de Translation)
-        if goal < axis.encoder.pos_estimate:
-            Sen = [0,1,2]
-        else:
-            Sen = [3,4]
-        print(Sen)
+        Sen = [0,1,2,3,4]
 
         self.SenOn = [0 for i in range(len(Sen))]
 
@@ -53,17 +49,17 @@ class Move:
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range len(Sen):
-                if MCP3008.readadc(Sen[i]) > 800 :
-                    self.OBS = True
-                    self.SenOn[i] = 1
-                    #print("Obstacle détécté")
-                    #self.detect_obs(axis, goal)
-                    #print("Values vaut : ", MCP3008.readadc(Sen[i])
+                if senslist[i]:
+                    if MCP3008.readadc(Sen[i]) > 800 :
+                        self.OBS = True
+                        self.SenOn[i] = 1
+                        #print("Obstacle détécté")
+                        #self.detect_obs(axis, goal)
+                        #print("Values vaut : ", MCP3008.readadc(Sen[i])
 
             for i in self.SenOn:
                 if i != 0:
                     Sen_count =+1
-
 
 
             if Sen_count == 0:
@@ -82,7 +78,7 @@ class Move:
         self.ActDone = True
 
 
-    def detect_obs(self,axis, goal):
+    def detect_obs(self, axis, goal):
         # EN test pas utilisé ici
         if self.OBS == True :
             print("Obstacle détécté !")
@@ -92,7 +88,7 @@ class Move:
             axis.controller.move_to_pos(goal)
 
 
-    def rotation(self, angle):
+    def rotation(self, angle, senslist):
         # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
         print("Lancement d'une Rotation de %f°" % int(angle))
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
@@ -115,7 +111,7 @@ class Move:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
-                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
                 print("Rotation : Pas d'Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             #elif compteur_evitement == 3:
@@ -135,7 +131,7 @@ class Move:
 
 
 
-    def translation(self, distance):
+    def translation(self, distance, senslist):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % int(distance))
 
@@ -153,7 +149,7 @@ class Move:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
-                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
                 ("Translation : Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             elif self.OBS == True and self.ActDone == False:

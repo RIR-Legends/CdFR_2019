@@ -39,7 +39,7 @@ class Param:
         #self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 
-    def RAZ(self):
+    def raz(self):
         # Fonction de remise à zero des moteurs pour initialisation si calib déja faite
         flag = 'N'
         flag = input("Le robot est hors sol ? (Y or N)")
