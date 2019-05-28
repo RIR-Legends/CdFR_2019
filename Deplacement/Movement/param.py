@@ -42,7 +42,8 @@ class Param:
         # Fonction de remise à zero des moteurs pour initialisation si calib déja faite
         flag = 'N'
         flag = input("Le robot est hors sol ? (Y or N)")
-
+        self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+        self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         if flag == 'Y':
             """self.odrv0.axis0.controller.config.vel_limit = 7000
             self.odrv0.axis1.controller.config.vel_limit = 7000
@@ -59,6 +60,7 @@ class Param:
             #Remise en position 0 des moteurs pour initialisation
             self.odrv0.axis0.controller.move_to_pos(0)
             self.odrv0.axis1.controller.move_to_pos(0)
+            time.sleep(5)
 
 
     def calib(self):
