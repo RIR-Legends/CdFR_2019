@@ -98,9 +98,9 @@ param.calib()
 
 """ Choix de lancement des demos : """
 
-s.Tirette()
+s.tirette()
 
-if s.Cote() == True:
+if s.cote() == True:
 
     demo_simple(param.odrv0)
     #demo_tour(param.odrv0)
