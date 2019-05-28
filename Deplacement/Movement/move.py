@@ -20,7 +20,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 40      # unité ?
+        self.errorMax = 20      # unité ?
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
