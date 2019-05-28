@@ -55,7 +55,7 @@ def main():
     # Boucle Bloquante Tirette
     Switch.tirette()
 
-    for P in range(len(Registre_points)):  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
+    for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
         # Traitement
         treatment = Treatment(X_abs, Y_abs, Theta_abs)
