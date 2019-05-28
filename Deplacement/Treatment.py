@@ -27,6 +27,12 @@ class Treatment:
         self.deltaY = p[1] - self.Y_abs
         self.deltaTheta = p[2] - self.Theta_abs
 
+        if self.deltaTheta > 180 or self.deltaTheta < -180:
+            if self.deltaTheta > 0:
+                self.deltaTheta -= 360
+            elif self.deltaTheta < 0:
+                self.deltaTheta += 360
+
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
         traj_list = [self.hyp, self.deltaTheta]  # [Rel, Rel]
