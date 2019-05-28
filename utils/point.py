@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Point:
     def __init__(self, x, y, theta):
         self.x = x
@@ -22,10 +23,7 @@ class Point:
 
 
 def main():
-    point = Point()
-
-    point.print_pos()
-
+    pass
 
 
 if __name__ == '__main__':

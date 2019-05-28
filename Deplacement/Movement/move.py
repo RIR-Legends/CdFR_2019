@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import print_function
-#from Deplacements.Treatment import Treatment
-
 
 import MCP3008
 import odrive
 from odrive.enums import *  # a checker
 import time
 from math import *
+
 
 class Move:
     def __init__(self, odrv0): #, p1, p2
@@ -40,7 +39,7 @@ class Move:
         self.ActDone = False
 
         # [A tester] (pour lecture capteur en fonction du sens de Translation)
-        Sen = [0,1,2,3,4]
+        Sen = [0, 1, 2, 3, 4]
 
         self.SenOn = [0 for i in range(len(Sen))]
 
@@ -48,7 +47,7 @@ class Move:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            for i in range len(Sen):
+            for i in range(len(Sen)):
                 if senslist[i]:
                     if MCP3008.readadc(Sen[i]) > 800 :
                         self.OBS = True
@@ -59,8 +58,7 @@ class Move:
 
             for i in self.SenOn:
                 if i != 0:
-                    Sen_count =+1
-
+                    Sen_count += 1
 
             if Sen_count == 0:
                 self.OBS = False
@@ -150,13 +148,13 @@ class Move:
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                ("Translation : Obstacle")
+                print("Translation : Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             elif self.OBS == True and self.ActDone == False:
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
-                ("Translation : Pas d'Obstacle")
+                print("Translation : Pas d'Obstacle")
             else :
                 print("Translation Terminée !")
                 self.ActDone = False
@@ -171,7 +169,7 @@ class Move:
         #self.odrv0.axis1.controller.speed(0)
         """ ou  POUR ARReTER LES MOTEURS : """
 
-        self.odrv0.axis0.controller.set_vel_setpoint(0,0)
-        self.odrv0.axis1.controller.set_vel_setpoint(0,0)
+        self.odrv0.axis0.controller.set_vel_setpoint(0, 0)
+        self.odrv0.axis1.controller.set_vel_setpoint(0, 0)
         self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
         self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate

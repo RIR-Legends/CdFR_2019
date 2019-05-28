@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 # Import librairies externes
 from __future__ import print_function
 import odrive
@@ -11,20 +12,24 @@ from utils.Registre import Creation
 from Deplacement.Movement.move import Move
 from Deplacement.Instant_position import Positionate
 import utils.Switch as Switch
-
-
+from Deplacement.Movement.param import Param
 
 def main():
+
+    # initialisation des Odrives
+    param = Param()
+    param.config()
+    param.calib()
+    print("fin de de calibration")
 
     # initialisation des paramètres ABS
     X_abs = 500  # appel programme de mise en place init
     Y_abs = 0  # appel porgramme de mise en place init
     Theta_abs = 90
-
     print("position init abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
 
-    # Recherche des Odrive
-    odrv0 = odrive.find_any()
+    # Récupération de la carte Odrive
+    odrv0 = param.odrv0
 
     # récuperation cote + tirette
     cote = Switch.cote()  # Jaune = True, Violet = False
@@ -37,6 +42,7 @@ def main():
     # récupération des valeurs des points
     recuperation = Recuperation(creation.chemin.dictionnaire)
     Registre_points = recuperation.main()
+    print(Registre_points)
     # fin
 
     # Boucle Bloquante Tirette
@@ -47,7 +53,7 @@ def main():
         # Traitement
         treatment = Treatment(X_abs, Y_abs, Theta_abs)
         Traj_list = treatment.step(P)  # Traj_list = [ Distance, Theta ]
-        print("Traj_list = %f" % Traj_list)
+        print("Traj_list = %s" % Traj_list)
         # fin
 
 
@@ -56,6 +62,7 @@ def main():
 
             # Rotation
         Senslist = [True, True, True, True, True]
+
         move.rotation(Traj_list[1], Senslist)
             # fin
 

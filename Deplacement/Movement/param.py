@@ -14,7 +14,6 @@ class Param:
         print('Odrive found ! ')
 
     def config(self):
-        self.odrv0
         # 40Amp max dans le moteur (gros couple et sécurité pour pas fumer le moteur)
         self.odrv0.axis0.motor.config.current_lim = 10
         self.odrv0.axis1.motor.config.current_lim = 10
@@ -64,8 +63,6 @@ class Param:
 
     def calib(self):
         # Fonction de calibration sans condition
-
-        self.odrv0
 
         # Lance la calibration moteur si pas déjà faite
         print("starting calibration...")

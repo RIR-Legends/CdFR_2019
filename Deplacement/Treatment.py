@@ -27,7 +27,7 @@ class Treatment:
 
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
-        traj_list = [self.hyp, self.deltaTheta] # [Rel, Rel]
+        traj_list = [self.hyp, self.deltaTheta]  # [Rel, Rel]
 
         return traj_list
 
