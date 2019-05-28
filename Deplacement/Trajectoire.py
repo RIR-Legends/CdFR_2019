@@ -71,9 +71,9 @@ def main():
         move = Move(odrv0)
 
             # Rotation
-        Senslist = [True, True, True, True, True]
-
-        move.rotation(Traj_list[1], Senslist)
+        if Traj_list[1] != 0:
+            Senslist = [True, True, True, True, True]
+            move.rotation(Traj_list[1], Senslist)
             # fin
 
                 # Recuperation de position instant 1er composante
@@ -84,13 +84,15 @@ def main():
                 # fin
 
             # Translation
-        if Traj_list[1] >= 0:
-            Senslist = [True, True, True, False, False]
+        Senslist = [0, 0, 0, 0, 0]
+        if Traj_list[0] != 0:
+            if Traj_list[0] >= 0:
+                Senslist = [True, True, True, False, False]
 
-        elif Traj_list[1] < 0:
-            Senslist = [False, False, False, True, True]
+            elif Traj_list[0] < 0:
+                Senslist = [False, False, False, True, True]
 
-        move.translation(Traj_list[0], Senslist)
+            move.translation(Traj_list[0], Senslist)
             # fin
 
                 # retour capteur collision
