@@ -23,15 +23,15 @@ def demo_simple(odrv0) :
 
 def homologation(odrv0) :
     move = m.Move(odrv0)
-    move.translation(500)
+    move.translation(500, [True,True,True,False,False])
     time.sleep(1)
-    move.rotation(-90)
+    move.rotation(-90,[True,True,True,False,False])
     time.sleep(1)
-    move.translation(300)
+    move.translation(300,[True,True,True,False,False])
     time.sleep(1)
-    move.rotation(-90)
+    move.rotation(-90,[True,True,True,False,False])
     time.sleep(1)
-    move.translation(300)
+    move.translation(300,[True,True,True,False,False])
 
 
 
