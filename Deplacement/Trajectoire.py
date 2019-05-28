@@ -79,10 +79,10 @@ def main():
                 # fin
 
             # Translation
-        if Traj_list >= 0:
+        if Traj_list[1] >= 0:
             Senslist = [True, True, True, False, False]
 
-        elif Traj_list < 0:
+        elif Traj_list[1] < 0:
             Senslist = [False, False, False, True, True]
 
         move.translation(Traj_list[0], Senslist)
