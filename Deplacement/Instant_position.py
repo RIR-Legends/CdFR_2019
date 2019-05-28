@@ -29,6 +29,8 @@ class Positionate:
         distance0 = (self.delta_pos0 * self.WheelPerimeter) / self.nbCounts
         distance1 = (self.delta_pos1 * self.WheelPerimeter) / self.nbCounts
 
+
+
         distance = (distance0 + distance1) / 2
 
         print(distance)

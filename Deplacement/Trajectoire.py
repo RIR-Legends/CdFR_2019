@@ -76,6 +76,8 @@ def main():
                 # Recuperation de position instant 1er composante
         pos00 = odrv0.axis0.encoder.pos_estimate
         pos10 = odrv0.axis1.encoder.pos_estimate
+        print("pos 01 = ", pos00)
+        print("pos 11 = ", pos10)
                 # fin
 
             # Translation
@@ -94,6 +96,8 @@ def main():
                 # Recuperation de position instant 2eme composantes
         pos01 = odrv0.axis0.encoder.pos_estimate
         pos11 = odrv0.axis1.encoder.pos_estimate
+        print("pos 01 = ", pos01)
+        print("pos 11 = ", pos11)
                 # fin
 
         # fin
