@@ -3,6 +3,7 @@
 # Import librairies externes
 from __future__ import print_function
 import odrive
+import sys
 
 # Import programme Robot
 from Treatment import Treatment
@@ -13,7 +14,7 @@ from Instant_position import Positionate
 from Movement.param import Param
 # from Dodging import Dodging
 
-import sys
+
 sys.path.append('../')
 
 from utils.Registre import Creation
