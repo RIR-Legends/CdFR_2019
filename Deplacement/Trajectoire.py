@@ -88,6 +88,8 @@ def main():
         move.translation(Traj_list[0], Senslist)
             # fin
 
+                # retour capteur collision
+        print("liste des capteurs actifs", move.SenOn)
 
                 # Recuperation de position instant 2eme composantes
         pos01 = odrv0.axis0.encoder.pos_estimate
@@ -97,7 +99,7 @@ def main():
         # fin
 
         # instant position
-        positionate = Positionate(pos00, pos01, pos10, pos11, Traj_list[2])
+        positionate = Positionate(pos00, pos01, pos10, pos11, Traj_list[1])
         [X_abs, Y_abs, Theta_abs] = positionate.step()
         print("position abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
         # fin
