@@ -1,5 +1,3 @@
-from Deplacements.point import Point
-
 
 class Recuperation:
     def __init__(self, dico):

@@ -1,12 +1,12 @@
 # Ce fichier contient l'ensemble des points que l'on souhaite rencontrer
 
-import Deplacements.chemin
+from Deplacement.utils.Point_manager import Chemin
 
 
 # Les points sont positionnées en coordonnées absolus*
 class Creation:
     def __init__(self):
-        self.chemin = Deplacements.chemin.Chemin()
+        self.chemin = Chemin()
 
     def main(self):
         self.chemin.add_point('Depart', 0, 0, 0)
@@ -14,7 +14,6 @@ class Creation:
         self.chemin.add_point('Point2', 100, 100, 0)
         self.chemin.add_point('Point3', 100, 100, 90)
         self.chemin.add_point('Point4', 200, 200, 90)
-
 
         print(self.chemin.dictionnaire)
 
