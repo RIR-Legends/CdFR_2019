@@ -10,11 +10,19 @@ class Positionate:
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
         self.WheelDiameter = 80  # en mm
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
-        self.current_theta = theta
+        self.theta_buffer = theta
+        self.current_theta = 90  # en fonction du sens !
         self.current_X = 0
         self.current_Y = 0
 
+
+
     def step(self):
+
+        self.current_theta += self.theta_buffer
+
+        print("current_theta =", self.current_theta)
+
         distance0 = (self.delta_pos0 * self.WheelPerimeter) / self.nbCounts
         distance1 = (self.delta_pos1 * self.WheelPerimeter) / self.nbCounts
 
