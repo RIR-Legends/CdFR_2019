@@ -15,18 +15,22 @@ def demo_simple(odrv0) :
     move = m.Move(odrv0)
 
     time.sleep(1)
-    move.translation(1500)
-    time.sleep(2)
-    move.rotation(180)
-    time.sleep(2)
+    move.translation(500)
+    time.sleep(1)
+    move.rotation(-90)
+    time.sleep(1)
     move.translation(1000)
 
-def demo_rotation(odrv0) :
+def homologation(odrv0) :
     move = m.Move(odrv0)
-    #Test la fonction de controle de position relative (par rapport à pos précedente)
-    time.sleep(2)
-    move.rotation(720)
-    time.sleep(2)
+    move.translation(500)
+    time.sleep(1)
+    move.rotation(-90)
+    time.sleep(1)
+    move.translation(600)
+    time.sleep(1)
+    move.rotation(-90)
+
 
 def demo_tour(odrv0) :
     move = m.Move(odrv0)

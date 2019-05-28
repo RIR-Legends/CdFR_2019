@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import print_function
+
 import MCP3008
 import odrive
 from odrive.enums import *  # a checker
@@ -147,13 +148,13 @@ class Move:
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                print("Translation : Obstacle")
+                print("Translation : Pas d'Obstacle")
                 #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
             elif self.OBS == True and self.ActDone == False:
                 self.stop()
                 time.sleep(2)
                 self.OBS = False
-                print("Translation : Pas d'Obstacle")
+                print("Translation : Obstacle")
             else :
                 print("Translation Terminée !")
                 self.ActDone = False
