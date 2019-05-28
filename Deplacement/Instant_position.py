@@ -10,7 +10,7 @@ class Positionate:
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
         self.WheelDiameter = 80  # en mm
-        self.theta = theta
+        self.current_theta = theta
         self.current_X = 0
         self.current_Y = 0
 
@@ -20,7 +20,7 @@ class Positionate:
 
         distance = (distance0 + distance1) / 2
 
-        self.current_X += distance * cos(self.theta)
-        self.current_Y += distance * sin(self.theta)
+        self.current_X += distance * cos(self.current_theta)
+        self.current_Y += distance * sin(self.current_theta)
 
-        return [self.current_X, self.current_Y, self.theta]
+        return [self.current_X, self.current_Y, self.current_theta]

@@ -17,17 +17,17 @@ from odrive.enums import *
 
 def main():
 
-    # initialisation
-    X_abs = 0
-    Y_abs = 0
-    Theta_abs = 0
+    # initialisation des paramètres ABS
+    X_abs = 0 # appel programme de mise en place init
+    Y_abs = 0 # appel porgramme de mise en place init
+    Theta_abs = 90
 
 
     # Recherche des Odrive
     odrv0 = odrive.find_any()
 
     # creation du dico avec les valeurs des points
-    creation = Creation()
+    creation = Creation(sens) # bool de l'interrupteur tirrette
     creation.main()
     # fin
 
@@ -35,11 +35,11 @@ def main():
     Registre_points = Recuperation(creation.chemin.dictionnaire)
     # fin
 
-# for P in range(len(Registre_points)):
+# for P in range(len(Registre_points)): TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
     # Traitement
     treatment = Treatment(X_abs, Y_abs, Theta_abs)
-    Traj_list = treatment.step(P) # Traj_list = [ Distance, Theta ]
+    Traj_list = treatment.step(P)  # Traj_list = [ Distance, Theta ]
     # fin
 
 
