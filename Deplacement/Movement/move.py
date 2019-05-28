@@ -56,9 +56,9 @@ class Move:
                 if MCP3008.readadc(Sen[i]) > 800 :
                     self.OBS = True
                     self.SenOn[i] = 1
-                    print("Obstacle détécté")
+                    #print("Obstacle détécté")
                     #self.detect_obs(axis, goal)
-                    print("Values vaut : ", MCP3008.readadc(Sen[i])
+                    #print("Values vaut : ", MCP3008.readadc(Sen[i])
 
             for i in self.SenOn:
                 if i != 0:
