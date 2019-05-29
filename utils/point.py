@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
+
+
 class Point:
     def __init__(self, x, y, theta):
         self.x = x
@@ -7,7 +10,9 @@ class Point:
         self.theta = theta
         self.hypo = 0
 
-        self.P = {'X': self.x, 'Y': self.y, 'theta': self.theta}
+        self.d1_buffer = {'X': self.x, 'Y': self.y, 'ztheta': self.theta}
+        self.P = OrderedDict(sorted(self.d1_buffer.items(), key=lambda t: t[0]))
+
 
     def print_pos(self):
         print('Coordonnée en x = %f ' % self.x)
@@ -22,10 +27,11 @@ class Point:
 
 
 def main():
-    point = Point()
+    p = Point(100, 200, 90)
 
-    point.print_pos()
+    print(p.d1_buffer)
 
+    print(p.P)
 
 
 if __name__ == '__main__':

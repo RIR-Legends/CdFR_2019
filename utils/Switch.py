@@ -13,11 +13,15 @@ GPIO.setup(11, GPIO.IN)
 # GPIO.input(11) # GPAIO 17
 
 # Attente de réponse => TODO: test
-def Tirette():
-    while GPIO.input(7) == 0: # boucle de check tirette relevé
-        sleep(0.1)
+def tirette():
+    while 1 :
+        for i in range(0,10):
+            if GPIO.input(7) == 0: # boucle de check tirette relevée
+                print("attente tirette")
+                sleep(1)
+            else: return
 
-def Cote():
+def cote():
     if(GPIO.input(11) == 1): # TODO: Validé
         print("Jaune")
         return True
@@ -27,8 +31,8 @@ def Cote():
         return False
 
 def main():
-    Tirette()
-    Cote()
+    tirette()
+    cote()
 
 
 
