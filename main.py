@@ -2,27 +2,40 @@
 # -*- coding: utf-8 -*-
 
 import Robot
-from Timer import NinetySec
+from utils.timer import RIR_timer
+import utils.Switch as Switch
 
+sys.path.append('Deplacement/')
+sys.path.append('Deplacement/Movement/') #Necessaire pour MCP3008
+from SLAM.RIR_rplidar import RPLidar
+import Trajectoire
+from move import *
+from param import *
+from communication import Communication
 
 def main():
     # Initialisation
-    robot = Robot()
-    checkUp()
-    timer = NinetySec()
+    com = Communication('/dev/ttyACM1')
+    lidar = RPLidar('/dev/ttyUSB0')
+    param = Param()
+    move = Move(param.odrv0)
     
-    # Calibration point de départ (Mat)
+    lidar.start_motor()
+    param.config()
+    param.calib()
+    com.waitEndMove(Communication.MSG["Initialisation"])
+    time.sleep(1)
     
-    # Départ
-    timer.start()
+    # Creation du timer
+    timer = RIR_timer(com, (param,move), lidar)
     
-    # Deplacement à un point + Action
-
-    # A la fin
-    timer.join()
+    # Lancement du timer
+    Switch.tirette()
+    timer.start_timer()
     
+    # Lancement de trajectoire + Tirette
+    Trajectoire.main(param, move)
     
-    #move("PointZero")
     
     
     
