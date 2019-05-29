@@ -14,7 +14,7 @@ GPIO.setup(11, GPIO.IN)
 
 # Attente de réponse => TODO: test
 def tirette():
-    Tirrette = [1 for i in range(10)]
+    Tirrette = [0 for i in range(10)]
     while 1:
         print("attente tirette")
         for i in range(0, 10):
@@ -30,7 +30,7 @@ def tirette():
                 compteur = 0
                 for i in Tirrette:
                     compteur += i
-                if compteur <= 5:
+                if compteur >= 5:
                     return
         sleep(1)
 
