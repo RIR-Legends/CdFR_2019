@@ -20,11 +20,11 @@ sys.path.append('../')
 from utils.Registre import Creation
 import utils.Switch as Switch
 
-
+# def main(param, move):
 def main():
 
     # initialisation des Odrives
-    param = Param()
+    param = Param() # a récupéré en argument de la fonction
     param.config()
     param.calib()
     print("fin de de calibration")
@@ -57,7 +57,7 @@ def main():
 
     # initialisation des classes
     positionate = Positionate()
-    move = Move(odrv0)
+    move = Move(odrv0)      # a récupéréé en argument
 
     for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
