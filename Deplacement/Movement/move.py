@@ -33,7 +33,7 @@ class Move:
 
         ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
 
-        nb = 8
+        nb = 20
         avg = nb * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
