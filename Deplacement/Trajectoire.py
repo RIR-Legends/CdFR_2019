@@ -20,14 +20,15 @@ sys.path.append('../')
 from utils.Registre import Creation
 import utils.Switch as Switch
 
-# def main(param, move):
-def main():
 
-    # initialisation des Odrives
-    param = Param() # a récupéré en argument de la fonction
-    param.config()
-    param.calib()
-    print("fin de de calibration")
+def main(param, move, Solo = True):
+
+    if Solo:
+        # initialisation des Odrives
+        param = Param() # a récupéré en argument de la fonction
+        param.config()
+        param.calib()
+        print("fin de de calibration")
 
     # initialisation des paramètres ABS
     X_abs = 500  # appel programme de mise en place init
@@ -51,13 +52,15 @@ def main():
     Registre_points = recuperation.main()
     print(Registre_points)
     # fin
-    
-    # Boucle Bloquante Tirette
-    Switch.tirette()
+
+    if Solo:
+        # Boucle Bloquante Tirette
+        Switch.tirette()
 
     # initialisation des classes
     positionate = Positionate()
-    move = Move(odrv0)      # a récupéréé en argument
+    if Solo:
+        move = Move(odrv0)      # a récupéréé en argument
 
     for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
@@ -123,4 +126,4 @@ def main():
         print("dodging end")
 
 if __name__ == "__main__":
-    main()
+    main(None, None)
