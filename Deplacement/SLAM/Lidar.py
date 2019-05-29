@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import math
+from RIR_rplidar import *
 
 class Lidar():
     Combi = {	"B1B2" : (1900, 140, 120, 60),
@@ -14,7 +15,7 @@ class Lidar():
 
     def __init__(self):
         ### Initlialiser le LIDAR
-        self.Lidar = RIR_rplidar('/dev/ttyUSB0')
+        self.Lidar = RPLidar('/dev/ttyUSB0')
         self.scans = self.Lidar.iter_scans()
         
     def stop(self):
@@ -67,7 +68,7 @@ class Lidar():
 
         # Verification début et fin du set, continuité de 360 à 0
         distance = math.sqrt(grp_LM[0][0][1]**2 + grp_LM[-1][-1][1]**2 - 2*grp_LM[0][0][1]*grp_LM[-1][-1][1]*math.cos(Lidar.__deg_2_rad(grp_LM[0][0][2]-grp_LM[-1][-1][2])))
-        if distance < tol_distance
+        if distance < tol_distance:
             for _ in range(len(grp_LM[-1])):
                 grp_LM[0].insert(0, grp_LM[-1].pop())
             grp_LM.pop()
@@ -98,24 +99,24 @@ class Lidar():
                 if diff[1] > 180:
                     diff = (0, diff[1] - 180)
                 if diff[1] > 55:
-                    diff = (math.sqrt(RFID[i][1]**2 + RFID[j][1]**2 - 2*RFID[i][1]*RFID[j][1]*math.cos(Lidar.__deg_2_rad(diff[1])))
-                    if diff[0] > Lidar.Combi["B1B2"][0]-Lidar.Combi["B1B2"][1] and diff[0] > Lidar.Combi["B1B2"][0]+Lidar.Combi["B1B2"][1]
+                    diff = (math.sqrt(RFID[i][1]**2 + RFID[j][1]**2 - 2*RFID[i][1]*RFID[j][1]*math.cos(Lidar.__deg_2_rad(diff[1]))))
+                    if diff[0] > Lidar.Combi["B1B2"][0]-Lidar.Combi["B1B2"][1] and diff[0] > Lidar.Combi["B1B2"][0]+Lidar.Combi["B1B2"][1]:
                         common[i][0], common[i][1] = common[i][0] + 1, common[i][1] + 1
                         common[j][0], common[j][1] = common[j][0] + 1, common[j][1] + 1
                         continue
-                    if diff[0] > Lidar.Combi["B1B3"][0]-Lidar.Combi["B1B3"][1] and diff[0] > Lidar.Combi["B1B3"][0]+Lidar.Combi["B1B3"][1]
+                    if diff[0] > Lidar.Combi["B1B3"][0]-Lidar.Combi["B1B3"][1] and diff[0] > Lidar.Combi["B1B3"][0]+Lidar.Combi["B1B3"][1]:
                         common[i][0], common[i][1], common[i][2] = common[i][0] + 1, common[i][1] + 1, common[i][2] + 2
                         common[j][0], common[j][1], common[j][2] = common[j][0] + 1, common[j][1] + 1, common[j][2] + 2
                         continue
-                    if diff[0] > Lidar.Combi["B1M"][0]-Lidar.Combi["B1M"][1] and diff[0] > Lidar.Combi["B1M"][0]+Lidar.Combi["B1M"][1]
+                    if diff[0] > Lidar.Combi["B1M"][0]-Lidar.Combi["B1M"][1] and diff[0] > Lidar.Combi["B1M"][0]+Lidar.Combi["B1M"][1]:
                         common[i][0], common[i][3] = common[i][0] + 1, common[i][3] + 1
                         common[j][0], common[j][3] = common[j][0] + 1, common[j][3] + 1
                         continue
-                    if diff[0] > Lidar.Combi["B2M"][0]-Lidar.Combi["B2M"][1] and diff[0] > Lidar.Combi["B2M"][0]+Lidar.Combi["B2M"][1]
+                    if diff[0] > Lidar.Combi["B2M"][0]-Lidar.Combi["B2M"][1] and diff[0] > Lidar.Combi["B2M"][0]+Lidar.Combi["B2M"][1]:
                         common[i][1], common[i][3] = common[i][1] + 1, common[i][3] + 1
                         common[j][1], common[j][3] = common[j][1] + 1, common[j][3] + 1
                         continue
-                    if diff[0] > Lidar.Combi["B3M"][0]-Lidar.Combi["B3M"][1] and diff[0] > Lidar.Combi["B3M"][0]+Lidar.Combi["B3M"][1]
+                    if diff[0] > Lidar.Combi["B3M"][0]-Lidar.Combi["B3M"][1] and diff[0] > Lidar.Combi["B3M"][0]+Lidar.Combi["B3M"][1]:
                         common[i][2], common[i][3] = common[i][2] + 1, common[i][3] + 1
                         common[j][2], common[j][3] = common[j][2] + 1, common[j][3] + 1
                         continue
@@ -150,3 +151,10 @@ class Lidar():
 
     def __deg_2_rad(deg):
         return deg*math.pi/180
+
+def main():
+    lidar = Lidar()
+    lidar.get_RFID()
+
+if __name__ == '__main__':
+    main()
