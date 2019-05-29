@@ -93,11 +93,12 @@ def main():
             elif Traj_list[0] < 0:
                 Senslist = [False, False, False, True, True]
 
+            print("liste des capteurs actifs demandé", Senslist)
+
             move.translation(Traj_list[0], Senslist)
             # fin
 
                 # retour capteur collision
-        print("liste des capteurs actifs", move.SenOn)
 
                 # Recuperation de position instant 2eme composantes
         pos01 = odrv0.axis0.encoder.pos_estimate
