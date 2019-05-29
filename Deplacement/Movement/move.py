@@ -20,6 +20,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
+        self.compteur = 0
         self.errorMax = 10      # unité ?
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
@@ -146,11 +147,15 @@ class Move:
         while 1: # [A tester] (a la place de condition en dessous)
             #self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
             if self.OBS == False and self.ActDone == False:
+                # while abs(target0 - self.odrv0.axis0.encoder.pos_estimate) < self.errorMax:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
+                while abs(target0 - self.odrv0.axis0.encoder.pos_estimate) < self.errorMax:
+                    self.compteur += 1
+                    print(self.compteur)
                 # Attente fin de mouvement SI aucun obstacle détécté
-                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax, senslist)  # test sur 1 encoder pr l'instant
+                #self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
+                #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax, senslist)  # test sur 1 encoder pr l'instant
                 #print("Translation : Pas d'Obstacle")
 
             elif self.OBS == True and self.ActDone == False:
