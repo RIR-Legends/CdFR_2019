@@ -3,9 +3,13 @@
 
 from Robot import Robot
 
-def main():
-    robot = Robot(lancer_exp = True)
+def main(lancer_exp = True):
+    robot = Robot(lancer_exp)
+
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 1:
+        main(sys.argv[1])
+    main(True)
+

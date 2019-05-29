@@ -8,6 +8,9 @@ sys.path.append('Deplacement/utils')
 sys.path.append('Deplacement/Movement')
 sys.path.append('Deplacement/SLAM')
 
+from point import Point
+import filedb
+from ast import literal_eval #Utilisé avec filedb
 import Switch
 from communication import Communication
 from param import Param
@@ -19,6 +22,7 @@ from utils.timer import RIR_timer
 class Robot():
     def __init__(self, lancer_exp = True):
         # Initialisation variables
+        self.db = filedb.fileDB(db = "../Points")
         self.__side = Switch.cote()
         self.__com = Communication('/dev/ttyACM0')
         self.__Oparam = Param()
