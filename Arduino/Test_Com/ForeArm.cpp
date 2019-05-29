@@ -14,7 +14,8 @@ void ForeArm::InitDynamixel(){
 }
 
 void ForeArm::DeploiementSaisieFloor(){
-  MoveTo(525,515); 
+  MoveTo(505,515); 
+  //MoveTo(525,515); 
 }
 
 void ForeArm::DeploiementDrop(){
@@ -32,7 +33,7 @@ void ForeArm::ParquetD(){
 }
 
 void ForeArm::BrasTransport(){
-  MoveTo(200,515);
+  MoveTo(700,180);
   
 }
 
