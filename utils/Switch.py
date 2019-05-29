@@ -24,6 +24,8 @@ def tirette():
             else:
                 Tirrette[i] = 1
 
+            print('liste Tirrette =', Tirrette)
+
             if i == 9:
                 compteur = 0
                 for i in Tirrette:
