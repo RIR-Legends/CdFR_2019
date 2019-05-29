@@ -1,74 +1,46 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Communication.communication import Communication as Communication
-from Deplacements.point import Point as Point
-import Points.filedb
+import sys
+sys.path.append('utils/')
+sys.path.append('Deplacement/')
+sys.path.append('Deplacement/utils')
+sys.path.append('Deplacement/Movement')
+sys.path.append('Deplacement/SLAM')
 
-from Deplacements.param import Param as OdriveParam
-from Deplacements.move import Move as Movements
-#from Deplacements.chemin import Chemin as Parcours
-from Deplacements.Treatment import Treatment as Treatment
-
-
-#from RPlidar.RIR_rplidar import RPLidar as RPLidar
+import Switch
+from communication import Communication
+from param import Param
+from move import Move
+from RIR_rplidar import RPLidar #from Lidar import Lidar
+from utils.timer import RIR_timer
+#import Trajectoire
 
 class Robot():
-    def __init__(self):
-        # Initialisation de la communication avec l'Arduino
-        self.com = Communication() ### ATTENTION PEUT ETRE BLOQUANT
+    def __init__(self, lancer_exp = True):
+        # Initialisation variables
+        self.__side = Switch.cote()
+        self.__com = Communication('/dev/ttyACM0')
+        self.__Oparam = Param()
+        self.__move = Move(self.Oparam.odrv0)
+        self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
+        self.__timer = RIR_timer(self.com, (self.param,self.move), self.lidar, launch_exp) # Test: placé avant __init_physical
+                
+        self.__init_physical()
+        self.set_ready()
 
-        # Initialisation informations extérieur
-        self.side = None
-        self.tirettePulled = False
-        self.timer = time.time()
+    def __init_physical(self):
+        self.__lidar.start_motor() # A retirer si lidar = Lidar
+        self.__Oparam.config()
+        self.__Oparam.calib()
+        self.__com.waitEndMove(Communication.MSG["Initialisation"])
 
-        # Initialisation ODrive
-        self.Oparam = OdriveParam()
-        #self.Oparam.RAZ()
-        self.Oparam.config()
-        self.Oparam.calib_always()
+    def set_ready(self):
+        Switch.tirette()
+        self.__timer.start_timer()
+        #Trajectoire.main(param, move, False)
 
-        # Intilialisation Trajectoire
-        self.move = Movements(self.Oparam.odrv0)
-        self.dbPoints = filedb.fileDB(db="points")
-        self.treatment = Treatment()
-        self.thetaOrder = 0
-        self.distanceOrder = 0
-        self.currentPos = Point(0,0,0)
-
-        # Initialisation Lidar et SLAM
-        self.lidar = RPLidar() ### ATTENTION PEUT ETRE BLOQUANT
-
-    def checkSide(self):
-        ''' A refaire selon branchement sur Rasp '''
-        #while self.com.OrangeSide == None:
-        #    self.com.checkAndRead()
-        #self.side = "Violet"
-        #if OrangeSide:
-        #    self.side = "Orange"
-        #return self.side
-
-    def checkTimer(self):
-        Now = time.time() - DepartTime
-        
-
-    def waitingTrigger(self):
-        ''' A refaire selon branchement sur Rasp '''
-        #while self.com.Tirette:
-        #    self.com.checkAndRead()
-        self.timer = time.time()
-
-    def stopAll(self):
-        self.move.stop()
-        self.com.send(Communication.MSG["Arret"])
-
-    def getOrder(self,departPoint,arrivalPoint):
-        res = self.treatment(departPoint,arrivalPoint)
-        self.thetaOrder = res[1]
-        self.distanceOrder = res[0]
-
-    def getDataDB(self,name):
-        ''' Va chercher et retourne le point associé au name dans la base de donnée '''
-        data = literal_eval(self.dbPoints.get(name))
-        return Point(data[0],data[1],data[2]) # Pour l'instant seuls les Points sont considérés dans la base de données
+    #def getDataDB(self,name):
+    #    ''' Va chercher et retourne le point associé au name dans la base de donnée '''
+    #    data = literal_eval(self.dbPoints.get(name))
+    #    return Point(data[0],data[1],data[2]) # Pour l'instant seuls les Points sont considérés dans la base de données
