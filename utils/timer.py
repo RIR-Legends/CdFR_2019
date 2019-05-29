@@ -6,18 +6,17 @@ import time
 
 import sys
 sys.path.append('../')
-sys.path.append('../Deplacement/Movement/')
 from Deplacement.SLAM.RIR_rplidar import RPLidar
+sys.path.append('../Deplacement/Movement/') #Necessaire pour MCP3008
 from move import *
 from param import *
 
 class RIR_timer():
-    #def __init__(self, Communication, Moteur, Lidar):
-    def __init__(self, Moteur, Lidar):
-        self.launcher = threading.Thread(target=self.__RIR_timer, args=(Moteur, Lidar))
+    def __init__(self, Communication, Moteur, Lidar):
+        self.launcher = threading.Thread(target=self.__RIR_timer, args=(Communication, Moteur, Lidar))
         self.duration = 20
 
-    def __RIR_timer(self, motor, lidar):
+    def __RIR_timer(self, com, motor, lidar):
         DepartTime = time.time()
         time.sleep(self.duration - 5)
         Now = time.time() - DepartTime
@@ -28,13 +27,24 @@ class RIR_timer():
         #Stop all
         lidar.stop()
         lidar.disconnect()
-        #com.send(Communication.MSG["Arret"])
         motor[1].stop()
         motor[0].odrv0.reboot()
+        com.send(Communication.MSG["Arret"])
+        
         
         # Try to do an action
-        lidar.start_motor()
-        move.translation(5000, [False]*5)
+        try
+            com.waitEndMove(Communication.MSG["Palet_Floor_In"])
+        except
+            print("No Com Available")
+        try
+            lidar.start_motor()
+        except
+            print("No LiDAR Available")
+        try
+            move.translation(5000, [False]*5)
+        except
+            print("No Motor Available")
     
     def start_timer(self):
         self.launcher.start()
@@ -44,17 +54,24 @@ def main():
     lidar = RPLidar('/dev/ttyUSB0')
     param = Param()
     move = Move(param.odrv0)
+    com = Communication()
     
     lidar.start_motor()
     param.config()
     param.calib()
+    com.waitEndMove(Communication.MSG["Initialisation"], True)
+    print("Initilisation DONE")
+    time.sleep(1)
     
     # Creation du timer
     timer = RIR_timer((param,move),lidar)
 
+    # Tester com
+    com.waitEndMove(Communication.MSG["Palet_Floor_In"], True)
+    
     # Lancement du timer
     timer.start_timer()
-        
+
     # Action pour les tests
     move.translation(50000, [False]*5)
 
