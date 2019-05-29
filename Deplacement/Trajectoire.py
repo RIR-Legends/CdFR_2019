@@ -115,7 +115,7 @@ def main(param, move, Solo = True):
         # fin
 
         # Recalculation pour l'iclinaison finale du robot
-        FinalAngle = PostTreatment.step(P)
+        FinalAngle = PostTreatment(Theta_abs).step(P)
             # fin
 
         # Rotation
