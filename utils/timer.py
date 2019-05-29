@@ -10,6 +10,7 @@ from Deplacement.SLAM.RIR_rplidar import RPLidar
 sys.path.append('../Deplacement/Movement/') #Necessaire pour MCP3008
 from move import *
 from param import *
+from communication import Communication
 
 class RIR_timer():
     def __init__(self, Communication, Moteur, Lidar):
@@ -31,19 +32,18 @@ class RIR_timer():
         motor[0].odrv0.reboot()
         com.send(Communication.MSG["Arret"])
         
-        
         # Try to do an action
-        try
+        try:
             com.waitEndMove(Communication.MSG["Palet_Floor_In"])
-        except
+        except:
             print("No Com Available")
-        try
+        try:
             lidar.start_motor()
-        except
+        except:
             print("No LiDAR Available")
-        try
+        try:
             move.translation(5000, [False]*5)
-        except
+        except:
             print("No Motor Available")
     
     def start_timer(self):
@@ -54,20 +54,16 @@ def main():
     lidar = RPLidar('/dev/ttyUSB0')
     param = Param()
     move = Move(param.odrv0)
-    com = Communication()
+    com = Communication('/dev/ttyACM1')
     
     lidar.start_motor()
     param.config()
     param.calib()
-    com.waitEndMove(Communication.MSG["Initialisation"], True)
-    print("Initilisation DONE")
+    com.waitEndMove(Communication.MSG["Initialisation"])
     time.sleep(1)
     
     # Creation du timer
-    timer = RIR_timer((param,move),lidar)
-
-    # Tester com
-    com.waitEndMove(Communication.MSG["Palet_Floor_In"], True)
+    timer = RIR_timer(com, (param,move),lidar)
     
     # Lancement du timer
     timer.start_timer()
@@ -81,4 +77,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
