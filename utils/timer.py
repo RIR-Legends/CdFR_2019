@@ -9,7 +9,7 @@ class RIR_timer():
     def __init__(self, Lidar):
         self.launcher = threading.Thread(target=self.__RIR_timer, args=(Lidar,))
 
-    def __RIR_timer(lidar):
+    def __RIR_timer(self, lidar):
         DepartTime = time.time()
         time.sleep(5)
         Now = time.time() - DepartTime
@@ -25,7 +25,7 @@ class RIR_timer():
     def start_timer(self):
         self.launcher.start()
 
-def main
+def main():
     import sys
     sys.path.append('../')
     from Deplacement.SLAM.RIR_rplidar import RPLidar
