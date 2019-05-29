@@ -6,26 +6,26 @@ import time
 
 import sys
 sys.path.append('../')
+sys.path.append('../Deplacement/Movement/')
 from Deplacement.SLAM.RIR_rplidar import RPLidar
-from Deplacement.Movement.move import *
-#from Deplacement.Movement.move import Move
-from Deplacement.Movement.param import *
-#from Deplacement.Movement.param import Param
+from move import *
+from param import *
 
 class RIR_timer():
     #def __init__(self, Communication, Moteur, Lidar):
     def __init__(self, Moteur, Lidar):
         self.launcher = threading.Thread(target=self.__RIR_timer, args=(Moteur, Lidar))
+        self.duration = 20
 
     def __RIR_timer(self, motor, lidar):
         DepartTime = time.time()
-        time.sleep(5)
+        time.sleep(self.duration - 5)
         Now = time.time() - DepartTime
-        while Now < 10:
+        while Now < self.duration:
             time.sleep(.1)
             Now = time.time() - DepartTime
             
-        #STOP ALL HERE
+        #Stop all
         lidar.stop()
         lidar.disconnect()
         #com.send(Communication.MSG["Arret"])
@@ -34,7 +34,7 @@ class RIR_timer():
         
         # Try to do an action
         lidar.start_motor()
-        move.translation(500)
+        move.translation(5000, [False]*5)
     
     def start_timer(self):
         self.launcher.start()
@@ -44,18 +44,20 @@ def main():
     lidar = RPLidar('/dev/ttyUSB0')
     param = Param()
     move = Move(param.odrv0)
-        
-    # Action pour les tests
+    
     lidar.start_motor()
     param.config()
     param.calib()
-    move.translation(500)
-
+    
     # Creation du timer
     timer = RIR_timer((param,move),lidar)
 
     # Lancement du timer
     timer.start_timer()
+        
+    # Action pour les tests
+    move.translation(50000, [False]*5)
+
 
     # Attend que les threads se terminent (Bloquant)
     #thread.join()
