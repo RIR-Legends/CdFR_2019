@@ -57,6 +57,7 @@ def main():
 
     # initialisation des classes
     positionate = Positionate()
+    move = Move(odrv0)
 
     for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
 
@@ -68,7 +69,7 @@ def main():
 
 
         # déplacements
-        move = Move(odrv0)
+
 
             # Rotation
         if Traj_list[1] != 0:   # Theta != 0
