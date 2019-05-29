@@ -33,7 +33,8 @@ class Move:
 
         ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
 
-        avg = 10 * [0]
+        nb = 10
+        avg = nb * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         self.ActDone = False
@@ -63,12 +64,12 @@ class Move:
             if Sen_count == 0:
                 self.OBS = False
                 #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
-                for i in range(index, 10):
+                for i in range(index, nb):
                     index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
                 movAvg = 0
-                for i in range(0, 10):
-                    movAvg += avg[i] / 10
+                for i in range(0, nb):
+                    movAvg += avg[i] / nb
 
             elif Sen_count != 0:
                 return
