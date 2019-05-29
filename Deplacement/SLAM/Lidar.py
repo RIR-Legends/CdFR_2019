@@ -154,7 +154,8 @@ class Lidar():
 
 def main():
     lidar = Lidar()
-    lidar.get_RFID()
+    print(lidar.get_RFID())
+    lidar.stop()
 
 if __name__ == '__main__':
     main()
