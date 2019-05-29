@@ -1,43 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import Robot
-import time
+#import Robot
+import sys
+from utils.timer import RIR_timer
+import utils.Switch as Switch
 
-
+sys.path.append('Deplacement/')
+sys.path.append('Deplacement/Movement/') #Necessaire pour MCP3008
+from SLAM.RIR_rplidar import RPLidar
+import Trajectoire
+from move import *
+from param import *
+from utils.communication import Communication
 
 def main():
     # Initialisation
-    robot = Robot()
-    checkUp()
+    com = Communication('/dev/ttyACM0')
+    lidar = RPLidar('/dev/ttyUSB0')
+    param = Param()
+    move = Move(param.odrv0)
     
-    # Attente du départ (Tirette)
-    robot.waitingTrigger()
-    DepartTime = time.time()
-    Now = time.time() - DepartTime
-    #### Lancer le timer ICI
-    #### Lancer le thread de détection
+    lidar.start_motor()
+    param.config()
+    param.calib()
+    com.waitEndMove(Communication.MSG["Initialisation"])
+    time.sleep(1)
     
-    move("PointZero")
+    # Creation du timer
+    timer = RIR_timer(com, (param,move), lidar, launch_exp = True)
     
+    # Lancement du timer
+    Switch.tirette()
+    timer.start_timer()
     
-    
-
-    
-def checkUp():
-    robot.checkSide()
-    #robot.setParcours() #Load
-    
-def move(name):
-    # Recupere consigne
-    robot.getOrder(robot.currentPos,robot.getData(name))
-    
-    # Effectue le mouvement
-    robot.move.rotation(robot.thetaOrder)
-    robot.move.translation(robot.distanceOrder)
-    
-    # Doit effectuer une mise à jour de la position du robot (robot.currentPos). Pour l'instant on fait confiance à l'Odrive.
-    robot.currentPos = robot.getData(name)
+    # Lancement de trajectoire + Tirette
+    Trajectoire.main(param, move, False)
 
 
 if __name__ == '__main__':

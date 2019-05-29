@@ -1,0 +1,59 @@
+
+odrv0.axis0.motor.config.current_lim = 40
+odrv0.axis1.motor.config.current_lim = 40
+
+
+odrv0.axis0.controller.config.vel_limit = 7000
+odrv0.axis1.controller.config.vel_limit = 7000
+
+# trap_traj parametrage des valeurs limit du comportement dynamique
+odrv0.axis1.trap_traj.config.vel_limit = 1000
+odrv0.axis0.trap_traj.config.vel_limit = 1000
+
+odrv0.axis0.trap_traj.config.accel_limit = 500
+odrv0.axis1.trap_traj.config.accel_limit = 500
+
+odrv0.axis0.trap_traj.config.decel_limit = 500
+odrv0.axis1.trap_traj.config.decel_limit = 500
+
+
+odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
+odrv0.axis0.controller.move_to_pos(0)
+odrv0.axis1.controller.move_to_pos(0)
+
+
+odrv0.axis0.controller.move_to_pos(819200)
+odrv0.axis1.controller.move_to_pos(819200)
+
+odrv0.axis0.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+odrv0.axis1.controller.config.control_mode = CTRL_MODE_POSITION_CONTROL
+
+odrv0.axis0.encoder.pos_estimate
+odrv0.axis1.encoder.pos_estimate
+
+odrv0.axis0.controller.pos_setpoint
+odrv0.axis1.controller.pos_setpoint
+
+# velocité CPP / Py :
+odrv0.axis0.controller.set_vel_setpoint(0,0) 
+odrv0.axis1.controller.set_vel_setpoint(0,0)
+
+odrv0.axis0.controller.vel_setpoint(0) 
+odrv0.axis1.controller.vel_setpoint(0)
+
+
+Mais on est con la boucle a faire cest  : `
+
+While(xx.axis0.pos_estimate =< target0 && xx.axis1.pos_estimate =< target1){
+xxx.axis0.Move_to_pose(target0)
+xxx.axis0.Move_to_pose(target1)
+If (mcp3008.readadc(2)>800){
+Xxx.axis0.controller.set_vel_setpoint(0,0)
+Xxx.axis1.controller.set_vel_setpoint(0,0)
+}
+}
