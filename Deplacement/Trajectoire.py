@@ -71,7 +71,7 @@ def main():
         move = Move(odrv0)
 
             # Rotation
-        if Traj_list[1] != 0:
+        if Traj_list[1] != 0:   # Theta != 0
             Senslist = [True, True, True, True, True]
             move.rotation(Traj_list[1], Senslist)
             # fin
@@ -85,7 +85,7 @@ def main():
 
             # Translation
         Senslist = [0, 0, 0, 0, 0]
-        if Traj_list[0] != 0:
+        if Traj_list[0] != 0:   # Distance != 0
             if Traj_list[0] >= 0:
                 Senslist = [True, True, True, False, False]
 

@@ -110,8 +110,9 @@ class Move:
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                #print("Rotation : Pas d'Obstacle")
-                #self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)   #test sur 1 encoder pr l'instant
+                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax, senslist)  # test sur 1 encoder pr l'instant
+                print("Rotation : Pas d'Obstacle")
+
             #elif compteur_evitement == 3:
                 #evitement(fdgf,sfv,sfg)
                 #compteur_evitement = 0
