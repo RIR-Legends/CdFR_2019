@@ -34,7 +34,7 @@ def main():
     timer.start_timer()
     
     # Lancement de trajectoire + Tirette
-    Trajectoire.main(param, move)
+    Trajectoire.main(param, move, False)
     
     
     
