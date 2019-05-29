@@ -42,12 +42,10 @@ _HEALTH_STATUS = {
     2: 'Error',
 }
 
-logging.basicConfig(	filename="RIR_logs/rplidar.log",
-						format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s',
-						level=logging.DEBUG)
-
-
-
+logging.basicConfig(    filename="RIR_logs/rplidar.log",
+                        format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s', 
+                        level=logging.DEBUG)
+                        
 class RPLidarException(Exception):
     '''Basic exception class for RPLidar'''
 
@@ -55,12 +53,12 @@ class RPLidarException(Exception):
 def _process_scan(raw, read):
     '''Processes input raw data and returns measurment data'''
     new_scan = bool(raw[0] & 0b1)
-    if (not new_scan) and (not read):
-        return new_scan, 0, 0, 0
+    if not (new_scan) and (not read):
+        return False, 0, 0, 0
     inversed_new_scan = bool((raw[0] >> 1) & 0b1)
     quality = raw[0] >> 2
     if quality == 0:
-        return False, 0, 0, 0
+        return False,0,0,0
     if new_scan == inversed_new_scan:
         return False, 0, 0, 0
         raise RPLidarException('New scan flags mismatch')
@@ -68,7 +66,7 @@ def _process_scan(raw, read):
     if check_bit != 1:
         return False, 0, 0, 0
         raise RPLidarException('Check bit not equal to 1')
-    angle = 360 - ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
+    angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
     distance = (raw[3] + (raw[4] << 8)) / 4.
     return new_scan, quality, angle, distance
 
@@ -183,7 +181,7 @@ class RPLidar(object):
         data = self._serial_port.read(dsize)
         #self.logDbg.debug('Received data: %s', data)
         if len(data) != dsize:
-            self.logDbg.exception('In read_response : wrong body size')
+            #self.logDbg.exception('In read_response : wrong body size')
             raise RPLidarException('Wrong body size')
         return data
 
@@ -317,6 +315,7 @@ class RPLidar(object):
             raw = self._read_response(dsize)
             if max_buf_meas:
                 data_in_buf = self._serial_port.in_waiting
+                #print(data_in_buf)
                 if data_in_buf > max_buf_meas*dsize:
                     self.logDbg.warning(
                         'Too many measurments in the input buffer: %d/%d. '
@@ -327,13 +326,14 @@ class RPLidar(object):
             if data[1] == 0 or data[3] == 0:
                 continue
             yield data
-            if data[0] != True:
+            if not data[0]:
                 continue
-            while not data[0] == True:
+            self._serial_port.read(4000)
+            #print(self._serial_port.in_waiting)
+            data = _process_scan(self._read_response(dsize), False)
+            while not data[0]:
                 data = _process_scan(self._read_response(dsize), False)
-            
-            
-            #self._serial_port.read(data_in_buf//dsize*dsize)
+            yield data
 
     def iter_scans(self, max_buf_meas= 1000, min_len=5):
         '''Iterate over scans. Note that consumer must be fast enough,

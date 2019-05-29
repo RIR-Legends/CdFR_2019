@@ -12,7 +12,8 @@ IMAX = 50
 
 def update_line(num, iterator, line):
     scan = next(iterator)
-    offsets = np.array([(np.radians(meas[1]), meas[2]) for meas in scan])
+
+    offsets = np.array([(np.radians(360 - meas[1]), meas[2]) for meas in scan])
     line.set_offsets(offsets)
     intens = np.array([meas[0] for meas in scan])
     line.set_array(intens)
@@ -36,3 +37,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+
