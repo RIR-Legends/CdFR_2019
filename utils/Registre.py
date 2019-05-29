@@ -14,8 +14,8 @@ class Creation:
 
     def main(self):
         # coté jaune
-        self.chemin.add_point('aDepart', 500, 350, 90)
-        self.chemin.add_point('bPoint1', 800, 350, 0)
+        self.chemin.add_point('aDepart', 500, 500, 90)
+        self.chemin.add_point('bPoint1', 800, 500, 0)
         self.chemin.add_point('cPoint2', 800, 150, -90)
         # self.chemin.add_point('dPoint3', 500, 500, 180)
         # self.chemin.add_point('Point4', 200, 200, 180)
