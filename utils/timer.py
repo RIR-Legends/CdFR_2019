@@ -25,6 +25,8 @@ class RIR_timer():
         motor[0].odrv0.reboot()
         
         # Try to do an action
+        lidar.start_motor()
+        move.translation(500)
     
     def start_timer(self):
         self.launcher.start()
@@ -45,6 +47,8 @@ def main():
         
     # Action pour les tests
     lidar.start_motor()
+    param.config()
+    param.calib()
     move.translation(500)
 
     # Creation du timer
