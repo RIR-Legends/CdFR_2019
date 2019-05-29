@@ -4,6 +4,14 @@
 import threading
 import time
 
+import sys
+sys.path.append('../')
+from Deplacement.SLAM.RIR_rplidar import RPLidar
+from Deplacement.Movement.move import *
+#from Deplacement.Movement.move import Move
+from Deplacement.Movement.param import *
+#from Deplacement.Movement.param import Param
+
 class RIR_timer():
     #def __init__(self, Communication, Moteur, Lidar):
     def __init__(self, Moteur, Lidar):
@@ -32,14 +40,6 @@ class RIR_timer():
         self.launcher.start()
 
 def main():
-    import sys
-    sys.path.append('../')
-    from Deplacement.SLAM.RIR_rplidar import RPLidar
-    from Deplacement.Movement.move import *
-    #from Deplacement.Movement.move import Move
-    from Deplacement.Movement.param import *
-    #from Deplacement.Movement.param import Param
-
     # Initialisation
     lidar = RPLidar('/dev/ttyUSB0')
     param = Param()
