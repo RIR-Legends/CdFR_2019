@@ -154,7 +154,10 @@ class Lidar():
 
 def main():
     lidar = Lidar()
-    print(lidar.get_RFID())
+    try:
+        print(lidar.get_RFID())
+    except KeyboardInterrupt:
+        print("Error")
     lidar.stop()
 
 if __name__ == '__main__':
