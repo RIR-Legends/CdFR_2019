@@ -7,10 +7,10 @@ GPIO.setmode(GPIO.BOARD)
 # definition de la pin comme pin d'entrée
 GPIO.setup(7, GPIO.IN)
 GPIO.setup(11, GPIO.IN)
-GPIO.setup(12, GPIO.OUT)
+#GPIO.setup(12, GPIO.OUT)
 
 # initialisation de l'expérience => TEST
-GPIO.output(12, GPIO.LOW)
+#GPIO.output(12, GPIO.LOW)
 
 # Lecture de la Pin
 # GPIO.input(7) # GPAIO 4
