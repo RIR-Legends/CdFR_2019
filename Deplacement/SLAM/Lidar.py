@@ -14,8 +14,12 @@ class Lidar():
 
     def __init__(self):
         ### Initlialiser le LIDAR
-        self.Lidar = RIR_rplidar()
+        self.Lidar = RIR_rplidar('/dev/ttyUSB0')
         self.scans = self.Lidar.iter_scans()
+        
+    def stop(self):
+        self.Lidar.stop()
+        self.Lidar.disconnect()
 
     def get_RFID(self):
         ### Get last version of scans
