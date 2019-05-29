@@ -4,6 +4,10 @@
 from threading import Thread
 import time
 
+import sys
+sys.path.append('../')
+from Deplacement.SLAM.RIR_rplidar import RPLidar
+
 
 def RIR_timer(Motor, Lidar, Communication):
     DepartTime = time.time()
@@ -14,11 +18,15 @@ def RIR_timer(Motor, Lidar, Communication):
         Now = time.time() - DepartTime
         #print(str(Now)+"\n")
     #STOP ALL HERE
+    lidar.stop()
+    lidar.disconnect()
 
 def main():
     # Cr�ation des threads
     launch_timer = threading.Thread(target=RIR_timer, args=(Odrive, RPLidar, Com))
 
+    lidar = RPLidar('/dev/ttyUSB0')
+    
     # Lancement des threads
     thread.start()
 
