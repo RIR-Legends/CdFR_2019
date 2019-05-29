@@ -42,11 +42,11 @@ _HEALTH_STATUS = {
     2: 'Error',
 }
 
-logging.basicConfig(	filename="RIR_logs/rplidar.log", 
-						format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s', 
+logging.basicConfig(	filename="RIR_logs/rplidar.log",
+						format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s',
 						level=logging.DEBUG)
-						
-						
+
+
 
 class RPLidarException(Exception):
     '''Basic exception class for RPLidar'''
@@ -64,7 +64,7 @@ def _process_scan(raw, log):
     if check_bit != 1:
         return False, 0, 0, 0
         raise RPLidarException('Check bit not equal to 1')
-    angle = ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
+    angle = 360 - ((raw[1] >> 1) + (raw[2] << 7)) / 64. + offsetAngle
     distance = (raw[3] + (raw[4] << 8)) / 4.
     log.info('{0} :: {1} :: {2} :: {3}'.format(new_scan,quality,angle,distance))
     return new_scan, quality, angle, distance
@@ -80,7 +80,7 @@ class RPLidar(object):
         self.baudrate = baudrate
         self.timeout = timeout
         self.motor_running = None
-        
+
         self.logDbg = logging.getLogger('Debug')
         self.logData = logging.getLogger('Data')
         file_handler = FileHandler('RIR_logs/data.log')
@@ -90,7 +90,7 @@ class RPLidar(object):
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.INFO)
         self.logDbg.addHandler(stream_handler)
-        
+
         self.connect()
 
     def connect(self):
@@ -300,7 +300,7 @@ class RPLidar(object):
         cmd = SCAN_BYTE
         self._send_cmd(cmd)
         dsize, is_single, dtype = self._read_descriptor()
-			
+
         if dsize != 5:
             self.logDbg.exception('In measurment : wrong reply length')
             raise RPLidarException('Wrong get_info reply length')
@@ -347,5 +347,5 @@ class RPLidar(object):
                 if len(scan) > min_len:
                     yield scan
                 scan = []
-            if quality > 0 and distance > 0 and distance < 3610:
+            if quality > 0 and distance > 0 and distance < 3300: #en mm
                 scan.append((quality, angle, distance))
