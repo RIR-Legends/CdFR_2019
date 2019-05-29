@@ -1,12 +1,12 @@
-from Deplacements.point import Point
-
+from collections import OrderedDict
 
 class Recuperation:
     def __init__(self, dico):
         self.L = list()
         self.l = list()
         self.n = 0
-        self.Dico = dico
+        self.d1_buffer = dico
+        self.Dico = OrderedDict(sorted(self.d1_buffer.items(), key=lambda t: t[0]))
 
     def main(self):
         print(self.Dico.keys())

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from Deplacements.point import Point
+import sys
+sys.path.append('../../')
+from utils.point import Point
 
 
 class Chemin:

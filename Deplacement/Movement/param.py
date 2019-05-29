@@ -14,32 +14,31 @@ class Param:
         print('Odrive found ! ')
 
     def config(self):
-        self.odrv0
         # 40Amp max dans le moteur (gros couple et sécurité pour pas fumer le moteur)
         self.odrv0.axis0.motor.config.current_lim = 10
         self.odrv0.axis1.motor.config.current_lim = 10
 
         # vmax en tick/s les encodeurs font 8192 tick/tours
         # controller.*.vel_limite prend le pas sur trap_traj.*.vel_limt
-        self.odrv0.axis0.controller.config.vel_limit = 5000
-        self.odrv0.axis1.controller.config.vel_limit = 5000
+        self.odrv0.axis0.controller.config.vel_limit = 50000
+        self.odrv0.axis1.controller.config.vel_limit = 50000
 
         # trap_traj parametrage des valeurs limit du comportement dynamique
-        self.odrv0.axis1.trap_traj.config.vel_limit = 4000
-        self.odrv0.axis0.trap_traj.config.vel_limit = 4000
+        self.odrv0.axis1.trap_traj.config.vel_limit = 30000
+        self.odrv0.axis0.trap_traj.config.vel_limit = 30000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 1000
-        self.odrv0.axis1.trap_traj.config.accel_limit = 1000
+        self.odrv0.axis0.trap_traj.config.accel_limit = 10000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 10000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 1000
-        self.odrv0.axis1.trap_traj.config.decel_limit = 1000
+        self.odrv0.axis0.trap_traj.config.decel_limit = 10000
+        self.odrv0.axis1.trap_traj.config.decel_limit = 10000
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         #self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 
-    def RAZ(self):
+    def raz(self):
         # Fonction de remise à zero des moteurs pour initialisation si calib déja faite
         flag = 'N'
         flag = input("Le robot est hors sol ? (Y or N)")
@@ -64,8 +63,6 @@ class Param:
 
     def calib(self):
         # Fonction de calibration sans condition
-
-        self.odrv0
 
         # Lance la calibration moteur si pas déjà faite
         print("starting calibration...")

@@ -1,14 +1,13 @@
 # stratégie d'évitement, input : valeur entre 0 et 255 sur la proximité de l'obstacle (255 = au+proche)
 
-from Deplacements.chemin import Chemin
-from Deplacements.move import Move
-from Deplacements.point import Point
+from utils.Point_manager import Chemin
+from Movement.move import Move
 
 
-class Evitement:
+class Dodging:
     def __init__(self, p1, p2):
         self.parcours = Chemin()
-        self.move = Move(p1, p2)
+        self.move = Move(p1)
         self.point = self.move.current_point
         self.threshold = 200
         self.direction = None

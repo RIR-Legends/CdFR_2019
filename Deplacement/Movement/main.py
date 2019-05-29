@@ -4,19 +4,22 @@ from __future__ import print_function
 import time
 import param as p
 import move as m
-import Switch as s
-from communication import Communication
+
+import sys
+sys.path.append('../../')
+from utils.communication import Communication
+import utils.Switch as s
 
 def demo_simple(odrv0) :
 
     move = m.Move(odrv0)
 
     time.sleep(1)
-    move.translation(200)
+    move.translation(1500)
     time.sleep(2)
     move.rotation(180)
     time.sleep(2)
-    move.translation(200)
+    move.translation(1000)
 
 def demo_rotation(odrv0) :
     move = m.Move(odrv0)
@@ -94,10 +97,11 @@ param.calib()
 """ ------------------------------- """
 
 """ Choix de lancement des demos : """
-switch = s.Switch()
-switch.Tirette()
 
-if switch.Cote() == True:
+s.tirette()
+
+if s.cote() == True:
+
     demo_simple(param.odrv0)
     #demo_tour(param.odrv0)
     #demo_rotation(param.odrv0)
