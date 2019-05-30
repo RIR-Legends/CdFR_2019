@@ -125,7 +125,7 @@ def main(param, move, Solo = True):
             # fin
 
         # instant position
-        [X_abs, Y_abs, Theta_abs] = positionate.step_theta(FinalAngle)
+        [Theta_abs] = positionate.step_theta(FinalAngle)
         print("position Après translation abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
         # fin
 

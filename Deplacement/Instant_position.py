@@ -48,3 +48,4 @@ class Positionate:
 
         self.current_theta += self.theta_buffer
 
+        return self.current_theta
