@@ -35,7 +35,10 @@ class Treatment:
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
         if self.deltaX == 0:
-            self.deltaTheta_intra = 90 - self.Theta_abs
+            if self.deltaTheta_intra > 0:
+                self.deltaTheta_intra = 90 - self.Theta_abs
+            elif self.deltaTheta_intra < 0:
+                self.deltaTheta_intra = -90 + self.Theta_abs
         else:
             self.deltaTheta_intra = -(atan(self.deltaY/self.deltaX) * 180) / pi
 
