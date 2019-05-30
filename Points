@@ -1,7 +1,5 @@
 # File based database (x, y, theta)
 
-Point1 = (420, 200, 90)
-# pick up atom
-#Point2 = (200, 450, 90)
-#PointEvitement = (0, 0, 0)
+PointZero = (0, 0, 0)
 
+PointEvitement = (0, 0, 0)
