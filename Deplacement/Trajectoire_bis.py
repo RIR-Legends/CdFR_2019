@@ -40,8 +40,8 @@ class Trajectoire():
             print("fin de de calibration")
         
             # initialisation des paramètres ABS
-            self.X_abs = 500  # appel programme de mise en place init
-            self.Y_abs = 0  # appel porgramme de mise en place init
+            self.X_abs = 455  # appel programme de mise en place init
+            self.Y_abs = 165  # appel porgramme de mise en place init
             self.Theta_abs = 90
             print("position init abs : X = %f, Y = %f, Theta = %f" % (self.X_abs, self.Y_abs, self.Theta_abs))
             

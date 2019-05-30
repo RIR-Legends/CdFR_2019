@@ -40,7 +40,7 @@ class Treatment:
             elif self.deltaTheta_intra < 0:
                 self.deltaTheta_intra = -90 + self.Theta_abs
         else:
-            self.deltaTheta_intra = -(atan(self.deltaX/self.deltaY) * 180) / pi
+            self.deltaTheta_intra = ((atan(self.deltaX/self.deltaY) * 180) / pi) - self.Theta_abs
 
         traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
 
