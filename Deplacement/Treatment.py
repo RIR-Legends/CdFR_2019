@@ -34,7 +34,7 @@ class Treatment:
 
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
-        if self.deltaX == 0:
+        if self.deltaY == 0:
             if self.deltaTheta_intra > 0:
                 self.deltaTheta_intra = 90 - self.Theta_abs
             elif self.deltaTheta_intra < 0:
