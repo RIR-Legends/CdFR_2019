@@ -20,11 +20,16 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 10      # unité ?
+        self.errorMax = 20      # unité ?
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
         self.SenOn = list()
+
+        # boucle accel
+
+        self.seuil = 0
+        self.buffer = 0
 
     def wait_end_move(self, axis, goal, errorMax, senslist):
 
@@ -67,12 +72,19 @@ class Move:
                 for i in range(index, nb):
                     index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
+
                 movAvg = 0
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
 
-                #if sign(goal - axis.encoder.pos_estimate):
-                #    pass
+                # boucle d'accélération waitendmove
+                if movAvg - self.buffer > 10:
+                    self.seuil += 1
+                    if self.seuil > 20:
+                        self.seuil = 0
+                        self.odrv0.axis0.controler.move_to_pos(self.nbCounts/4)
+
+                self.buffer = movAvg
 
             elif Sen_count != 0:
                 return
