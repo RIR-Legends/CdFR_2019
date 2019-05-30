@@ -10,7 +10,6 @@ sys.path.append('Deplacement/SLAM')
 
 from point import Point
 import filedb
-from ast import literal_eval #Utilisé avec filedb
 import Switch
 from communication import Communication
 from param import Param
@@ -43,8 +42,3 @@ class Robot():
         Switch.tirette()
         self.__timer.start_timer()
         #Trajectoire.main(param, move, False)
-
-    #def getDataDB(self,name):
-    #    ''' Va chercher et retourne le point associé au name dans la base de donnée '''
-    #    data = literal_eval(self.dbPoints.get(name))
-    #    return Point(data[0],data[1],data[2]) # Pour l'instant seuls les Points sont considérés dans la base de données
