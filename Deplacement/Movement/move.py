@@ -80,10 +80,10 @@ class Move:
                 # boucle d'accélération waitendmove
                 if movAvg - self.buffer > 10:
                     self.seuil += 1
-                    if self.seuil > 20:
+                    if self.seuil > 1000:
                         self.seuil = 0
-                        self.odrv0.axis0.controler.move_to_pos(self.nbCounts/4)
-                        self.odrv0.axis1.controler.move_to_pos(self.nbCounts/4)
+                        self.odrv0.axis0.controler.move_to_pos(self.nbCounts/10)
+                        self.odrv0.axis1.controler.move_to_pos(self.nbCounts/10)
                         print("seuil =", self.seuil)
                 self.buffer = movAvg
 
