@@ -23,6 +23,7 @@ class Robot():
     def __init__(self, lancer_exp = True):
         # Initialisation variables
         self.db = filedb.fileDB(db = "../Points")
+        self.__lastpoint = Point.get_db_point("PointZero", self.db)
         self.__side = Switch.cote()
         self.__com = Communication('/dev/ttyACM0')
         self.__Oparam = Param()
@@ -43,8 +44,34 @@ class Robot():
     def set_ready(self):
         Switch.tirette()
         self.__timer.start_timer()
-        #Trajectoire.main(param, move, False) #Cas code tout prêt
+        #Trajectoire.main(param, move, Solo = True) #Cas code tout prêt
     
     def move_to(self, point_name):
-        point = Point.get_db_point(point_name, self.db)
-        Trajectoire.main(param = param, move = move, point = point, db = self.db, Solo = False) # A vérifier!
+        self.__lastpoint = Point.get_db_point(point_name, self.db)
+        Trajectoire.main(param = param, move = move, point = self.__lastpoint, db = self.db, Solo = False) # A vérifier!
+        
+    def action(self, action_name, dist_forward = 100, dist_backward = 100):
+        if action_name == "Transport" or action_name == "Palet_Floor_In" or action_name =="Palet_Floor_Out":
+            self.com.waitEndMove(Communication.MSG[action_name])
+        elif action_name == "Arret":
+            self.com.send(Communication.MSG[action_name])
+        elif action_name == "Palet_Wall_In" or action_name == "Palet_Wall_Out":
+            self.com.send(Communication.MSG[action_name])
+            
+            while not self.com.Avancer:
+                self.com.read()
+            temp_point = self.__lastpoint
+            if action_name == "Palet_Wall_In":
+                temp_point.x += dist_forward
+            else:
+                temp_point.x -= dist_forward
+            Trajectoire.main(param = param, move = move, point = temp_point, db = self.db, Solo = False) # A vérifier!
+            
+            self.com.send(Communication.MSG["Action_Finished"])
+            while not self.com.Reculer:
+                self.com.read()
+            Trajectoire.main(param = param, move = move, point = __lastpoint, db = self.db, Solo = False) # A vérifier!
+            
+            self.com.send(Communication.MSG["Action_Finished"])
+            while not self.com.readyNext:
+                self.com.read()
