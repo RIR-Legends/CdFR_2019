@@ -33,7 +33,7 @@ class Move:
 
         ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
 
-        nb = 5  # plus la liste est petite plus la condition du while lachera rapidement
+        nb = 1  # plus la liste est petite plus la condition du while lachera rapidement
         avg = nb * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
@@ -50,7 +50,7 @@ class Move:
             print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
                 if senslist[i] == True:
-                    if MCP3008.readadc(Sen[i]) > 600:  #  400 trop de detection
+                    if MCP3008.readadc(Sen[i]) > 1000:  #  600 trop de detection #  1000 test
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")

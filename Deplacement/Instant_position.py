@@ -1,9 +1,7 @@
 
 class Positionate:
-    def __init__(self):
+    def __init__(self, x, y, theta):
         from math import pi
-        from math import cos
-        from math import sin
 
         self.delta_pos0 = 0
         self.delta_pos1 = 0
@@ -11,9 +9,7 @@ class Positionate:
         self.WheelDiameter = 80  # en mm
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
         self.theta_buffer = 0
-        self.current_theta = 90  # en fonction du sens !
-        self.current_X = 500
-        self.current_Y = 0
+        self.current_X, self.current_Y, self.current_theta = x, y, theta
 
 
     def step(self, pos00, pos01, pos10, pos11, theta):

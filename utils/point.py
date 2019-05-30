@@ -9,10 +9,10 @@ class Point:
             self.x, self.y, self.theta = args[0][0], args[0][1], args[0][2]
         elif len(args) == 3: # Considère trois float x,y,theta
             self.x, self.y, self.theta = args[0], args[1], args[2]
-        #self.hypo = 0
+        self.hypo = 0
 
-        #self.d1_buffer = {'X': self.x, 'Y': self.y, 'ztheta': self.theta}
-        #self.P = OrderedDict(sorted(self.d1_buffer.items(), key=lambda t: t[0]))
+        self.d1_buffer = {'X': self.x, 'Y': self.y, 'ztheta': self.theta}
+        self.P = OrderedDict(sorted(self.d1_buffer.items(), key=lambda t: t[0]))
 
 
     def print_pos(self):
@@ -20,8 +20,8 @@ class Point:
         print('Coordonnée en y = %f ' % self.y)
         print('Theta = %f ' % self.theta)
 
-    #def set_parcour(self):
-    #    self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
+    def set_parcour(self):
+        self.hypo = (self.x ** 2 + self.y ** 2) ** 0.5
 
     def get_point(self):
         return (self.x, self.y, self.theta)
@@ -36,7 +36,7 @@ class Point:
     
     def mirror(self):
         self.y = 3000 - self.y
-        self.theta = 180 - self.theta # Valeur positive et négative
+        self.theta = - self.theta # Valeur positive et négative
 
 
 def main():

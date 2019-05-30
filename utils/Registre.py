@@ -8,9 +8,8 @@ from Deplacement.utils.Point_manager import Chemin
 
 # Les points sont positionnées en coordonnées absolus*
 class Creation:
-    def __init__(self, cote):
+    def __init__(self):
         self.chemin = Chemin()
-        self.cote = cote
 
     def main(self):
         # coté jaune
@@ -25,6 +24,6 @@ class Creation:
 
 
 if __name__ == '__main__':
-    creat = Creation(True)
+    creat = Creation()
     creat.main()
 
