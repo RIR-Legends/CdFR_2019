@@ -32,6 +32,8 @@ class Treatment:
         self.deltaX = p[0] - self.X_abs  # avec la base de donnée on a p.x
         self.deltaY = p[1] - self.Y_abs  # avec la base de donnée on a p.y
 
+        self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
+
         self.deltaTheta_intra = (atan(self.deltaY/self.deltaX) * 180) / pi
 
         traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
