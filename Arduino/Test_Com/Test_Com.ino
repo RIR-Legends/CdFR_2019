@@ -53,11 +53,11 @@ void loop() {
       case com.Palet_Floor_In:
         delay(100);
         ArmRobot.PreTakePaletFloor();
-        com.RIR_waitEndMove(com.Avance);
+        //com.RIR_waitEndMove(com.Avance);
         //Serial.flush();
         delay(100);
         ArmRobot.TakePaletFloor();
-        com.RIR_waitEndMove(com.Recule);
+        //com.RIR_waitEndMove(com.Recule);
         //Serial.flush();
         delay(100);
         ArmRobot.PostTakePaletFloor();
@@ -75,13 +75,13 @@ void loop() {
         
       case com.Palet_Floor_Out:
         delay(100);
-        ArmRobot.PreTakePaletFloor();
-        com.RIR_waitEndMove(com.Avance);
+        ArmRobot.PreOutPaletFloor();
+        //com.RIR_waitEndMove(com.Avance);
         delay(100);
-        ArmRobot.TakePaletFloor();
-        com.RIR_waitEndMove(com.Recule);
+        ArmRobot.OutPaletFloor();
+        //com.RIR_waitEndMove(com.Recule);
         delay(100);
-        ArmRobot.PostTakePaletFloor();
+        ArmRobot.PostOutPaletFloor();
         com.RIR_send(com.Action_Finished);
         break;
         
