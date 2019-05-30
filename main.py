@@ -1,42 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#import Robot
-import sys
-from utils.timer import RIR_timer
-import utils.Switch as Switch
+from Robot import Robot
 
-sys.path.append('Deplacement/')
-sys.path.append('Deplacement/Movement/') #Necessaire pour MCP3008
-from SLAM.RIR_rplidar import RPLidar
-import Trajectoire
-from move import *
-from param import *
-from utils.communication import Communication
+##### LISTE DES ACTIONS POSSIBLES
+#"Arret"
+#"Transport"
+#"Palet_Floor_In"
+#"Palet_Wall_In"
+#"Palet_Floor_Out"
+#"Palet_Wall_Out"
+##### FIN LISTE DES ACTIONS POSSIBLES
 
-def main():
-    # Initialisation
-    com = Communication('/dev/ttyACM0')
-    lidar = RPLidar('/dev/ttyUSB0')
-    param = Param()
-    move = Move(param.odrv0)
+def main(lancer_exp = True):
+    robot = Robot(lancer_exp)
     
-    lidar.start_motor()
-    param.config()
-    param.calib()
-    com.waitEndMove(Communication.MSG["Initialisation"])
-    time.sleep(1)
-    
-    # Creation du timer
-    timer = RIR_timer(com, (param,move), lidar, launch_exp = True)
-    
-    # Lancement du timer
-    Switch.tirette()
-    timer.start_timer()
-    
-    # Lancement de trajectoire + Tirette
-    Trajectoire.main(param, move, False)
+    # robot.move_to("PointZero")        ##Exemple pour se déplacer à un point
+    # robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
+
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 1:
+        main(sys.argv[1]) # Pour ne pas lancer l'expérience : 'python3 main.py False'
+    main(True)
+
