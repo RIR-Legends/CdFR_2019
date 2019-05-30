@@ -37,7 +37,7 @@ class Treatment:
         if self.deltaX == 0:
             self.deltaTheta_intra = 90 - self.Theta_abs
         else:
-            self.deltaTheta_intra = (atan(self.deltaY/self.deltaX) * 180) / pi
+            self.deltaTheta_intra = (atan(self.deltaX/self.deltaY) * 180) / pi
 
         traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
 
