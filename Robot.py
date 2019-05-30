@@ -23,7 +23,7 @@ class Robot():
     def __init__(self, lancer_exp = True, MatCode = False):
         # Initialisation variables
         self.db = filedb.fileDB(db = "../Points")
-        self.__lastpoint = Point.get_db_point("PointDepart", self.db)
+        self.__lastpoint = Point.get_db_point("Point0", self.db)
         self.__side = Switch.cote()
         self.__com = Communication('/dev/ttyACM0')
         self.__Oparam = Param()
