@@ -40,8 +40,8 @@ class Positionate:
 
         print(distance)
 
-        a = sin(self.current_theta * 2 * pi / 360)
-        b = cos(self.current_theta * 2 * pi / 360)
+        a = cos(self.current_theta * 2 * pi / 360)
+        b = sin(self.current_theta * 2 * pi / 360)
 
         print("cos(theta) =", a)
         print("sin(theta) =", b)
