@@ -1,7 +1,3 @@
-from math import pi
-from math import cos
-from math import sin
-
 
 class Positionate:
     def __init__(self):
@@ -17,6 +13,10 @@ class Positionate:
 
 
     def step(self, pos00, pos01, pos10, pos11, theta):
+        from math import pi
+        from math import cos
+        from math import sin
+        
         self.theta_buffer = theta
 
         self.delta_pos0 = pos01 - pos00  # erreur calculée négative car moteur inversé
