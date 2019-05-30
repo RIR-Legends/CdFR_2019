@@ -12,8 +12,8 @@ from Robot import Robot
 #"Palet_Wall_Out"
 ##### FIN LISTE DES ACTIONS POSSIBLES
 
-def main(lancer_exp = True, MatCode = False):
-    robot = Robot(lancer_exp, MatCode)
+def main(lancer_exp = True, MatCode = False, db = "Points"):
+    robot = Robot(lancer_exp, MatCode, db = "Points")
 
     #robot.move_to("Point0")
     robot.action("Palet_Floor_In")
