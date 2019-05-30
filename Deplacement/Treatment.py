@@ -7,35 +7,41 @@
 
 
 class Treatment:
-    def __init__(self, X_abs, Y_abs, Theta_abs):  # (abs, abs, abs)
-        self.X_abs = X_abs
-        self.Y_abs = Y_abs
-        self.Theta_abs = Theta_abs
+    def __init__(self, x_abs, y_abs, theta_abs):  # (abs, abs, abs)
+        self.X_abs = x_abs
+        self.Y_abs = y_abs
+        self.Theta_abs = theta_abs
         self.deltaX = 0
         self.deltaY = 0
-        self.deltaTheta = 0
+
+        self.deltaTheta_intra = 0
         self.hyp = 0
 
     def step(self, p):
         from math import sqrt
+        from math import atan
+        from math import pi
 
         print(p)
 
+        print("Coordonnées Points Absolu : X_ABS = %f , Y_ABS = %f , Theta_ABS = %f " % (
+            self.X_abs, self.Y_abs, self.Theta_abs))
+
         print("Coordonnées Points: X = %f , Y = %f , Theta = %f " % (p[0], p[1], p[2]))
 
-        self.deltaX = p[0] - self.X_abs
-        self.deltaY = p[1] - self.Y_abs
-        self.deltaTheta = p[2] - self.Theta_abs
-
-        if self.deltaTheta > 180 or self.deltaTheta < -180:
-            if self.deltaTheta > 0:
-                self.deltaTheta -= 360
-            elif self.deltaTheta < 0:
-                self.deltaTheta += 360
+        self.deltaX = p[0] - self.X_abs  # avec la base de donnée on a p.x
+        self.deltaY = p[1] - self.Y_abs  # avec la base de donnée on a p.y
 
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
-        traj_list = [self.hyp, self.deltaTheta]  # [Rel, Rel]
+        if self.deltaX == 0:
+            if self.deltaTheta_intra > 0:
+                self.deltaTheta_intra = 90 - self.Theta_abs
+            elif self.deltaTheta_intra < 0:
+                self.deltaTheta_intra = -90 + self.Theta_abs
+        else:
+            self.deltaTheta_intra = -(atan(self.deltaX/self.deltaY) * 180) / pi
+
+        traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
 
         return traj_list
-
