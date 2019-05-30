@@ -33,7 +33,7 @@ class Move:
 
         ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
 
-        nb = 5
+        nb = 5  # plus la liste est petite plus la condition du while lachera rapidement
         avg = nb * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
@@ -70,6 +70,9 @@ class Move:
                 movAvg = 0
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
+
+                #if sign(goal - axis.encoder.pos_estimate):
+                #    pass
 
             elif Sen_count != 0:
                 return
