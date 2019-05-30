@@ -15,9 +15,15 @@ from Robot import Robot
 def main(lancer_exp = True):
     robot = Robot(lancer_exp)
 
+    robot.move_to("Point0")
     robot.move_to("Point1")        ##Exemple pour se déplacer à un point
-    robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
+    #robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
     robot.move_to("Point2")
+    robot.move_to("Point3")
+    robot.move_to("Point31")
+    robot.move_to("Point32")
+    robot.move_to("Point4")
+    robot.action("Palet_Wall_In")
 
 
 if __name__ == '__main__':
