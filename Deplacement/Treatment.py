@@ -20,6 +20,7 @@ class Treatment:
     def step(self, p):
         from math import sqrt
         from math import atan
+        from math import pi
 
         print(p)
 
@@ -31,7 +32,7 @@ class Treatment:
         self.deltaX = p[0] - self.X_abs  # avec la base de donnée on a p.x
         self.deltaY = p[1] - self.Y_abs  # avec la base de donnée on a p.y
 
-        self.deltaTheta_intra = atan(self.deltaY/self.deltaY)
+        self.deltaTheta_intra = (atan(self.deltaY/self.deltaX) * 180) / pi
 
         traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
 
