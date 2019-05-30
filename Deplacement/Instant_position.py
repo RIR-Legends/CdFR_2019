@@ -1,10 +1,10 @@
-from math import pi
-from math import cos
-from math import sin
-
 
 class Positionate:
     def __init__(self):
+        from math import pi
+        from math import cos
+        from math import sin
+
         self.delta_pos0 = 0
         self.delta_pos1 = 0
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
@@ -17,6 +17,10 @@ class Positionate:
 
 
     def step(self, pos00, pos01, pos10, pos11, theta):
+        from math import pi
+        from math import cos
+        from math import sin
+
         self.theta_buffer = theta
 
         self.delta_pos0 = pos01 - pos00  # erreur calculée négative car moteur inversé
@@ -36,9 +40,22 @@ class Positionate:
 
         print(distance)
 
-        self.current_X += distance * cos(self.current_theta * 2 * pi / 360)
-        self.current_Y += distance * sin(self.current_theta * 2 * pi / 360)
+        a = cos(self.current_theta * 2 * pi / 360)
+        b = sin(self.current_theta * 2 * pi / 360)
+
+        print("cos(theta) =", a)
+        print("sin(theta) =", b)
+
+        self.current_X += distance * a
+        self.current_Y += distance * b
 
         print("X_ABS =", self.current_X, "Y_ABS =", self.current_Y, "Theta_abs", self.current_theta)
 
         return [self.current_X, self.current_Y, self.current_theta]
+
+    def step_theta(self, theta):
+        self.theta_buffer = theta
+
+        self.current_theta += self.theta_buffer
+
+        return self.current_theta
