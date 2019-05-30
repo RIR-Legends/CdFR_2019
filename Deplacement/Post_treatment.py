@@ -10,9 +10,6 @@ class PostTreatment:
 
         print(p)
 
-        print("Coordonnées Points Absolu : X_ABS = %f , Y_ABS = %f , Theta_ABS = %f " % (
-            self.X_abs, self.Y_abs, self.Theta_abs))
-
         print("Coordonnées Points: X = %f , Y = %f , Theta = %f " % (p[0], p[1], p[2]))
 
         self.deltaTheta_final = p[2] - self.Theta_abs  # avec la base de donnée on a p.theta
