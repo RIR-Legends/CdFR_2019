@@ -13,8 +13,8 @@ class Treatment:
         self.Theta_abs = theta_abs
         self.deltaX = 0
         self.deltaY = 0
+
         self.deltaTheta_intra = 0
-        self.deltaTheta_final = 0
         self.hyp = 0
 
     def step(self, p):

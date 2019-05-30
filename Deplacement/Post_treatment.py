@@ -20,4 +20,6 @@ class PostTreatment:
             elif self.deltaTheta_final < 0:
                 self.deltaTheta_final += 360
 
+        print(self.deltaTheta_final)
+
         return self.deltaTheta_final
