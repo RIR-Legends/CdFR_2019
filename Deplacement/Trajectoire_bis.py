@@ -60,7 +60,7 @@ class Trajectoire():
             # fin
             
             # initialisation des classes
-            self.positionate = Positionate()
+            self.positionate = Positionate(self.X_abs, self.Y_abs, self.Theta_abs)
             
             self.move = Move(self.odrv0)      # a récupéré en argument
             
@@ -76,7 +76,7 @@ class Trajectoire():
             self.odrv0 = self.param.odrv0
 
             # initialisation des classes
-            self.positionate = Positionate()
+            self.positionate = Positionate(self.X_abs, self.Y_abs, self.Theta_abs)
 
     def process(self, point):
         # Traitement
@@ -151,6 +151,15 @@ class Trajectoire():
         # fin
 
         print("dodging end")
+
+
+
+
+
+
+
+
+
 
 
     def solo_launcher(self):
