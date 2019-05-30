@@ -25,13 +25,15 @@ class Robot():
         self.db = filedb.fileDB(db = "Points")
         self.__lastpoint = Point.get_db_point("Point0", self.db)
         self.__side = Switch.cote()
+        if not self.__side:
+            self.__lastpoint.mirror()
         self.__com = Communication('/dev/ttyACM0')
         self.__Oparam = Param()
         self.__move = Move(self.__Oparam.odrv0)
         self.__MatCode = MatCode
         self.__traj = Trajectoire(param = self.__Oparam, move = self.__move, initial_point = self.__lastpoint, Solo = self.__MatCode)
         self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
-        self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, launch_exp) # Test: placé avant __init_physical
+        self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
                 
         self.__init_physical()
         self.set_ready()
