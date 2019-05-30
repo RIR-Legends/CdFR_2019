@@ -14,9 +14,10 @@ import Switch
 from communication import Communication
 from param import Param
 from move import Move
+import Trajectoire
 from RIR_rplidar import RPLidar #from Lidar import Lidar
 from utils.timer import RIR_timer
-#import Trajectoire
+
 
 class Robot():
     def __init__(self, lancer_exp = True):
@@ -26,6 +27,7 @@ class Robot():
         self.__com = Communication('/dev/ttyACM0')
         self.__Oparam = Param()
         self.__move = Move(self.Oparam.odrv0)
+        #self.__traj = Trajectoire() # N'existe pas
         self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
         self.__timer = RIR_timer(self.com, (self.param,self.move), self.lidar, launch_exp) # Test: placé avant __init_physical
                 
@@ -41,4 +43,8 @@ class Robot():
     def set_ready(self):
         Switch.tirette()
         self.__timer.start_timer()
-        #Trajectoire.main(param, move, False)
+        #Trajectoire.main(param, move, False) #Cas code tout prêt
+    
+    def move_to(self, point_name):
+        point = Point.get_db_point(point_name, self.db)
+        Trajectoire.main(param = param, move = move, point = point, db = self.db, Solo = False) # A vérifier!
