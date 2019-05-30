@@ -16,21 +16,22 @@ sys.path.append('../Deplacement/Movement/') #Necessaire pour MCP3008
 import Switch
 
 class RIR_timer():
-    def __init__(self, Communication, Moteur, Lidar, launch_exp = False, duration = 95):
+    def __init__(self, Communication, Moteur, Lidar, launch_exp = True, duration = 95):
         self.duration = duration
         self.launch_exp = launch_exp
         self.launcher = threading.Thread(target=self.__RIR_timer, args=(Communication, Moteur, Lidar))
-        self.experience = threading.Thread(target=self.__RIR_exp, args=())
+        self.experience = threading.Thread(target=RIR_timer.__RIR_exp, args=())
 
         
     def __RIR_exp():
+        pin = 16
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(12, GPIO.OUT)
-        GPIO.output(12, GPIO.LOW)
-        time.sleep(20)
-        GPIO.output(12, GPIO.HIGH)
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, GPIO.LOW)
+        time.sleep(10)
+        GPIO.output(pin, GPIO.HIGH)
         time.sleep(2)
-        GPIO.output(12, GPIO.LOW)
+        GPIO.output(pin, GPIO.LOW)
 
     def __RIR_timer(self, com, motor, lidar):
         DepartTime = time.time()
@@ -43,9 +44,9 @@ class RIR_timer():
         #Stop all
         lidar.stop()
         lidar.disconnect()
+        com.send(Communication.MSG["Arret"])
         motor[1].stop()
         motor[0].odrv0.reboot()
-        com.send(Communication.MSG["Arret"])
         
         # Try to do an action
         try:
@@ -63,7 +64,7 @@ class RIR_timer():
     
     def start_timer(self):
         self.launcher.start()
-        if self.launcher:
+        if self.launch_exp:
             self.experience.start()
 
 def main():
