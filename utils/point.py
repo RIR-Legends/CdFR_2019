@@ -36,7 +36,7 @@ class Point:
     
     def mirror(self):
         self.y = 3000 - self.y
-        self.theta = 180 - self.theta # Valeur positive et négative
+        self.theta = - self.theta # Valeur positive et négative
 
 
 def main():
