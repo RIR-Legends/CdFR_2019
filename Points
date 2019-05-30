@@ -1,18 +1,7 @@
 # File based database (x, y, theta)
 
-# Depart zone rouge
-Point0 = (450,165,90)
-# Atteint atome face red
-Point1 = (450,615,0)
-# Atteint atome face green
-Point2 = (915,615,-90)
-# Place atomes in green
-Point3 = (915,265,-90)
-# Recule
-Point31 = (915,450,-90)
-# Tourne de 180°
-Point32 = (915,450,90)
-# Avance vers accel. part. Blue atom
-Point4 = (180,1135,180)
-# Reste a activer le bras
-
+Point0 = (500,0,90)
+Point1 = (500,355,90)
+Point2 = (800,500,-90)
+Point3 = (400,400,180)
+Point4 = (915,450,-90)
