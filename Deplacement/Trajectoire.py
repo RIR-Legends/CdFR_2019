@@ -124,6 +124,11 @@ def main(param, move, Solo = True):
             move.rotation(FinalAngle, Senslist)
             # fin
 
+        # instant position
+        [X_abs, Y_abs, Theta_abs] = positionate.step(pos00, pos01, pos10, pos11, Traj_list[1])
+        print("position Après translation abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
+        # fin
+
         # ============================================= fin ============================================================
 
         print("dodging begin")

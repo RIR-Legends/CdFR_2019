@@ -42,3 +42,9 @@ class Positionate:
         print("X_ABS =", self.current_X, "Y_ABS =", self.current_Y, "Theta_abs", self.current_theta)
 
         return [self.current_X, self.current_Y, self.current_theta]
+
+    def step_theta(self, theta):
+        self.theta_buffer = theta
+
+        self.current_theta += self.theta_buffer
+
