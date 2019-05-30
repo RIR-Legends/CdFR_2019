@@ -1,6 +1,10 @@
 
 class Positionate:
     def __init__(self):
+        from math import pi
+        from math import cos
+        from math import sin
+        
         self.delta_pos0 = 0
         self.delta_pos1 = 0
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
@@ -13,10 +17,7 @@ class Positionate:
 
 
     def step(self, pos00, pos01, pos10, pos11, theta):
-        from math import pi
-        from math import cos
-        from math import sin
-        
+
         self.theta_buffer = theta
 
         self.delta_pos0 = pos01 - pos00  # erreur calculée négative car moteur inversé
