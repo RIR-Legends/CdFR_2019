@@ -119,22 +119,22 @@ void Test(){
 //
   //ArmRobot.Transport();
   for(int i = 0; i<5; i++){
-        ArmRobot.PreTakePaletFloor();
+        ArmRobot.PreTakePaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.TakePaletFloor();
+        ArmRobot.TakePaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.PostTakePaletFloor();
+        ArmRobot.PostTakePaletWall();
   }
   for(int i = 0; i<7; i++){
-        ArmRobot.PreOutPaletFloor();
+        ArmRobot.PreOutPaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.OutPaletFloor();
+        ArmRobot.OutPaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.PostOutPaletFloor();
+        ArmRobot.PostOutPaletWall();
   }
   
 
