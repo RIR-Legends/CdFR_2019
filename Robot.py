@@ -48,6 +48,8 @@ class Robot():
     
     def move_to(self, point_name):
         self.__lastpoint = Point.get_db_point(point_name, self.db)
+        if not self.__side:
+            self.__lastpoint.mirror()
         Trajectoire.main(param = param, move = move, point = self.__lastpoint, db = self.db, Solo = False) # A vérifier!
         
     def action(self, action_name, dist_forward = 100, dist_backward = 100):

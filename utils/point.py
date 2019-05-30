@@ -33,6 +33,10 @@ class Point:
         '''
         
         return Point(literal_eval(db.get(name)))
+    
+    def mirror(self):
+        self.y = 3000 - self.y
+        self.theta = 180 - self.theta # Valeur positive et négative
 
 
 def main():
