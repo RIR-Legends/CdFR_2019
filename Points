@@ -1,5 +1,5 @@
 # File based database (x, y, theta)
 
-PointZero = (0, 0, 0)
+Point1 = (0, 420, 0)
+Point2 = (0, 200, 180)
 
-PointEvitement = (0, 0, 0)

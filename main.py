@@ -14,14 +14,13 @@ from Robot import Robot
 
 def main(lancer_exp = True):
     robot = Robot(lancer_exp)
-    
-    # robot.move_to("PointZero")        ##Exemple pour se déplacer à un point
-    # robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
 
+    robot.move_to("Point1")        ##Exemple pour se déplacer à un point
+    robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
+    robot.move_to("Point2")
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         main(sys.argv[1]) # Pour ne pas lancer l'expérience : 'python3 main.py False'
     main(True)
-
