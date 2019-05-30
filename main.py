@@ -12,8 +12,8 @@ from Robot import Robot
 #"Palet_Wall_Out"
 ##### FIN LISTE DES ACTIONS POSSIBLES
 
-def main(lancer_exp = True):
-    robot = Robot(lancer_exp)
+def main(lancer_exp = True, MatCode = False):
+    robot = Robot(lancer_exp, MatCode)
 
     robot.move_to("Point0")
     robot.move_to("Point1")        ##Exemple pour se déplacer à un point
@@ -27,6 +27,6 @@ def main(lancer_exp = True):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        main(sys.argv[1]) # Pour ne pas lancer l'expérience : 'python3 main.py False'
-    main(True)
+    main(sys.argv)
+    # Pour ne pas lancer l'expérience : 'python3 main.py False ___'
+    # Pour lancer l'homologation par Mat : 'python3 main.py ___ True
