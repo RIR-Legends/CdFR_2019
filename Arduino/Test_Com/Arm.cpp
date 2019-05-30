@@ -311,3 +311,20 @@ void Arm::ChoixDesStockPile(){
   consigneStock[0] = stock[consigneStock[1]];
     //stock[consigneStock[1]] = stock[consigneStock[1]]-1;
 }
+
+void Arm::CoupBrasJaune(){
+  ForeArmAction.MoveTo(820,180);
+  delay(500);
+  ForeArmAction.MoveTo(500,180);
+  delay(500);
+  ForeArmAction.MoveTo(500,860);
+  
+}
+
+void Arm::CoupBrasViolet(){
+   ForeArmAction.MoveTo(820,860);
+   delay(500);
+  ForeArmAction.MoveTo(500,860);
+    delay(500);
+   ForeArmAction.MoveTo(500,180);
+}

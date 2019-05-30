@@ -99,6 +99,8 @@ void loop() {
 void Test(){
   //Serial.println("test");
   ArmRobot.InitArm();
+  delay(2000);
+  ArmRobot.CoupBrasJaune();
   delay(1000);
 //  ForeArmAction.DeploiementSaisieFloor();
 //  //delay(1000);

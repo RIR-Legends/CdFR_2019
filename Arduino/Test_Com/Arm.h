@@ -37,6 +37,8 @@ class Arm{
  void ChoixStockPile();
  void ChoixDesStockPile();
 
+void CoupBrasJaune();
+void CoupBrasViolet();
 
   private:
   Door DoorAction;
