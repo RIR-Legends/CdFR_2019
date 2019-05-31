@@ -83,8 +83,7 @@ class Move:
                     if self.seuil > 20:
                         self.seuil = 0
                         self.odrv0.axis0.controler.move_to_pos(self.nbCounts/4)
-                        self.odrv0.axis1.controler.move_to_pos(self.nbCounts/4)
-                        print("seuil =", self.seuil)
+
                 self.buffer = movAvg
 
             elif Sen_count != 0:
