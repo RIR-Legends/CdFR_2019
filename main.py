@@ -27,6 +27,6 @@ def main(lancer_exp = True, MatCode = False, db = "Points"):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1]=='True', sys.argv[2]=='True')
+    main(sys.argv[1]=='True', sys.argv[2] == 'True')
     # Pour ne pas lancer l'expérience : 'python3 main.py False ___'
     # Pour lancer l'homologation par Mat : 'python3 main.py ___ True
