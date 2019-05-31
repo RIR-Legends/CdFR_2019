@@ -3,8 +3,6 @@
 
 # Code adapted from https://github.com/SkoltechRobotics/rplidar
 
-import logging
-from logging import FileHandler
 import time
 import codecs
 import serial
@@ -41,10 +39,6 @@ _HEALTH_STATUS = {
     1: 'Warning',
     2: 'Error',
 }
-
-logging.basicConfig(    filename="RIR_logs/rplidar.log",
-                        format='%(name)s :: %(asctime)s :: %(levelname)s :: %(message)s', 
-                        level=logging.DEBUG)
                         
 class RPLidarException(Exception):
     '''Basic exception class for RPLidar'''
@@ -82,16 +76,6 @@ class RPLidar(object):
         self.timeout = timeout
         self.motor_running = None
 
-        self.logDbg = logging.getLogger('Debug')
-        self.logData = logging.getLogger('Data')
-        file_handler = FileHandler('RIR_logs/data.log')
-        file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
-        self.logData.addHandler(file_handler)
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.INFO)
-        self.logDbg.addHandler(stream_handler)
-
         self.connect()
 
     def connect(self):
@@ -99,27 +83,21 @@ class RPLidar(object):
         connected to another serial port disconnects from it first.'''
         if self._serial_port is not None:
             self.disconnect()
-        self.logDbg.info('Connection...')
         try:
             self._serial_port = serial.Serial(
                 self.port, self.baudrate,
                 parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
                 timeout=self.timeout, dsrdtr=True)
-            self.logDbg.info('Connection done!')
         except serial.SerialException as err:
-            self.logDbg.exception('Connection failed : %s' % err)
             raise RPLidarException('Failed to connect to the sensor '
                                    'due to: %s' % err)
         self.stop()
 
     def disconnect(self):
         '''Disconnects from the serial port'''
-        self.logDbg.info('Disconnection...')
         if self._serial_port is None:
-            self.logDbg.info('No disconnection to do.')
             return
         self._serial_port.close()
-        self.logDbg.info('Disconnection done!')
 
     def set_pwm(self, pwm):
         assert(0 <= pwm <= MAX_MOTOR_PWM)
@@ -128,22 +106,16 @@ class RPLidar(object):
 
     def start_motor(self):
         '''Starts sensor motor'''
-        self.logDbg.info('Starting motor...')
-
         self._serial_port.dtr = False
         self.set_pwm(DEFAULT_MOTOR_PWM)
         self.motor_running = True
-        self.logDbg.info('Motor started!')
 
     def stop_motor(self):
         '''Stops sensor motor'''
-        self.logDbg.info('Stopping motor...')
-
         self.set_pwm(0)
         time.sleep(.001)
         self._serial_port.dtr = True
         self.motor_running = False
-        self.logDbg.info('Motor stopped!')
 
     def _send_payload_cmd(self, cmd, payload):
         '''Sends `cmd` command with `payload` to the sensor'''
@@ -154,34 +126,26 @@ class RPLidar(object):
             checksum ^= v
         req += struct.pack('B', checksum)
         self._serial_port.write(req)
-        self.logDbg.debug('Command sent: %s' % req)
 
     def _send_cmd(self, cmd):
         '''Sends `cmd` command to the sensor'''
         req = SYNC_BYTE + cmd
         self._serial_port.write(req)
-        self.logDbg.debug('Command sent: %s' % req)
 
     def _read_descriptor(self):
         '''Reads descriptor packet'''
         descriptor = self._serial_port.read(DESCRIPTOR_LEN)
-        self.logDbg.debug('Received descriptor: %s', descriptor)
         if len(descriptor) != DESCRIPTOR_LEN:
-            self.logDbg.exception('In read_descriptor : length mismatch')
             raise RPLidarException('Descriptor length mismatch')
         elif not descriptor.startswith(SYNC_BYTE + SYNC_BYTE2):
-            self.logDbg.exception('In read_descriptor : incorrect starting bytes')
             raise RPLidarException('Incorrect descriptor starting bytes')
         is_single = descriptor[-2] == 0
         return descriptor[2], is_single, descriptor[-1]
 
     def _read_response(self, dsize):
         '''Reads response packet with length of `dsize` bytes'''
-        #self.logDbg.debug('Trying to read response: %d bytes', dsize)
         data = self._serial_port.read(dsize)
-        #self.logDbg.debug('Received data: %s', data)
         if len(data) != dsize:
-            #self.logDbg.exception('In read_response : wrong body size')
             raise RPLidarException('Wrong body size')
         return data
 
@@ -195,13 +159,10 @@ class RPLidar(object):
         self._send_cmd(GET_INFO_BYTE)
         dsize, is_single, dtype = self._read_descriptor()
         if dsize != INFO_LEN:
-            self.logDbg.exception('In get_info : wrong reply length')
             raise RPLidarException('Wrong get_info reply length')
         if not is_single:
-            self.logDbg.exception('In get_info : not a single response mode')
             raise RPLidarException('Not a single response mode')
         if dtype != INFO_TYPE:
-            self.logDbg.exception('In get_info : wrong response data type')
             raise RPLidarException('Wrong response data type')
         raw = self._read_response(dsize)
         serialnumber = codecs.encode(raw[4:], 'hex').upper()
@@ -212,7 +173,6 @@ class RPLidar(object):
             'hardware': raw[3],
             'serialnumber': serialnumber,
         }
-        self.logDbg.info('In get_info : %s' %s)
         return data
 
     def get_health(self):
@@ -232,13 +192,10 @@ class RPLidar(object):
         self._send_cmd(GET_HEALTH_BYTE)
         dsize, is_single, dtype = self._read_descriptor()
         if dsize != HEALTH_LEN:
-            self.logDbg.exception('In get_health : wrong reply length')
             raise RPLidarException('Wrong get_health reply length')
         if not is_single:
-            self.logDbg.exception('In get_health : not a single response mode')
             raise RPLidarException('Not a single response mode')
         if dtype != HEALTH_TYPE:
-            self.logDbg.exception('In get_health : wrong response data type')
             raise RPLidarException('Wrong response data type')
         raw = self._read_response(dsize)
         status = _HEALTH_STATUS[raw[0]]
@@ -247,13 +204,11 @@ class RPLidar(object):
 
     def clear_input(self):
         '''Clears input buffer by reading all available data'''
-        self.logDbg.info('Clearing input buffer')
         self._serial_port.read_all()
 
     def stop(self):
         '''Stops scanning process, disables laser diode and the measurment
         system, moves sensor to the idle state.'''
-        self.logDbg.info('Stop scanning')
         self._send_cmd(STOP_BYTE)
         time.sleep(.001)
         self.stop_motor()
@@ -262,7 +217,6 @@ class RPLidar(object):
     def reset(self):
         '''Resets sensor core, reverting it to a similar state as it has
         just been powered up.'''
-        self.logDbg.info('Resetting the sensor')
         self._send_cmd(RESET_BYTE)
         time.sleep(.002)
 
@@ -289,27 +243,21 @@ class RPLidar(object):
         '''
         self.start_motor()
         status, error_code = self.get_health()
-        self.logDbg.info('Health status: %s [%d]', status, error_code)
         if status == _HEALTH_STATUS[2]:
-            self.logDbg.warning('Trying to reset sensor due to the error. Error code: %d', error_code)
             self.reset()
             status, error_code = self.get_health()
             if status == _HEALTH_STATUS[2]:
                 raise RPLidarException('RPLidar hardware failure. Error code: %d' % error_code)
         elif status == _HEALTH_STATUS[1]:
-            self.logDbg.warning('Warning sensor status detected! Error code: %d', error_code)
         cmd = SCAN_BYTE
         self._send_cmd(cmd)
         dsize, is_single, dtype = self._read_descriptor()
 
         if dsize != 5:
-            self.logDbg.exception('In measurment : wrong reply length')
             raise RPLidarException('Wrong get_info reply length')
         if is_single:
-            self.logDbg.exception('In measurment : not a single response mode')
             raise RPLidarException('Not a multiple response mode')
         if dtype != SCAN_TYPE:
-            self.logDbg.exception('In measurment : wrong response data type')
             raise RPLidarException('Wrong response data type')
         while True:
             raw = self._read_response(dsize)
@@ -317,10 +265,6 @@ class RPLidar(object):
                 data_in_buf = self._serial_port.in_waiting
                 #print(data_in_buf)
                 if data_in_buf > max_buf_meas*dsize:
-                    self.logDbg.warning(
-                        'Too many measurments in the input buffer: %d/%d. '
-                        'Clearing buffer...',
-                        data_in_buf//dsize, max_buf_meas)
                     self._serial_port.read(data_in_buf//dsize*dsize)
             data = _process_scan(raw, True)
             if data[1] == 0 or data[3] == 0:
