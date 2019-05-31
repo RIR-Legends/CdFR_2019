@@ -50,12 +50,12 @@ class Robot():
         if self.__MatCode:
            self.__traj.solo_launcher() #Mat's code
     
-    def move_to(self, point_name):
+    def move_to(self, point_name, revert = False):
         self.__lastpoint = Point.get_db_point(point_name, self.db)
         if not self.__side:
             self.__lastpoint.mirror()
         
-        self.__traj.process(self.__lastpoint)
+        self.__traj.process(self.__lastpoint, revert)
         
     def action(self, action_name, dist_deploiement = 100):
         if action_name == "Transport" or action_name == "Palet_Floor_In" or action_name =="Palet_Floor_Out":
