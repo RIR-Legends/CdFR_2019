@@ -20,10 +20,10 @@ from utils.timer import RIR_timer
 
 
 class Robot():
-    def __init__(self, lancer_exp = True, MatCode = False, db = "Points"):
+    def __init__(self, lancer_exp = True, MatCode = False, db = "Points", defaultPoint = "Point0"):
         # Initialisation variables
         self.db = filedb.fileDB(db = db)
-        self.__lastpoint = Point.get_db_point("Point0", self.db)
+        self.__lastpoint = Point.get_db_point(defaultPoint, self.db)
         self.__side = Switch.cote()
         if not self.__side:
             self.__lastpoint.mirror()
