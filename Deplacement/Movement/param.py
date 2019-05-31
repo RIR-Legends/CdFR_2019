@@ -14,6 +14,24 @@ class Param:
         print('Odrive found ! ')
 
     def config(self):
+        # Definit les actions de la procedure de Lancement
+        self.odrv0.axis0.encoder.config.use_index = False
+        self.odrv0.axis1.encoder.config.use_index = False
+
+
+        self.odrv0.axis0.config.startup_motor_calibration = True
+        self.odrv0.axis1.config.startup_motor_calibration = True
+
+        self.odrv0.axis0.config.startup_encoder_index_search = True
+        self.odrv0.axis1.config.startup_encoder_index_search = True
+
+        self.odrv0.axis0.config.startup_encoder_offset_calibration = True
+        self.odrv0.axis1.config.startup_encoder_offset_calibration = True
+
+        self.odrv0.axis0.config.startup_closed_loop_control = True
+        self.odrv0.axis1.config.startup_closed_loop_control = True
+
+
         # 40Amp max dans le moteur (gros couple et sécurité pour pas fumer le moteur)
         self.odrv0.axis0.motor.config.current_lim = 10
         self.odrv0.axis1.motor.config.current_lim = 10
@@ -66,8 +84,11 @@ class Param:
 
         # Lance la calibration moteur si pas déjà faite
         print("starting calibration...")
-        self.odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-        self.odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+        self.odrv0.axis0.requested_state = AXIS_STATE_STARTUP_SEQUENCE
+        self.odrv0.axis1.requested_state = AXIS_STATE_STARTUP_SEQUENCE
+
+        #self.odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+        #self.odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 
         while self.odrv0.axis0.current_state != 1 and self.odrv0.axis1.current_state != 1:
             time.sleep(0.1)
