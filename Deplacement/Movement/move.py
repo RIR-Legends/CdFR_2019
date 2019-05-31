@@ -52,15 +52,10 @@ class Move:
         while movAvg >= errorMax:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
-            print("Encoder : ", axis.encoder.pos_estimate, "Goal/Target : ", goal, "movAvg : ", movAvg )
+            #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
                 if senslist[i] == True:
-# <<<<<<< HEAD
-#                     if MCP3008.readadc(Sen[i]) > 1000:  #  600 trop de detection #  1000 test
-# =======
-#                     if MCP3008.readadc(Sen[i]) > 400:  #  600 trop de detection #  1000 test
-# >>>>>>> trajectoire
-                    if MCP3008.readadc(Sen[i]) > 800:
+                    if MCP3008.readadc(Sen[i]) > 700:  #  600 trop de detection #  1000 test
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")
@@ -82,15 +77,17 @@ class Move:
                     movAvg += avg[i] / nb
 
                 # boucle d'accélération waitendmove
-                if movAvg == self.buffer:
+                if  self.buffer == movAvg:
                     self.seuil += 1
-                    print("seuil =", self.seuil)
+                    print("seuil =",self.seuil)
                     if self.seuil > 100:
-                       self.seuil = 0
-                       self.odrv0.axis0.controler.move_increment(2000, self.odrv0.axis0.encoder.pos_estimate)
-                       self.odrv0.axis1.controler.move_to_pos(-2000, self.odrv0.axis0.encoder.pos_estimate)
-                       time.sleep(0.3)
-
+                        self.seuil = 0
+                        self.odrv0.axis0.controller.move_incremental(2000,True)
+                        self.odrv0.axis1.controller.move_incremental(-2000,True)
+                        time.sleep(0.3) 
+                else:
+                    self.seuil = 0
+                
                 self.buffer = movAvg
                 print("seuil =", self.seuil)
 
@@ -199,4 +196,3 @@ class Move:
         self.odrv0.axis1.controller.set_vel_setpoint(0, 0)
         self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
         self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
-
