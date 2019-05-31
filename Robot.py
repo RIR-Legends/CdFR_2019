@@ -38,7 +38,7 @@ class Robot():
             self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
             self.__init_physical(setTimer)
             self.set_ready()
-        else        
+        else:
             self.__init_physical(setTimer)
 
     def __init_physical(self, setLidar):
