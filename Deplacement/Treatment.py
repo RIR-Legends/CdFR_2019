@@ -15,6 +15,7 @@ class Treatment:
         self.deltaY = 0
 
         self.deltaTheta_intra = 0
+        self.deltaTheta_rotreal = 0
         self.hyp = 0
 
     def step(self, p):
@@ -34,14 +35,27 @@ class Treatment:
 
         self.hyp = sqrt(self.deltaX**2 + self.deltaY**2)
 
+        # Gestion cas pariculier pas de DeltaX
         if self.deltaX == 0:
             if self.deltaTheta_intra > 0:
-                self.deltaTheta_intra = 90 - self.Theta_abs
+                self.deltaTheta_rotreal = 90 - self.Theta_abs
             elif self.deltaTheta_intra < 0:
-                self.deltaTheta_intra = -90 + self.Theta_abs
+                self.deltaTheta_rotreal = -90 - self.Theta_abs
         else:
-            self.deltaTheta_intra = -(atan(self.deltaX/self.deltaY) * 180) / pi
+        # Gestion cas particulier Arctan
+            if self.deltaY > 0 > self.deltaX:
+                self.deltaTheta_intra = ((atan(self.deltaY/self.deltaX) + pi) * 180) / pi
+            elif self.deltaY < 0 and self.deltaX < 0:
+                self.deltaTheta_intra = ((atan(self.deltaY / self.deltaX) - pi) * 180) / pi
+            else:
+                self.deltaTheta_intra = (atan(self.deltaY/self.deltaX) * 180) / pi
 
-        traj_list = [self.hyp, self.deltaTheta_intra]  # [Rel, Rel]
+        # Gestion cas pariculier pas de DeltaY
+            if self.deltaTheta_intra == 0:
+                self.deltaTheta_rotreal = 0
+            else:
+                self.deltaTheta_rotreal = self.deltaTheta_intra - self.Theta_abs
+
+        traj_list = [self.hyp, self.deltaTheta_rotreal]  # [Rel, Rel]
 
         return traj_list

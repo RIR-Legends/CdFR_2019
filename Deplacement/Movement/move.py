@@ -20,11 +20,16 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 10      # unité ?
+        self.errorMax = 20      # unité ?
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
         self.SenOn = list()
+
+        # boucle accel
+
+        self.seuil = 0
+        self.buffer = 0
 
     def wait_end_move(self, axis, goal, errorMax, senslist):
 
@@ -33,7 +38,7 @@ class Move:
 
         ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
 
-        nb = 5  # plus la liste est petite plus la condition du while lachera rapidement
+        nb = 1  # plus la liste est petite plus la condition du while lachera rapidement
         avg = nb * [0]
         index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
@@ -50,7 +55,7 @@ class Move:
             print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
                 if senslist[i] == True:
-                    if MCP3008.readadc(Sen[i]) > 600:  #  400 trop de detection
+                    if MCP3008.readadc(Sen[i]) > 400:  #  600 trop de detection #  1000 test
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")
@@ -67,12 +72,19 @@ class Move:
                 for i in range(index, nb):
                     index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
+
                 movAvg = 0
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
 
-                #if sign(goal - axis.encoder.pos_estimate):
-                #    pass
+                # boucle d'accélération waitendmove
+                if movAvg - self.buffer > 10:
+                    self.seuil += 1
+                    if self.seuil > 20:
+                        self.seuil = 0
+                        self.odrv0.axis0.controler.move_to_pos(self.nbCounts/4)
+
+                self.buffer = movAvg
 
             elif Sen_count != 0:
                 return

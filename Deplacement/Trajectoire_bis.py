@@ -40,8 +40,8 @@ class Trajectoire():
             print("fin de de calibration")
         
             # initialisation des paramètres ABS
-            self.X_abs = 500  # appel programme de mise en place init
-            self.Y_abs = 0  # appel porgramme de mise en place init
+            self.X_abs = 455  # appel programme de mise en place init
+            self.Y_abs = 165  # appel porgramme de mise en place init
             self.Theta_abs = 90
             print("position init abs : X = %f, Y = %f, Theta = %f" % (self.X_abs, self.Y_abs, self.Theta_abs))
             
@@ -60,7 +60,7 @@ class Trajectoire():
             # fin
             
             # initialisation des classes
-            self.positionate = Positionate()
+            self.positionate = Positionate(self.X_abs, self.Y_abs, self.Theta_abs)
             
             self.move = Move(self.odrv0)      # a récupéré en argument
             
@@ -76,7 +76,7 @@ class Trajectoire():
             self.odrv0 = self.param.odrv0
 
             # initialisation des classes
-            self.positionate = Positionate()
+            self.positionate = Positionate(self.X_abs, self.Y_abs, self.Theta_abs)
 
     def process(self, point):
         # Traitement
@@ -151,6 +151,15 @@ class Trajectoire():
         # fin
 
         print("dodging end")
+
+
+
+
+
+
+
+
+
 
 
     def solo_launcher(self):

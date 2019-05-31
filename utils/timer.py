@@ -9,10 +9,9 @@ import sys
 sys.path.append('../')
 from Deplacement.SLAM.RIR_rplidar import RPLidar
 sys.path.append('../Deplacement/Movement/') #Necessaire pour MCP3008
+from communication import Communication
 #from move import *
 #from param import *
-#from communication import Communication
-
 import Switch
 
 class RIR_timer():
