@@ -7,6 +7,7 @@
 #include "ForeArm.h"
 #include "Elevator.h"
 #include "Pompe.h"
+#include "CapteurPression.h"
 
 class Arm{
   public:
@@ -43,6 +44,7 @@ class Arm{
   Setup SetupRobot;
   Elevator ElevatorRobot;
   Pompe PompeRobot;
+  CapteurPression CapteurPressionRobot;
 
   static int stock[2];
   static int consigneStock[2];

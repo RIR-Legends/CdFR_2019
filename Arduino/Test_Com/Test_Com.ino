@@ -10,7 +10,7 @@ Setup SetupRobot;
 Elevator ElevatorRobot;
 Pompe PompeRobot;
 Arm ArmRobot; 
-Tirette TiretteRobot; 
+//Tirette TiretteRobot; 
 CapteurPression CapteurPressionRobot;
 
 RIR_Com com;
@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
 
   SetupRobot.SetAll();
-
+  //Test();
   delay(1000);
   com.RIR_send(com.Action_Finished); //Arduino doit entamer la communication en PREMIER!
 
@@ -94,4 +94,49 @@ void loop() {
         com.RIR_send(com.Action_Finished);
         break;
     }
+}
+
+void Test(){
+  //Serial.println("test");
+  ArmRobot.InitArm();
+  delay(1000);
+//  ForeArmAction.DeploiementSaisieFloor();
+//  //delay(1000);
+//  //PompeRobot.Open();
+//  delay(2000);
+//  ElevatorRobot.GoToFloor(6);
+//  //delay(500);
+//  ForeArmAction.ParquetG();
+//  //ForeArmAction.DeploiementSaisieWall();
+//  delay(5000);
+  //PompeRobot.Close();
+
+  //ForeArmAction.DeploiementSaisieFloor();
+  //ForeArmAction.DeploiementDrop();
+  //ForeArmAction.DeploiementSaisieWall();
+  //ForeArmAction.ParquetG();
+  //ForeArmAction.ParquetD();
+//
+  //ArmRobot.Transport();
+  for(int i = 0; i<5; i++){
+        ArmRobot.PreTakePaletFloor();
+        //Serial.flush();
+        delay(100);
+        ArmRobot.TakePaletFloor();
+        //Serial.flush();
+        delay(100);
+        ArmRobot.PostTakePaletFloor();
+  }
+  for(int i = 0; i<7; i++){
+        ArmRobot.PreOutPaletFloor();
+        //Serial.flush();
+        delay(100);
+        ArmRobot.OutPaletFloor();
+        //Serial.flush();
+        delay(100);
+        ArmRobot.PostOutPaletFloor();
+  }
+  
+
+  delay(50000000);
 }

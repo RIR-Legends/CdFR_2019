@@ -1,0 +1,16 @@
+# File based database (x, y, theta)
+
+Point0 = (450,295,90)
+#stockage
+Point1 = (450,1040,45)
+Point2 = (1000,1500,-90)
+Point3 = (1000,335,-180)
+#destockage
+Point4 = (600,335,-180)
+
+
+
+PointZero = (0, 0, 0)
+PointRevertInter = (0, 0, 90)
+PointRevert = (-50, 0, 0)
+
