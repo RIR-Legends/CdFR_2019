@@ -1,42 +1,34 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-#import Robot
 import sys
-from utils.timer import RIR_timer
-import utils.Switch as Switch
+from Robot import Robot
 
-sys.path.append('Deplacement/')
-sys.path.append('Deplacement/Movement/') #Necessaire pour MCP3008
-from SLAM.RIR_rplidar import RPLidar
-import Trajectoire
-from move import *
-from param import *
-from utils.communication import Communication
+##### LISTE DES ACTIONS POSSIBLES
+#"Arret"
+#"Transport"
+#"Palet_Floor_In"
+#"Palet_Wall_In"
+#"Palet_Floor_Out"
+#"Palet_Wall_Out"
+##### FIN LISTE DES ACTIONS POSSIBLES
 
-def main():
-    # Initialisation
-    com = Communication('/dev/ttyACM0')
-    lidar = RPLidar('/dev/ttyUSB0')
-    param = Param()
-    move = Move(param.odrv0)
-    
-    lidar.start_motor()
-    param.config()
-    param.calib()
-    com.waitEndMove(Communication.MSG["Initialisation"])
-    time.sleep(1)
-    
-    # Creation du timer
-    timer = RIR_timer(com, (param,move), lidar, launch_exp = True)
-    
-    # Lancement du timer
-    Switch.tirette()
-    timer.start_timer()
-    
-    # Lancement de trajectoire + Tirette
-    Trajectoire.main(param, move, False)
+def main(lancer_exp = True, MatCode = False, db = "Points"):
+    robot = Robot(lancer_exp, MatCode, db = "Points")
+
+    #robot.move_to("Point0")
+    robot.action("Palet_Floor_In")
+    robot.move_to("Point1")        ##Exemple pour se déplacer à un point
+    #robot.action("Palet_Floor_In")    ##Exemple pour effectuer une action avec l'Arduino
+    robot.move_to("Point2")
+    robot.move_to("Point3")
+    robot.move_to("Point4")
+    robot.action("Palet_Floor_Out")
+    #robot.move_to("Point4")
 
 
 if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        main(sys.argv[1]=='True', sys.argv[2] == 'True')
+    # Pour ne pas lancer l'expérience : 'python3 main.py False ___'
+    # Pour lancer l'homologation par Mat : 'python3 main.py ___ True
     main()

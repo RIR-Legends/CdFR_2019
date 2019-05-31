@@ -6,12 +6,14 @@ import odrive
 import sys
 
 # Import programme Robot
+from Post_treatment import PostTreatment
 from Treatment import Treatment
 from utils.Recovery import Recuperation
 sys.path.append('Movement/')
 from Movement.move import Move
 from Instant_position import Positionate
 from Movement.param import Param
+
 # from Dodging import Dodging
 
 
@@ -60,9 +62,9 @@ def main(param, move, Solo = True):
     # initialisation des classes
     positionate = Positionate()
     if Solo:
-        move = Move(odrv0)      # a récupéréé en argument
+        move = Move(odrv0)      # a récupéré en argument
 
-    for P in Registre_points:  # TODO : implementer la boucle for pour le déroulement de l'itinéraire
+    for P in Registre_points:
 
         # Traitement
         treatment = Treatment(X_abs, Y_abs, Theta_abs)
@@ -70,9 +72,7 @@ def main(param, move, Solo = True):
         print("Traj_list = %s" % Traj_list)
         # fin
 
-
-        # déplacements
-
+        # ================================================= déplacements ===============================================
 
             # Rotation
         if Traj_list[1] != 0:   # Theta != 0
@@ -101,21 +101,35 @@ def main(param, move, Solo = True):
             move.translation(Traj_list[0], Senslist)
             # fin
 
-                # retour capteur collision
-
-                # Recuperation de position instant 2eme composantes
+            # retour capteur collision
+            # Recuperation de position instant 2eme composantes
         pos01 = odrv0.axis0.encoder.pos_estimate
         pos11 = odrv0.axis1.encoder.pos_estimate
         print("pos 01 = ", pos01)
         print("pos 11 = ", pos11)
-                # fin
-
-        # fin
+            # fin
 
         # instant position
         [X_abs, Y_abs, Theta_abs] = positionate.step(pos00, pos01, pos10, pos11, Traj_list[1])
-        print("position abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
+        print("position Après translation abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
         # fin
+
+        # Recalculation pour l'iclinaison finale du robot
+        FinalAngle = PostTreatment(Theta_abs).step(P)
+            # fin
+
+        # Rotation
+        if FinalAngle != 0:  # Theta != 0
+            Senslist = [True, True, True, True, True]
+            move.rotation(FinalAngle, Senslist)
+            # fin
+
+        # instant position
+        Theta_abs = positionate.step_theta(FinalAngle)
+        print("position Après repositionnement Ang. abs : X = %f, Y = %f, Theta = %f" % (X_abs, Y_abs, Theta_abs))
+        # fin
+
+        # ============================================= fin ============================================================
 
         print("dodging begin")
 

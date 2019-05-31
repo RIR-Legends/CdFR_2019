@@ -66,27 +66,27 @@ void Elevator::MoveTo(int destination){
 void Elevator::GoToFloor(int floorNb){
   switch(floorNb){
     case 0:
-       MoveTo(1650);
+       MoveTo(1600);
        delay(500);
-       MoveTo(1750);
+       MoveTo(1652);
     break;
     case 1:
-       MoveTo(1300);
+       MoveTo(1270);
     break;
     case 2:
-       MoveTo(1070);
+       MoveTo(1010);
     break;
     case 3:
-       MoveTo(810);
+       MoveTo(748);
     break;
     case 4:
-       MoveTo(550);
+       MoveTo(490);
     break;
     case 5:
-       MoveTo(300);
+       MoveTo(236);
     break;
       case 6:
-       MoveTo(100);
+       MoveTo(50);
     break;
       case 7:
        MoveTo(0);

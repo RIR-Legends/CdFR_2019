@@ -30,6 +30,6 @@ void Setup::SetCapPression(){
 void Setup::SetAll(){
   SetElevator();
   SetPomp();
-  SetTirette();
+  //SetTirette();
   SetCapPression();
 }
