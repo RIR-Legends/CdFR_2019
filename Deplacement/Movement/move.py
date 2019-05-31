@@ -49,6 +49,10 @@ class Move:
 
         self.SenOn = [0 for i in range(len(Sen))]
 
+        prev_step = axis.encoder.pos_estimate
+        diff_step = 0
+        wd = 0
+
         while movAvg >= errorMax:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
@@ -76,20 +80,32 @@ class Move:
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
 
-                # boucle d'accélération waitendmove
-                if  self.buffer == movAvg:
-                    self.seuil += 1
-                    print("seuil =",self.seuil)
-                    if self.seuil > 100:
-                        self.seuil = 0
-                        self.odrv0.axis0.controller.move_incremental(2000,True)
-                        self.odrv0.axis1.controller.move_incremental(-2000,True)
-                        time.sleep(0.3) 
+                diff_step = axis.encoder.pos_estimate - prev_step
+                print(diff_step)
+                if diff_step < 10:
+                    wd += 1
+                    if wd > 100:
+                        self.ActDone = True
+                        return
                 else:
-                    self.seuil = 0
+                    wd = 0
+                    prev_step = axis.encoder.pos_estimate
+                        
                 
-                self.buffer = movAvg
-                print("seuil =", self.seuil)
+                ## boucle d'accélération waitendmove
+                #if self.buffer == movAvg:
+                #    self.seuil += 1
+                #    print("seuil =",self.seuil)
+                #    if self.seuil > 100:
+                #        self.seuil = 0
+                #        self.odrv0.axis0.controller.move_to_pos(2000,True)
+                #        self.odrv0.axis1.controller.move_to_pos(-2000,True)
+                #        time.sleep(0.3) 
+                #else:
+                #    self.seuil = 0
+                #
+                #self.buffer = movAvg
+                #print("seuil =", self.seuil)
 
             elif Sen_count != 0:
                 return
