@@ -20,7 +20,7 @@ class Move:
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
 
         # coding features
-        self.errorMax = 20      # unité ?
+        self.errorMax = 10      # unité ?
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
@@ -75,7 +75,6 @@ class Move:
                 self.OBS = False
                 #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
                 for i in range(index, nb):
-                    index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
 
                 movAvg = 0
@@ -83,13 +82,17 @@ class Move:
                     movAvg += avg[i] / nb
 
                 # boucle d'accélération waitendmove
-                if movAvg - self.buffer > 10:
+                if movAvg == self.buffer:
                     self.seuil += 1
-                    if self.seuil > 20:
-                        self.seuil = 0
-                        self.odrv0.axis0.controler.move_to_pos(self.nbCounts/4)
+                    print("seuil =", self.seuil)
+                    if self.seuil > 100:
+                       self.seuil = 0
+                       self.odrv0.axis0.controler.move_increment(2000, self.odrv0.axis0.encoder.pos_estimate)
+                       self.odrv0.axis1.controler.move_to_pos(-2000, self.odrv0.axis0.encoder.pos_estimate)
+                       time.sleep(0.3)
 
                 self.buffer = movAvg
+                print("seuil =", self.seuil)
 
             elif Sen_count != 0:
                 return
@@ -196,3 +199,4 @@ class Move:
         self.odrv0.axis1.controller.set_vel_setpoint(0, 0)
         self.odrv0.axis0.controller.pos_setpoint = self.odrv0.axis0.encoder.pos_estimate
         self.odrv0.axis1.controller.pos_setpoint = self.odrv0.axis1.encoder.pos_estimate
+
