@@ -84,7 +84,7 @@ class Move:
                 print(diff_step)
                 if diff_step < 10:
                     wd += 1
-                    if wd > 100:
+                    if wd > 200:
                         self.ActDone = True
                         return
                 else:
