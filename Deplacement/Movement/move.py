@@ -80,8 +80,8 @@ class Move:
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
 
-                diff_step = axis.encoder.pos_estimate - prev_step
-                print(diff_step)
+                diff_step = fabs(axis.encoder.pos_estimate - prev_step)
+                #print(diff_step)
                 if diff_step < 10:
                     wd += 1
                     if wd > 200:
