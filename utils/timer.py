@@ -43,23 +43,23 @@ class RIR_timer():
         #Stop all
         lidar.stop()
         lidar.disconnect()
-        com.send(Communication.MSG["Arret"])
         motor[1].stop()
+        com.send(Communication.MSG["Arret"])
         motor[0].odrv0.reboot()
         
         # Try to do an action
-        try:
-            com.waitEndMove(Communication.MSG["Palet_Floor_In"])
-        except:
-            print("No Com Available")
-        try:
-            lidar.start_motor()
-        except:
-            print("No LiDAR Available")
-        try:
-            move.translation(5000, [False]*5)
-        except:
-            print("No Motor Available")
+        #try:
+        #    com.waitEndMove(Communication.MSG["Palet_Floor_In"])
+        #except:
+        #    print("No Com Available")
+        #try:
+        #    lidar.start_motor()
+        #except:
+        #    print("No LiDAR Available")
+        #try:
+        #    move.translation(5000, [False]*5)
+        #except:
+        #    print("No Motor Available")
     
     def start_timer(self):
         self.launcher.start()

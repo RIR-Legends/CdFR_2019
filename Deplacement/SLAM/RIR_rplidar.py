@@ -248,7 +248,6 @@ class RPLidar(object):
             status, error_code = self.get_health()
             if status == _HEALTH_STATUS[2]:
                 raise RPLidarException('RPLidar hardware failure. Error code: %d' % error_code)
-        elif status == _HEALTH_STATUS[1]:
         cmd = SCAN_BYTE
         self._send_cmd(cmd)
         dsize, is_single, dtype = self._read_descriptor()
