@@ -15,7 +15,7 @@ from communication import Communication
 import Switch
 
 class RIR_timer():
-    def __init__(self, Communication, Moteur, Lidar, launch_exp = True, duration = 95):
+    def __init__(self, Communication, Moteur, Lidar, launch_exp = True, duration = 90):
         self.duration = duration
         self.launch_exp = launch_exp
         self.launcher = threading.Thread(target=self.__RIR_timer, args=(Communication, Moteur, Lidar))
@@ -34,32 +34,32 @@ class RIR_timer():
 
     def __RIR_timer(self, com, motor, lidar):
         DepartTime = time.time()
-        time.sleep(self.duration - 5)
+        time.sleep(self.duration - 7)
         Now = time.time() - DepartTime
         while Now < self.duration:
             time.sleep(.1)
             Now = time.time() - DepartTime
             
         #Stop all
+        motor[1].stop()
         lidar.stop()
         lidar.disconnect()
         com.send(Communication.MSG["Arret"])
-        motor[1].stop()
         motor[0].odrv0.reboot()
         
         # Try to do an action
-        try:
-            com.waitEndMove(Communication.MSG["Palet_Floor_In"])
-        except:
-            print("No Com Available")
-        try:
-            lidar.start_motor()
-        except:
-            print("No LiDAR Available")
-        try:
-            move.translation(5000, [False]*5)
-        except:
-            print("No Motor Available")
+        #try:
+        #    com.waitEndMove(Communication.MSG["Palet_Floor_In"])
+        #except:
+        #    print("No Com Available")
+        #try:
+        #    lidar.start_motor()
+        #except:
+        #    print("No LiDAR Available")
+        #try:
+        #    move.translation(5000, [False]*5)
+        #except:
+        #    print("No Motor Available")
     
     def start_timer(self):
         self.launcher.start()
