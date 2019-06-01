@@ -22,6 +22,7 @@ class Treatment:
         from math import sqrt
         from math import atan
         from math import pi
+        from numpy import sign
 
         print(p)
 
@@ -37,9 +38,9 @@ class Treatment:
 
         # Gestion cas pariculier pas de DeltaX
         if self.deltaX == 0:
-            if self.deltaTheta_intra > 0:
+            if self.deltaTheta_intra > 0:  # self.deltaY
                 self.deltaTheta_rotreal = 90 - self.Theta_abs
-            elif self.deltaTheta_intra < 0:
+            elif self.deltaTheta_intra < 0:  # self.deltaY
                 self.deltaTheta_rotreal = -90 - self.Theta_abs
         else:
         # Gestion cas particulier Arctan
@@ -55,6 +56,11 @@ class Treatment:
                 self.deltaTheta_rotreal = 0
             else:
                 self.deltaTheta_rotreal = self.deltaTheta_intra - self.Theta_abs
+
+        if sign(self.deltaX) < 0:
+            self.deltaTheta_rotreal -= pi
+        elif sign(self.deltaY) < 0:
+            self.deltaTheta_rotreal += pi
 
         traj_list = [self.hyp, self.deltaTheta_rotreal]  # [Rel, Rel]
 

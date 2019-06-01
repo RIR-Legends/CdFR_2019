@@ -82,6 +82,7 @@ class Trajectoire():
         # Traitement
         treatment = Treatment(self.X_abs, self.Y_abs, self.Theta_abs)
         Traj_list = treatment.step([point.x, point.y, point.theta])  # Traj_list = [ Distance, Theta ]
+
         if revert:
             #Traj_list = [-Traj_list[0], (180 + Traj_list[1]) % 360]
             Traj_list[0] = -Traj_list[0]

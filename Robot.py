@@ -17,6 +17,7 @@ from move import Move
 from Trajectoire_bis import Trajectoire
 from RIR_rplidar import RPLidar #from Lidar import Lidar
 from utils.timer import RIR_timer
+import time
 
 
 class Robot():
@@ -86,3 +87,9 @@ class Robot():
             self.com.send(Communication.MSG["Action_Finished"])
             while not self.__com.readyNext:
                 self.__com.read()
+
+def testRevert():
+    robot = Robot(defaultPoint = "PointZero", setTimer = False)
+    robot.move_to("PointRevert", True)
+    time.sleep(5)
+    robot.move_to("PointZero")
