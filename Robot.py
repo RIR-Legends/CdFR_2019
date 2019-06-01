@@ -20,29 +20,27 @@ from utils.timer import RIR_timer
 
 
 class Robot():
-    def __init__(self, lancer_exp = True, MatCode = False, db = "Points"):
+    def __init__(self, lancer_exp = True, MatCode = False, db = "Points", defaultPoint = "Point0", setTimer = True):
         # Initialisation variables
         self.db = filedb.fileDB(db = db)
-        self.__lastpoint = Point.get_db_point("Point0", self.db)
+        self.__lastpoint = Point.get_db_point(defaultPoint, self.db)
+        self.__com = Communication('/dev/ttyACM0')
+        self.__Oparam = Param()
+        self.__Oparam.config()
+        self.__Oparam.calib()
         self.__side = Switch.cote()
         if not self.__side:
             self.__lastpoint.mirror()
-        self.__com = Communication('/dev/ttyACM0')
-        self.__Oparam = Param()
         self.__move = Move(self.__Oparam.odrv0)
         self.__MatCode = MatCode
         self.__traj = Trajectoire(param = self.__Oparam, move = self.__move, initial_point = self.__lastpoint, Solo = self.__MatCode)
-        self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
-        self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
-                
-        self.__init_physical()
-        self.set_ready()
-
-    def __init_physical(self):
-        self.__lidar.start_motor() # A retirer si lidar = Lidar
-        self.__Oparam.config()
-        self.__Oparam.calib()
         self.__com.waitEndMove(Communication.MSG["Initialisation"])
+        
+        if setTimer:
+            self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
+            self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
+            self.__lidar.start_motor()
+            self.set_ready()
 
     def set_ready(self):
         Switch.tirette()
@@ -50,12 +48,12 @@ class Robot():
         if self.__MatCode:
            self.__traj.solo_launcher() #Mat's code
     
-    def move_to(self, point_name):
+    def move_to(self, point_name, revert = False):
         self.__lastpoint = Point.get_db_point(point_name, self.db)
         if not self.__side:
             self.__lastpoint.mirror()
         
-        self.__traj.process(self.__lastpoint)
+        self.__traj.process(self.__lastpoint, revert)
         
     def action(self, action_name, dist_deploiement = 100):
         if action_name == "Transport" or action_name == "Palet_Floor_In" or action_name =="Palet_Floor_Out":

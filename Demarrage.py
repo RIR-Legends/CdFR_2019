@@ -14,4 +14,4 @@ for i in range(20):
         sleep(0.1)
 if nbBon > 15:
     print("je demarre")
-    d.main(False, False) #Nom de la fonction a lancer
+    d.main() #Nom de la fonction a lancer
