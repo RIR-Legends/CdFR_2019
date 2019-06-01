@@ -34,16 +34,16 @@ class RIR_timer():
 
     def __RIR_timer(self, com, motor, lidar):
         DepartTime = time.time()
-        time.sleep(self.duration - 5)
+        time.sleep(self.duration - 20)
         Now = time.time() - DepartTime
         while Now < self.duration:
             time.sleep(.1)
             Now = time.time() - DepartTime
             
         #Stop all
+        motor[1].stop()
         lidar.stop()
         lidar.disconnect()
-        motor[1].stop()
         com.send(Communication.MSG["Arret"])
         motor[0].odrv0.reboot()
         
