@@ -59,7 +59,7 @@ class Move:
             #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
                 if senslist[i] == True:
-                    if MCP3008.readadc(Sen[i]) > 640:  #  600 trop de detection #  1000 test
+                    if MCP3008.readadc(Sen[i]) > 620:  #  600 trop de detection #  1000 test
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")
