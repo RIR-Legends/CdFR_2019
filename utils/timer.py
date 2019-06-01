@@ -15,7 +15,7 @@ from communication import Communication
 import Switch
 
 class RIR_timer():
-    def __init__(self, Communication, Moteur, Lidar, launch_exp = True, duration = 95):
+    def __init__(self, Communication, Moteur, Lidar, launch_exp = True, duration = 90):
         self.duration = duration
         self.launch_exp = launch_exp
         self.launcher = threading.Thread(target=self.__RIR_timer, args=(Communication, Moteur, Lidar))
@@ -34,7 +34,7 @@ class RIR_timer():
 
     def __RIR_timer(self, com, motor, lidar):
         DepartTime = time.time()
-        time.sleep(self.duration - 20)
+        time.sleep(self.duration - 7)
         Now = time.time() - DepartTime
         while Now < self.duration:
             time.sleep(.1)

@@ -24,9 +24,9 @@ def main(lancer_exp = True, MatCode = False, db = "Points"):
     robot.move_to("Point4")
     robot.action("Palet_Floor_Out")
     robot.move_to("Point5")
-    robot.action("Palet_Floor_In")
+    #robot.action("Palet_Floor_In")
     robot.move_to("Point6")
-    robot.action("Palet_Floor_Out")
+    #robot.action("Palet_Floor_Out")
     #robot.move_to("Point4")
 
 

@@ -1,14 +1,32 @@
 # File based database (x, y, theta)
 
 Point0 = (450,295,90)
-#stockage
+# Stockage palet
 Point1 = (450,1040,45)
 Point2 = (1000,1500,-90)
-Point3 = (1000,335,180)
-#destockage
-Point4 = (600,335,180)
-Point5 = (600,335,135)
-Point6 = (600,335,180)
+# Devant Chaos
+Point3 = (1000,385,-170)
+Point4 = (800,385,180)
+# Destockage
+Point5 = (800,385,95)
+
+
+Point6 = (800,1000,90)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
