@@ -17,6 +17,7 @@ from move import Move
 from Trajectoire_bis import Trajectoire
 from RIR_rplidar import RPLidar #from Lidar import Lidar
 from utils.timer import RIR_timer
+import time
 
 
 class Robot():
@@ -24,29 +25,23 @@ class Robot():
         # Initialisation variables
         self.db = filedb.fileDB(db = db)
         self.__lastpoint = Point.get_db_point(defaultPoint, self.db)
+        self.__com = Communication('/dev/ttyACM0')
+        self.__Oparam = Param()
+        self.__Oparam.config()
+        self.__Oparam.calib()
         self.__side = Switch.cote()
         if not self.__side:
             self.__lastpoint.mirror()
-        self.__com = Communication('/dev/ttyACM0')
-        self.__Oparam = Param()
         self.__move = Move(self.__Oparam.odrv0)
         self.__MatCode = MatCode
         self.__traj = Trajectoire(param = self.__Oparam, move = self.__move, initial_point = self.__lastpoint, Solo = self.__MatCode)
+        self.__com.waitEndMove(Communication.MSG["Initialisation"])
         
         if setTimer:
             self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
             self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
-            self.__init_physical(setTimer)
+            self.__lidar.start_motor()
             self.set_ready()
-        else:
-            self.__init_physical(setTimer)
-
-    def __init_physical(self, setLidar):
-        if setLidar:
-            self.__lidar.start_motor() # A retirer si lidar = Lidar
-        self.__Oparam.config()
-        self.__Oparam.calib()
-        self.__com.waitEndMove(Communication.MSG["Initialisation"])
 
     def set_ready(self):
         Switch.tirette()
@@ -86,3 +81,9 @@ class Robot():
             self.com.send(Communication.MSG["Action_Finished"])
             while not self.__com.readyNext:
                 self.__com.read()
+
+def testRevert():
+    robot = Robot(defaultPoint = "PointZero", setTimer = False)
+    robot.move_to("PointRevert", True)
+    time.sleep(5)
+    robot.move_to("PointZero")

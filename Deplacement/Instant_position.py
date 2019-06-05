@@ -8,7 +8,7 @@ class Positionate:
         self.nbCounts = 8192  # Nombre de tics pr un tour d'encoder
         self.WheelDiameter = 80  # en mm
         self.WheelPerimeter = self.WheelDiameter * pi  # en mm
-        self.theta_buffer = 0
+
         self.current_X, self.current_Y, self.current_theta = x, y, theta
 
 
@@ -17,12 +17,10 @@ class Positionate:
         from math import cos
         from math import sin
 
-        self.theta_buffer = theta
-
         self.delta_pos0 = pos01 - pos00  # erreur calculée négative car moteur inversé
         self.delta_pos1 = pos11 - pos10
 
-        self.current_theta += self.theta_buffer
+        self.current_theta += theta
 
         print("current_theta =", self.current_theta)
 
@@ -50,8 +48,7 @@ class Positionate:
         return [self.current_X, self.current_Y, self.current_theta]
 
     def step_theta(self, theta):
-        self.theta_buffer = theta
 
-        self.current_theta += self.theta_buffer
+        self.current_theta += theta
 
         return self.current_theta

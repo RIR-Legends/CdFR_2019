@@ -13,7 +13,7 @@ from Robot import Robot
 ##### FIN LISTE DES ACTIONS POSSIBLES
 
 def main(lancer_exp = True, MatCode = False, db = "Points"):
-    robot = Robot(lancer_exp, MatCode, db = "Points", defaultPoint = "Point0", setTimer = True)
+    robot = Robot(lancer_exp, MatCode, db = db, defaultPoint = "Point0", setTimer = True)
 
     #robot.move_to("Point0")
     robot.action("Palet_Floor_In")
@@ -23,6 +23,11 @@ def main(lancer_exp = True, MatCode = False, db = "Points"):
     robot.move_to("Point3")
     robot.move_to("Point4")
     robot.action("Palet_Floor_Out")
+    robot.move_to("Point5")
+    #robot.action("Palet_Floor_In")
+    robot.move_to("Point6")
+    robot.move_to("Point7")
+    #robot.action("Palet_Floor_Out")
     #robot.move_to("Point4")
 
 
