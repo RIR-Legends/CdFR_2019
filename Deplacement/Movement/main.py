@@ -15,18 +15,25 @@ def demo_simple(odrv0) :
     move = m.Move(odrv0)
 
     time.sleep(1)
-    move.translation(1500)
-    time.sleep(2)
-    move.rotation(180)
-    time.sleep(2)
+    move.translation(500)
+    time.sleep(1)
+    move.rotation(-90)
+    time.sleep(1)
     move.translation(1000)
 
-def demo_rotation(odrv0) :
+def homologation(odrv0) :
     move = m.Move(odrv0)
-    #Test la fonction de controle de position relative (par rapport à pos précedente)
-    time.sleep(2)
-    move.rotation(720)
-    time.sleep(2)
+    move.translation(500, [True,True,True,False,False])
+    time.sleep(1)
+    move.rotation(-90,[True,True,True,False,False])
+    time.sleep(1)
+    move.translation(300,[True,True,True,False,False])
+    time.sleep(1)
+    move.rotation(-90,[True,True,True,False,False])
+    time.sleep(1)
+    move.translation(300,[True,True,True,False,False])
+
+
 
 def demo_tour(odrv0) :
     move = m.Move(odrv0)
@@ -91,21 +98,21 @@ def run_test(odrv0) :
 
 """ Paramétrage et Calibration """
 param = p.Param()
-#param.RAZ() # Lance fonction remise à zero des moteurs
-param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
-param.calib()
+param.raz()# Lance fonction remise à zero des moteurs
+#param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
+#param.calib()
 """ ------------------------------- """
 
 """ Choix de lancement des demos : """
 
 s.tirette()
 
-if s.cote() == True:
+if s.cote() == True: #Jaune
 
-    demo_simple(param.odrv0)
+    homologation(param.odrv0)
     #demo_tour(param.odrv0)
     #demo_rotation(param.odrv0)
-else : run_test(param.odrv0)
+else : run_test(param.odrv0) # Violet
 
 """--------------------------------"""
 

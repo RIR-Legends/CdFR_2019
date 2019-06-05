@@ -20,47 +20,22 @@ class Param:
 
         # vmax en tick/s les encodeurs font 8192 tick/tours
         # controller.*.vel_limite prend le pas sur trap_traj.*.vel_limt
-        self.odrv0.axis0.controller.config.vel_limit = 50000
-        self.odrv0.axis1.controller.config.vel_limit = 50000
+        self.odrv0.axis0.controller.config.vel_limit = 5000
+        self.odrv0.axis1.controller.config.vel_limit = 5000
 
         # trap_traj parametrage des valeurs limit du comportement dynamique
-        self.odrv0.axis1.trap_traj.config.vel_limit = 30000
-        self.odrv0.axis0.trap_traj.config.vel_limit = 30000
+        self.odrv0.axis1.trap_traj.config.vel_limit = 3000
+        self.odrv0.axis0.trap_traj.config.vel_limit = 3000
 
-        self.odrv0.axis0.trap_traj.config.accel_limit = 10000
-        self.odrv0.axis1.trap_traj.config.accel_limit = 10000
+        self.odrv0.axis0.trap_traj.config.accel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.accel_limit = 1000
 
-        self.odrv0.axis0.trap_traj.config.decel_limit = 10000
-        self.odrv0.axis1.trap_traj.config.decel_limit = 10000
+        self.odrv0.axis0.trap_traj.config.decel_limit = 1000
+        self.odrv0.axis1.trap_traj.config.decel_limit = 1000
 
         # test avec  calib_saved.py
         #self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         #self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-
-
-    def raz(self):
-        # Fonction de remise à zero des moteurs pour initialisation si calib déja faite
-        flag = 'N'
-        flag = input("Le robot est hors sol ? (Y or N)")
-        self.odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-        self.odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-        if flag == 'Y':
-            """self.odrv0.axis0.controller.config.vel_limit = 7000
-            self.odrv0.axis1.controller.config.vel_limit = 7000
-
-            # trap_traj parametrage des valeurs limit du comportement dynamique
-            self.odrv0.axis1.trap_traj.config.vel_limit = 1000
-            self.odrv0.axis0.trap_traj.config.vel_limit = 1000
-
-            self.odrv0.axis0.trap_traj.config.accel_limit = 750
-            self.odrv0.axis1.trap_traj.config.accel_limit = 750
-
-            self.odrv0.axis0.trap_traj.config.decel_limit = 750
-            self.odrv0.axis1.trap_traj.config.decel_limit = 750"""
-            #Remise en position 0 des moteurs pour initialisation
-            self.odrv0.axis0.controller.move_to_pos(0)
-            self.odrv0.axis1.controller.move_to_pos(0)
-            time.sleep(5)
 
 
     def calib(self):
@@ -83,3 +58,27 @@ class Param:
         # AXIS_STATE_IDLE , libère le moteur : boucle ouverte
         self.odrv0.axis0.requested_state = AXIS_STATE_IDLE
         self.odrv0.axis1.requested_state = AXIS_STATE_IDLE
+
+    def current_control():
+        target = 81920
+        #self.odrv0.axis0.config.control_mode = CTRL_MODE_CURRENT_CONTROL
+        self.odrv0.axis0.motor.current_control.Iq_setpoint = 1
+        self.odrv0.axis0.controller.move_to_pos(target)
+        while self.odrv0.axis0.encoder.pos_estimate < target:
+            print("self.odrv0.axis0.motor.current_control.Iq_mesured")
+            while self.odrv0.axis0.motor.current_control.Iq_measured != self.odrv0.axis0.motor.current_control.Iq_setpoint:
+                time.sleep(0.1)
+            break
+
+
+def test():
+    param = Param()
+    param.config()
+    param.calib()
+    param.current_control()
+
+
+if __name__ == '__main__':
+    # Pour ne pas lancer l'expérience : 'python3 main.py False ___'
+    # Pour lancer l'homologation par Mat : 'python3 main.py ___ True
+    Param.test()

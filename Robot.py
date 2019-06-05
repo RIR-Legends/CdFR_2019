@@ -1,74 +1,89 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Communication.communication import Communication as Communication
-from Deplacements.point import Point as Point
-import Points.filedb
+import sys
+sys.path.append('utils/')
+sys.path.append('Deplacement/')
+sys.path.append('Deplacement/utils')
+sys.path.append('Deplacement/Movement')
+sys.path.append('Deplacement/SLAM')
 
-from Deplacements.param import Param as OdriveParam
-from Deplacements.move import Move as Movements
-#from Deplacements.chemin import Chemin as Parcours
-from Deplacements.Treatment import Treatment as Treatment
+from point import Point
+import filedb
+import Switch
+from communication import Communication
+from param import Param
+from move import Move
+from Trajectoire_bis import Trajectoire
+from RIR_rplidar import RPLidar #from Lidar import Lidar
+from utils.timer import RIR_timer
+import time
 
-
-#from RPlidar.RIR_rplidar import RPLidar as RPLidar
 
 class Robot():
-    def __init__(self):
-        # Initialisation de la communication avec l'Arduino
-        self.com = Communication() ### ATTENTION PEUT ETRE BLOQUANT
-
-        # Initialisation informations extérieur
-        self.side = None
-        self.tirettePulled = False
-        self.timer = time.time()
-
-        # Initialisation ODrive
-        self.Oparam = OdriveParam()
-        #self.Oparam.RAZ()
-        self.Oparam.config()
-        self.Oparam.calib_always()
-
-        # Intilialisation Trajectoire
-        self.move = Movements(self.Oparam.odrv0)
-        self.dbPoints = filedb.fileDB(db="points")
-        self.treatment = Treatment()
-        self.thetaOrder = 0
-        self.distanceOrder = 0
-        self.currentPos = Point(0,0,0)
-
-        # Initialisation Lidar et SLAM
-        self.lidar = RPLidar() ### ATTENTION PEUT ETRE BLOQUANT
-
-    def checkSide(self):
-        ''' A refaire selon branchement sur Rasp '''
-        #while self.com.OrangeSide == None:
-        #    self.com.checkAndRead()
-        #self.side = "Violet"
-        #if OrangeSide:
-        #    self.side = "Orange"
-        #return self.side
-
-    def checkTimer(self):
-        Now = time.time() - DepartTime
+    def __init__(self, lancer_exp = True, MatCode = False, db = "Points", defaultPoint = "Point0", setTimer = True):
+        # Initialisation variables
+        self.db = filedb.fileDB(db = db)
+        self.__lastpoint = Point.get_db_point(defaultPoint, self.db)
+        self.__com = Communication('/dev/ttyACM0')
+        self.__Oparam = Param()
+        self.__Oparam.config()
+        self.__Oparam.calib()
+        self.__side = Switch.cote()
+        if not self.__side:
+            self.__lastpoint.mirror()
+        self.__move = Move(self.__Oparam.odrv0)
+        self.__MatCode = MatCode
+        self.__traj = Trajectoire(param = self.__Oparam, move = self.__move, initial_point = self.__lastpoint, Solo = self.__MatCode)
+        self.__com.waitEndMove(Communication.MSG["Initialisation"])
         
+        if setTimer:
+            self.__lidar = RPLidar('/dev/ttyUSB0') #self.__lidar = Lidar('/dev/ttyUSB0')
+            self.__timer = RIR_timer(self.__com, (self.__Oparam,self.__move), self.__lidar, lancer_exp) # Test: placé avant __init_physical
+            self.__lidar.start_motor()
+            self.set_ready()
 
-    def waitingTrigger(self):
-        ''' A refaire selon branchement sur Rasp '''
-        #while self.com.Tirette:
-        #    self.com.checkAndRead()
-        self.timer = time.time()
+    def set_ready(self):
+        Switch.tirette()
+        self.__timer.start_timer()
+        if self.__MatCode:
+           self.__traj.solo_launcher() #Mat's code
+    
+    def move_to(self, point_name, revert = False):
+        self.__lastpoint = Point.get_db_point(point_name, self.db)
+        if not self.__side:
+            self.__lastpoint.mirror()
+        
+        self.__traj.process(self.__lastpoint, revert)
+        
+    def action(self, action_name, dist_deploiement = 100):
+        if action_name == "Transport" or action_name == "Palet_Floor_In" or action_name =="Palet_Floor_Out":
+            self.__com.waitEndMove(Communication.MSG[action_name])
+        elif action_name == "Arret":
+            self.__com.send(Communication.MSG[action_name])
+        elif action_name == "Palet_Wall_In" or action_name == "Palet_Wall_Out":
+            self.__com.send(Communication.MSG[action_name])
+            
+            while not self.__com.Avancer:
+                self.__com.read()
+            temp_point = self.__lastpoint
+            if action_name == "Palet_Wall_In":
+                temp_point.x += dist_deploiement
+            else:
+                temp_point.x -= dist_deploiement
+            self.__traj.process(temp_point)
+            
+            self.__com.send(Communication.MSG["Action_Finished"])
+            while not self.__com.Reculer:
+                self.__com.read()
+            self.__traj.process(self.__lastpoint)
+            
+            self.com.send(Communication.MSG["Action_Finished"])
+            while not self.__com.readyNext:
+                self.__com.read()
 
-    def stopAll(self):
-        self.move.stop()
-        self.com.send(Communication.MSG["Arret"])
-
-    def getOrder(self,departPoint,arrivalPoint):
-        res = self.treatment(departPoint,arrivalPoint)
-        self.thetaOrder = res[1]
-        self.distanceOrder = res[0]
-
-    def getDataDB(self,name):
-        ''' Va chercher et retourne le point associé au name dans la base de donnée '''
-        data = literal_eval(self.dbPoints.get(name))
-        return Point(data[0],data[1],data[2]) # Pour l'instant seuls les Points sont considérés dans la base de données
+def testRevert():
+    robot = Robot(defaultPoint = "PointZero", setTimer = False)
+    robot.move_to("PointRevert", True)
+    time.sleep(5)
+    robot.move_to("PointZero")
