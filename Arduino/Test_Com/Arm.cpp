@@ -27,6 +27,7 @@ void Arm::InitArm(){
   delay(1000);
   DoorAction.CloseAll();
   delay(1000);
+  DoorAction.CloseAll();
 }
 
 void Arm::InitPosiArm(){
@@ -89,6 +90,9 @@ void Arm::TakePaletFloor(){
     delay(500);
     ForeArmAction.DeploiementSaisieFloor();
     delay(500);
+    ElevatorRobot.Transport();
+    ForeArmAction.ParquetG();
+    delay(500);
     DoorAction.CloseAll();
     stock[consigneStock[1]] = stock[consigneStock[1]]+1;
   }else{
@@ -97,12 +101,14 @@ void Arm::TakePaletFloor(){
     ForeArmAction.DeploiementSaisieFloor();
    delay(500);
     ElevatorRobot.Transport();
+    delay(500);
+    ForeArmAction.ParquetG();
   }
 }
 
 void Arm::PostTakePaletFloor(){
-  ForeArmAction.DeploiementSaisieFloor();
-  delay(500);
+  ForeArmAction.ParquetG();
+  delay(2000);
   DoorAction.CloseAll();
 }
 
@@ -145,11 +151,10 @@ void Arm::OutPaletFloor(){
     delay(500);
     ForeArmAction.DeploiementSaisieFloor();
     delay(500);
-    ElevatorRobot.GetPaletFloor();
-    delay(500);
+    //ElevatorRobot.GetPaletFloor();
+    //delay(500);
     PompeRobot.Close();
-    delay(500);
-    ElevatorRobot.GoToFloor(3);
+    
 
     stock[consigneStock[1]] = stock[consigneStock[1]]-1;
   }else{    
@@ -172,9 +177,17 @@ void Arm::PostOutPaletFloor(){
 
 
 void Arm::PreTakePaletWall(){
+  DoorAction.OpenAll();
+  delay(500);
+  ForeArmAction.DeploiementSaisieFloor();
+  delay(500);
+  ElevatorRobot.GoToFloor(3);
+  delay(500);
   ForeArmAction.DeploiementSaisieWall();
   delay(500);
   ElevatorRobot.GetPaletWall();
+  delay(500);
+  DoorAction.CloseAll();
   delay(500);
 }
 
@@ -191,12 +204,13 @@ void Arm::PostTakePaletWall(){
   ChoixStockPile();
   int floorNb = consigneStock[0];
   bool cote = consigneStock[1];
-  
-  DoorAction.OpenAll();
+  delay(500);
+  if(CapteurPressionRobot.GetPression()){
+    DoorAction.OpenAll();
   delay(500);
   ForeArmAction.DeploiementSaisieFloor();
   delay(500);
-  ElevatorRobot.GoToFloor(7);
+  ElevatorRobot.GoToFloor(floorNb+1);
   delay(500);
   if(cote == true){
     ForeArmAction.ParquetG();
@@ -207,11 +221,16 @@ void Arm::PostTakePaletWall(){
   ElevatorRobot.GoToFloor(floorNb);
   PompeRobot.Close();
   delay(500);
-  ElevatorRobot.GoOut(6);
-  delay(500);
+  ElevatorRobot.GoToFloor(floorNb+1);
+ delay(500);
   ForeArmAction.DeploiementSaisieFloor();
   delay(500);
   DoorAction.CloseAll();
+  stock[consigneStock[1]] = stock[consigneStock[1]]+1;
+  }
+  PompeRobot.Close();
+  delay(500);
+  
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////Out Palet to the wall//////////////////////////////////////////////////////////////////////////
@@ -234,11 +253,24 @@ void Arm::PreOutPaletWall(){
   delay(500);
   PompeRobot.Open();
   delay(500);
-  ElevatorRobot.GoToFloor(floorNb+1);
-  delay(500);
-  ForeArmAction.DeploiementOutWall();
-  delay(500);
-  DoorAction.CloseAll();
+   if(CapteurPressionRobot.GetPression()){
+    ElevatorRobot.GoToFloor(floorNb+1);
+    delay(500);
+    ForeArmAction.DeploiementSaisieFloor();
+    delay(500);
+    ForeArmAction.DeploiementOutWall();
+    delay(500);
+    DoorAction.CloseAll();
+    
+     stock[consigneStock[1]] = stock[consigneStock[1]]-1;
+   }else{
+      ElevatorRobot.GoToFloor(floorNb+1);
+      delay(500);
+      ForeArmAction.ParquetG();
+      delay(500);
+      DoorAction.CloseAll();
+   }
+  
  }
 
 
@@ -283,4 +315,21 @@ void Arm::ChoixDesStockPile(){
   //Choix étage
   consigneStock[0] = stock[consigneStock[1]];
     //stock[consigneStock[1]] = stock[consigneStock[1]]-1;
+}
+
+void Arm::CoupBrasJaune(){
+  ForeArmAction.MoveTo(820,180);
+  delay(500);
+  ForeArmAction.MoveTo(500,180);
+  delay(500);
+  ForeArmAction.MoveTo(500,860);
+  
+}
+
+void Arm::CoupBrasViolet(){
+   ForeArmAction.MoveTo(820,860);
+   delay(500);
+  ForeArmAction.MoveTo(500,860);
+    delay(500);
+   ForeArmAction.MoveTo(500,180);
 }

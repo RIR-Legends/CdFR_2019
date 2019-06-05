@@ -26,6 +26,11 @@ class Move:
         self.odrv0 = odrv0      # Assignation du odrive name
         self.SenOn = list()
 
+        # boucle accel
+
+        self.seuil = 0
+        self.buffer = 0
+
     def wait_end_move(self, axis, goal, errorMax, senslist):
 
         # fonction appelée à la fin des fonctions Move pour assurer
@@ -44,13 +49,17 @@ class Move:
 
         self.SenOn = [0 for i in range(len(Sen))]
 
+        prev_step = axis.encoder.pos_estimate
+        diff_step = 0
+        wd = 0
+
         while movAvg >= errorMax:
             Sen_count = 0
             #print("Values vaut : ", MCP3008.readadc(1) )
-            print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
+            #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
             for i in range(len(Sen)):
                 if senslist[i] == True:
-                    if MCP3008.readadc(Sen[i]) > 1000:  #  600 trop de detection #  1000 test
+                    if MCP3008.readadc(Sen[i]) > 620:  #  600 trop de detection #  1000 test
                         self.OBS = True
                         self.SenOn[i] = 1
                         #print("Obstacle détécté")
@@ -65,14 +74,38 @@ class Move:
                 self.OBS = False
                 #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
                 for i in range(index, nb):
-                    index = 0
                     avg[i] = abs(goal - axis.encoder.pos_estimate)
+
                 movAvg = 0
                 for i in range(0, nb):
                     movAvg += avg[i] / nb
 
-                #if sign(goal - axis.encoder.pos_estimate):
-                #    pass
+                diff_step = fabs(axis.encoder.pos_estimate - prev_step)
+                #print(diff_step)
+                if diff_step < 10:
+                    wd += 1
+                    if wd > 200:
+                        self.ActDone = True
+                        return
+                else:
+                    wd = 0
+                    prev_step = axis.encoder.pos_estimate
+
+
+                ## boucle d'accélération waitendmove
+                #if self.buffer == movAvg:
+                #    self.seuil += 1
+                #    print("seuil =",self.seuil)
+                #    if self.seuil > 100:
+                #        self.seuil = 0
+                #        self.odrv0.axis0.controller.move_to_pos(2000,True)
+                #        self.odrv0.axis1.controller.move_to_pos(-2000,True)
+                #        time.sleep(0.3)
+                #else:
+                #    self.seuil = 0
+                #
+                #self.buffer = movAvg
+                #print("seuil =", self.seuil)
 
             elif Sen_count != 0:
                 return

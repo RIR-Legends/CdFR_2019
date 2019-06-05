@@ -53,11 +53,11 @@ void loop() {
       case com.Palet_Floor_In:
         delay(100);
         ArmRobot.PreTakePaletFloor();
-        com.RIR_waitEndMove(com.Avance);
+        //com.RIR_waitEndMove(com.Avance);
         //Serial.flush();
         delay(100);
         ArmRobot.TakePaletFloor();
-        com.RIR_waitEndMove(com.Recule);
+        //com.RIR_waitEndMove(com.Recule);
         //Serial.flush();
         delay(100);
         ArmRobot.PostTakePaletFloor();
@@ -75,13 +75,13 @@ void loop() {
         
       case com.Palet_Floor_Out:
         delay(100);
-        ArmRobot.PreTakePaletFloor();
-        com.RIR_waitEndMove(com.Avance);
+        ArmRobot.PreOutPaletFloor();
+        //com.RIR_waitEndMove(com.Avance);
         delay(100);
-        ArmRobot.TakePaletFloor();
-        com.RIR_waitEndMove(com.Recule);
+        ArmRobot.OutPaletFloor();
+        //com.RIR_waitEndMove(com.Recule);
         delay(100);
-        ArmRobot.PostTakePaletFloor();
+        ArmRobot.PostOutPaletFloor();
         com.RIR_send(com.Action_Finished);
         break;
         
@@ -99,6 +99,8 @@ void loop() {
 void Test(){
   //Serial.println("test");
   ArmRobot.InitArm();
+  delay(2000);
+  ArmRobot.CoupBrasJaune();
   delay(1000);
 //  ForeArmAction.DeploiementSaisieFloor();
 //  //delay(1000);
@@ -119,22 +121,22 @@ void Test(){
 //
   //ArmRobot.Transport();
   for(int i = 0; i<5; i++){
-        ArmRobot.PreTakePaletFloor();
+        ArmRobot.PreTakePaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.TakePaletFloor();
+        ArmRobot.TakePaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.PostTakePaletFloor();
+        ArmRobot.PostTakePaletWall();
   }
   for(int i = 0; i<7; i++){
-        ArmRobot.PreOutPaletFloor();
+        ArmRobot.PreOutPaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.OutPaletFloor();
+        ArmRobot.OutPaletWall();
         //Serial.flush();
         delay(100);
-        ArmRobot.PostOutPaletFloor();
+        ArmRobot.PostOutPaletWall();
   }
   
 
