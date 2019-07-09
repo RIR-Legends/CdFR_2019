@@ -20,6 +20,7 @@ class Elevator{
   void GetOutPalet();
   void Transport();
   void GetOutPaletWall();
+  void WaitGoToFloor(int);
 
 
   private:
@@ -32,5 +33,6 @@ class Elevator{
   static int NbTick;
   static int Position;
 
+  const static int etage[];
 };
 #endif

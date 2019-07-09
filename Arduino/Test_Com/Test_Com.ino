@@ -97,11 +97,18 @@ void loop() {
 }
 
 void Test(){
+  
   //Serial.println("test");
   ArmRobot.InitArm();
-  delay(2000);
-  ArmRobot.CoupBrasJaune();
-  delay(1000);
+//  delay(2000);
+//  ForeArmAction.DeploiementSaisieFloor();
+//  DoorAction.OpenAll();
+//  ElevatorRobot.GetPaletFloor();
+//  ElevatorRobot.WaitGoToFloor(0);
+//  PompeRobot.Open();
+//  delay(2000);
+//  ArmRobot.CoupBrasJaune();
+//  delay(1000);
 //  ForeArmAction.DeploiementSaisieFloor();
 //  //delay(1000);
 //  //PompeRobot.Open();
@@ -119,25 +126,25 @@ void Test(){
   //ForeArmAction.ParquetG();
   //ForeArmAction.ParquetD();
 //
-  //ArmRobot.Transport();
-  for(int i = 0; i<5; i++){
-        ArmRobot.PreTakePaletWall();
-        //Serial.flush();
-        delay(100);
-        ArmRobot.TakePaletWall();
-        //Serial.flush();
-        delay(100);
-        ArmRobot.PostTakePaletWall();
-  }
-  for(int i = 0; i<7; i++){
-        ArmRobot.PreOutPaletWall();
-        //Serial.flush();
-        delay(100);
-        ArmRobot.OutPaletWall();
-        //Serial.flush();
-        delay(100);
-        ArmRobot.PostOutPaletWall();
-  }
+//  //ArmRobot.Transport();
+//  for(int i = 0; i<5; i++){
+//        ArmRobot.PreTakePaletWall();
+//        //Serial.flush();
+//        delay(100);
+//        ArmRobot.TakePaletWall();
+//        //Serial.flush();
+//        delay(100);
+//        ArmRobot.PostTakePaletWall();
+//  }
+//  for(int i = 0; i<7; i++){
+//        ArmRobot.PreOutPaletWall();
+//        //Serial.flush();
+//        delay(100);
+//        ArmRobot.OutPaletWall();
+//        //Serial.flush();
+//        delay(100);
+//        ArmRobot.PostOutPaletWall();
+//  }
   
 
   delay(50000000);

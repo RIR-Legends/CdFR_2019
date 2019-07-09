@@ -72,6 +72,7 @@ void Arm::TakePaletFloor(){
   ForeArmAction.DeploiementSaisieFloor();
   //Puis il continu normal
   ElevatorRobot.GetPaletFloor();
+  //ElevatorRobot.WaitGoToFloor(0);
   delay(500);
   PompeRobot.Open();
   delay(500);

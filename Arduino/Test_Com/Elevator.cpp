@@ -9,6 +9,10 @@ int Elevator::DIR = DIRECTION;
 int Elevator::PUL = IMPULL;
 int Elevator::SWT = SWITCHBUTE;
 
+const int Elevator::etage[] = {1652,1270,1010,748,490,236,50,0};
+
+
+
 Elevator::Elevator(){
   
 }
@@ -68,28 +72,28 @@ void Elevator::GoToFloor(int floorNb){
     case 0:
        MoveTo(1600);
        delay(500);
-       MoveTo(1652);
+       MoveTo(etage[0]);
     break;
     case 1:
-       MoveTo(1270);
+       MoveTo(etage[1]);
     break;
     case 2:
-       MoveTo(1010);
+       MoveTo(etage[2]);
     break;
     case 3:
-       MoveTo(748);
+       MoveTo(etage[3]);
     break;
     case 4:
-       MoveTo(490);
+       MoveTo(etage[4]);
     break;
     case 5:
-       MoveTo(236);
+       MoveTo(etage[5]);
     break;
       case 6:
-       MoveTo(50);
+       MoveTo(etage[6]);
     break;
       case 7:
-       MoveTo(0);
+       MoveTo(etage[7]);
     break;
   }
 }
@@ -116,4 +120,10 @@ void Elevator::GetPaletWall(){
 
 void Elevator::GetOutPaletWall(){
   MoveTo(800);
+}
+
+void Elevator::WaitGoToFloor(int floorNb){
+  while(NbTick < etage[floorNb]-50 or NbTick > etage[floorNb]-50){
+    delay(5);
+  }
 }
