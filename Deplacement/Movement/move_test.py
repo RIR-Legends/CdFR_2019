@@ -178,8 +178,14 @@ class Move:
         #Action ! :
         """ [A inclure fonction évitement (OBS = True)] """
         """--------------------------------------------"""
-        while 1: # [A tester] (a la place de condition en dessous)
-            #self.odrv0.axis0.encoder.pos_estimate != target0 :#or self.odrv0.axis1.encoder.pos_estimate != target1:
+        while self.odrv0.axis0.encoder.pos_estimate != target0 or self.odrv0.axis1.encoder.pos_estimate != target1: # [A tester] (a la place de condition en dessous)
+
+            self.odrv0.axis0.controller.move_to_pos(target0)
+            self.odrv0.axis1.controller.move_to_pos(target1)
+            self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+            self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+            """
+        while 1:
             if self.OBS == False and self.ActDone == False:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
@@ -197,7 +203,7 @@ class Move:
                 print("Translation Terminée !")
                 self.ActDone = False
                 break
-
+                """
 
 
     def stop(self):
