@@ -59,16 +59,21 @@ class Param:
         self.odrv0.axis0.requested_state = AXIS_STATE_IDLE
         self.odrv0.axis1.requested_state = AXIS_STATE_IDLE
 
-    def current_control():
+    def current_control(self):
         target = 81920
+        seuil = 1 # valeur (A) avant glissement des roues
         #self.odrv0.axis0.config.control_mode = CTRL_MODE_CURRENT_CONTROL
-        self.odrv0.axis0.motor.current_control.Iq_setpoint = 1
         self.odrv0.axis0.controller.move_to_pos(target)
+        self.odrv0.axis1.controller.move_to_pos(-target)
         while self.odrv0.axis0.encoder.pos_estimate < target:
-            print("self.odrv0.axis0.motor.current_control.Iq_mesured")
-            while self.odrv0.axis0.motor.current_control.Iq_measured != self.odrv0.axis0.motor.current_control.Iq_setpoint:
+            print(self.odrv0.axis0.motor.current_control.Iq_measured)
+            if abs(self.odrv0.axis0.motor.current_control.Iq_measured) >= seuil and abs(self.odrv0.axis1.motor.current_control.Iq_measured) >= seuil :
+                print("Robot en butée")
+                self.odrv0.axis0.controller.set_vel_setpoint(0, 0)
+                self.odrv0.axis1.controller.set_vel_setpoint(0, 0)
                 time.sleep(0.1)
-            break
+        return
+
 
 
 def test():
