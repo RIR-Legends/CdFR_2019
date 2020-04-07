@@ -23,7 +23,6 @@ class Move:
         self.OBS = False        # Init  Ostacle Detecté
         self.ActDone = False    #Init Action Faite
         self.odrv0 = odrv0      # Assignation du odrive name
-        self.SenOn = list()
 
         # boucle accel
 
@@ -35,52 +34,21 @@ class Move:
         # fonction appelée à la fin des fonctions Move pour assurer
         # l'execution complète du mouvement/déplacement.
 
-        ''' [EN TEST ] CONDITION DE DETECTION D'OBSTACLE '''
+        ''' [07/04/20] CONDITION DE DETECTION D'OBSTACLE SUPPRIMEES POUR ROS'''
 
-        nb = 1  # plus la liste est petite plus la condition du while lachera rapidement
-        avg = nb * [0]
-        index = 0
         movAvg = abs(goal - axis.encoder.pos_estimate)
         self.ActDone = False
-
-        # [A tester] (pour lecture capteur en fonction du sens de Translation)
-        Sen = [0, 1, 2, 3, 4]
-
-        self.SenOn = [0 for i in range(len(Sen))]
 
         prev_step = axis.encoder.pos_estimate
         diff_step = 0
         wd = 0
 
         while movAvg >= errorMax:
-            Sen_count = 0
-            #print("Values vaut : ", MCP3008.readadc(1) )
-            #print("Encoder : ", axis.encoder.pos_estimate,"Goal/Target : ", goal, "movAvg : ", movAvg )
-            '''for i in range(len(Sen)):
-                if senslist[i] == True:
-                    if MCP3008.readadc(Sen[i]) > 700:  #  600 trop de detection #  1000 test
-                        self.OBS = True
-                        self.SenOn[i] = 1
-                        #print("Obstacle détécté")
-                        #self.detect_obs(axis, goal)
-                        #print("Values vaut : ", MCP3008.readadc(Sen[i])
-
-            for i in self.SenOn:
-                if i != 0:
-                    Sen_count += 1
-
-            if Sen_count == 0:
-                self.OBS = False
-                #self.detect_obs(axis, goal) #A revoir pour relancer le robot apres un arret.
-                for i in range(index, nb):
-                    avg[i] = abs(goal - axis.encoder.pos_estimate)
 
                 movAvg = 0
-                for i in range(0, nb):
-                    movAvg += avg[i] / nb
-
+                movAvg += avg[i] / nb
                 diff_step = fabs(axis.encoder.pos_estimate - prev_step)
-                #print(diff_step)
+                print(diff_step)
                 if diff_step < 10:
                     wd += 1
                     if wd > 200:
@@ -89,7 +57,7 @@ class Move:
                 else:
                     wd = 0
                     prev_step = axis.encoder.pos_estimate
-
+                    return
 
                 ## boucle d'accélération waitendmove
                 #if self.buffer == movAvg:
@@ -106,10 +74,10 @@ class Move:
                 #self.buffer = movAvg
                 #print("seuil =", self.seuil)
 
-            elif Sen_count != 0:
-                return
-                '''
-        self.ActDone = True
+
+
+
+
 
 
     def detect_obs(self, axis, goal):
@@ -178,12 +146,16 @@ class Move:
         #Action ! :
         """ [A inclure fonction évitement (OBS = True)] """
         """--------------------------------------------"""
-        while self.odrv0.axis0.encoder.pos_estimate != target0 or self.odrv0.axis1.encoder.pos_estimate != target1: # [A tester] (a la place de condition en dessous)
+        while 1:
+
+            #self.odrv0.axis0.encoder.pos_estimate != target0 or self.odrv0.axis1.encoder.pos_estimate != target1: # [A tester] (a la place de condition en dessous)
 
             self.odrv0.axis0.controller.move_to_pos(target0)
             self.odrv0.axis1.controller.move_to_pos(target1)
             self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
             self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)
+            return
+
             """
         while 1:
             if self.OBS == False and self.ActDone == False:
