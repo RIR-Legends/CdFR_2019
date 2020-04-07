@@ -115,7 +115,7 @@ class Move:
                 # Attente fin de mouvement SI aucun obstacle détécté
                 self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
                 self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)  # test sur 1 encoder pr l'instant
-                print("Rotation : Pas d'Obstacle")
+                #print("Rotation : Pas d'Obstacle")
 
             #elif compteur_evitement == 3:
                 #evitement(fdgf,sfv,sfg)
@@ -125,7 +125,7 @@ class Move:
                 self.stop()
                 time.sleep(0.5)
                 self.OBS = False
-                print("Rotation : Obstacle")
+                #print("Rotation : Obstacle")
             else :
                 print("Rotation Terminée !")
                 self.ActDone = False
