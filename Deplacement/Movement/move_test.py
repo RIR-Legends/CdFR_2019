@@ -89,7 +89,7 @@ class Move:
                 else:
                     wd = 0
                     prev_step = axis.encoder.pos_estimate
-            '''
+
 
                 ## boucle d'accélération waitendmove
                 #if self.buffer == movAvg:
@@ -108,7 +108,7 @@ class Move:
 
             elif Sen_count != 0:
                 return
-
+                '''             
         self.ActDone = True
 
 
