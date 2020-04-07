@@ -98,6 +98,8 @@ def run_test(odrv0) :
 
 """ Paramétrage et Calibration """
 param = p.Param()
+param.config()
+param.calib()
 param.raz()# Lance fonction remise à zero des moteurs
 #param.config()  #Lance la configuration du odrive (vitesse max / acc max / decc max / courrant max ...)
 #param.calib()
