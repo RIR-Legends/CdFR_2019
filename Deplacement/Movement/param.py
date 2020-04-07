@@ -60,6 +60,7 @@ class Param:
             #Remise en position 0 des moteurs pour initialisation
             self.odrv0.axis0.controller.move_to_pos(0)
             self.odrv0.axis1.controller.move_to_pos(0)
+            input("Poser le robot au sol")
             time.sleep(5)
 
 
