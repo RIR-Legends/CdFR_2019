@@ -45,8 +45,8 @@ class Move:
 
         while movAvg >= errorMax:
 
-                movAvg = 0
-                movAvg += avg[i] / nb
+                #movAvg = 0
+                #movAvg += avg[i] / nb
                 diff_step = fabs(axis.encoder.pos_estimate - prev_step)
                 print(diff_step)
                 if diff_step < 10:
