@@ -30,7 +30,7 @@ class Move:
         self.seuil = 0
         self.buffer = 0
 
-    def wait_end_move(self, axis, goal, errorMax, senslist):
+    def wait_end_move(self, axis, goal, errorMax):
 
         # fonction appelée à la fin des fonctions Move pour assurer
         # l'execution complète du mouvement/déplacement.
@@ -108,7 +108,7 @@ class Move:
 
             elif Sen_count != 0:
                 return
-                '''             
+                '''
         self.ActDone = True
 
 
@@ -122,7 +122,7 @@ class Move:
             axis.controller.move_to_pos(goal)
 
 
-    def rotation(self, angle, senslist):
+    def rotation(self, angle):
         # Fonction qui fait tourner le robot sur lui même d'un angle donné en degré
         print("Lancement d'une Rotation de %f°" % int(angle))
         # calcul du nombre de ticks a parcourir pour tourner sur place de l'angle demandé
@@ -145,8 +145,8 @@ class Move:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
-                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax, senslist)  # test sur 1 encoder pr l'instant
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)  # test sur 1 encoder pr l'instant
                 print("Rotation : Pas d'Obstacle")
 
             #elif compteur_evitement == 3:
@@ -166,7 +166,7 @@ class Move:
 
 
 
-    def translation(self, distance, senslist):
+    def translation(self, distance):
         # fonction qui permet d'avancer droit pour une distance donnée en mm
         print("Lancement d'une Translation de %f mm" % int(distance))
 
@@ -184,8 +184,8 @@ class Move:
                 self.odrv0.axis0.controller.move_to_pos(target0)
                 self.odrv0.axis1.controller.move_to_pos(target1)
                 # Attente fin de mouvement SI aucun obstacle détécté
-                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax, senslist)
-                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax, senslist)  # test sur 1 encoder pr l'instant
+                self.wait_end_move(self.odrv0.axis0, target0, self.errorMax)
+                self.wait_end_move(self.odrv0.axis1, target1, self.errorMax)  # test sur 1 encoder pr l'instant
                 #print("Translation : Pas d'Obstacle")
 
             elif self.OBS == True and self.ActDone == False:
